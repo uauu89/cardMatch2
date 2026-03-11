@@ -1,0 +1,11 @@
+.Score{
+
+}
+
+.score__row{
+    display: flex;
+    column-gap: 24px;
+}
+
+.scoreDisplay__score{}
+.scoreDisplay__combo{}

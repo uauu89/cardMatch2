@@ -3,7 +3,11 @@
     background-color: #f4f4f4;
     position: fixed;
     top: 0;
-    bottom: 0;
     right: 0;
     width: 20vw;
+    max-height: calc(100vh - 24px);
+
+    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.4);
+
+    padding: 24px;
 }
