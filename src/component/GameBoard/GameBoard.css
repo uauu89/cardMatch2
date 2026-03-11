@@ -1,0 +1,9 @@
+.gameBoard{
+
+    background-color: #ccc;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    padding: 24px;
+}

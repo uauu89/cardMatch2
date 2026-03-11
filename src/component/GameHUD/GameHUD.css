@@ -1,0 +1,12 @@
+.GameHUD{
+
+    /* display: flex; */
+    /* justify-content: space-between; */
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr fit-content(100%) 1fr;
+}
+
+.temp{
+    text-align: right;
+}

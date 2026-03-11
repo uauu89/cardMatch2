@@ -1,0 +1,10 @@
+.Timer{
+    border-radius: 50%;
+    border: 1px solid #ada;
+    width: 60px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
