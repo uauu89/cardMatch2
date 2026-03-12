@@ -9,7 +9,6 @@ function App() {
         <>
             <GameHUD />
             <GameBoard />
-            <GameButton />
             {false && <Settings />}
         </>
     )
