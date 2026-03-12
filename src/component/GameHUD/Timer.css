@@ -1,10 +1,19 @@
 .Timer{
+    border: 2px solid #f4f4f4;
     border-radius: 50%;
-    border: 1px solid #ada;
-    width: 60px;
+    width: 100px;
     aspect-ratio: 1 / 1;
+    
+    font-size: 48px;
+    color: #242;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    
+    position: relative;
+
+    /* box-shadow: inset 0 0 8px 0 #070; */
 }

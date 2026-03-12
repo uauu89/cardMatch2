@@ -2,6 +2,7 @@ import Score from "./Score";
 import Timer from "./Timer";
 
 import "./GameHUD.css";
+import GameButton from "../../ui/GameButton";
 
 const GameHUD = ()=>{
 
@@ -9,9 +10,12 @@ const GameHUD = ()=>{
         <div className="GameHUD">
             <Score />
             <Timer />
-            <div className="temp">
-                option button
+            <div className="GameButton__container">
+                <GameButton gameMode="single"/>
+                <GameButton gameMode="vs"/>
             </div>
+
+            <button type="button" className="SettingButton"></button>
             
         </div>
     )

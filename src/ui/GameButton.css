@@ -12,6 +12,9 @@
     padding: 10px;
     background-color: #FFF;
     cursor: pointer;
+    font-weight: 700;
+    flex-shrink: 0;
+    white-space: nowrap;
 
 
     .btn__gameMode{

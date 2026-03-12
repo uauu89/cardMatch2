@@ -53,7 +53,7 @@ export default function GameBoard(){
             
 
     */
-    const changeCardState = (index: number) => {
+    const changeCardState = (index: number, ) => {
         setCards_opend(prev => {
             const newState = [...prev];
             newState[index] = true;
@@ -86,7 +86,7 @@ export default function GameBoard(){
                     key={index}
                     cardNumber={number}
                     opend={cards_opend[index]}
-                    onClick={()=>changeCardState(index, true)}
+                    onClick={()=>changeCardState(index)}
                 />
             )
             )}
