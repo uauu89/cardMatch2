@@ -8,7 +8,7 @@ function App() {
         <>
             <GameHUD />
             <GameBoard />
-            {true && <Settings />}
+            {false && <Settings />}
         </>
     )
 }
