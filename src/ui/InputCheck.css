@@ -1,0 +1,21 @@
+.InputCheck{
+    position: relative;
+
+    input[type=checkbox]{
+        position: absolute;
+        width: 0;
+        height: 0;
+        inset: 0;
+        opacity: 0;
+        margin: 0;
+    }
+
+    .iconBox{
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-color: #FFF;
+        border: 1px solid var(--color_main);
+
+    }
+}

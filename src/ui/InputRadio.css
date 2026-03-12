@@ -1,0 +1,32 @@
+.InputRadio{
+    position: relative;
+
+    display: inline-block;
+
+    border: 2px solid var(--color_main);
+    padding: 4px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color_main);
+
+    input[type=radio]{
+        position: absolute;
+        width: 0;
+        height: 0;
+        inset: 0;
+        opacity: 0;
+        margin: 0;
+    }
+
+    &:hover{
+        background-color: #cfc;
+    }
+
+    &:has(:checked){
+        color: #FFF;
+        background-color: var(--color_main);
+
+
+    }
+}

@@ -1,6 +1,7 @@
 import GameHUD from './component/GameHUD/GameHUD'
 import GameBoard from './component/GameBoard/GameBoard'
 import Settings from './component/Settings/Settings'
+import GameButton from './ui/GameButton'
 
 function App() {
 
@@ -8,7 +9,8 @@ function App() {
         <>
             <GameHUD />
             <GameBoard />
-            {true && <Settings />}
+            <GameButton />
+            {false && <Settings />}
         </>
     )
 }
