@@ -1,13 +1,115 @@
-.settings{
-
-    background-color: #f4f4f4;
+.settings_container{
     position: fixed;
-    top: 0;
     right: 0;
-    width: 20vw;
-    max-height: calc(100vh - 24px);
-
-    box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.4);
-
-    padding: 24px;
+    top: 0;
+    z-index: 9;
 }
+
+.SettingButton{
+
+    width: 50px;
+    height: 50px;
+    /* position: absolute; */
+    /* right: 0; */
+    /* top: 0; */
+    background-color: var(--color_main);
+    border: 0;
+    border-bottom-left-radius: 30px;
+    cursor: pointer;
+}
+
+
+.settings{
+    z-index: -1;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 600px;
+    max-height: 98vh;
+    padding: 30px 50px 30px 30px;
+
+    background-color: var(--color_gray1);
+    border-bottom-left-radius: 10px;
+
+    box-shadow: -3px 5px 4px rgba(0, 0, 0, 0.25);
+    
+
+    transform: translateX(100%);
+    transition: 0.3s;
+    font-size: 14px;
+    visibility: hidden;
+    color: #242;
+    overflow-y: scroll;
+
+
+    &.active{
+     
+        transform: translateX(0%);
+        visibility: visible;
+    }
+
+
+    h2{
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--color_main);
+    }
+
+    h3{
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 30px;
+    }
+
+    .settings_item{
+        display: grid;
+        grid-template-columns: 70px auto auto;
+        align-items: center;
+        column-gap: 30px;
+        row-gap: 10px;
+
+        margin-top: 20px;
+    }
+}
+
+
+
+.inputnumberWrap{
+        /* display: flex; */
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid var(--color_main);
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 0 10px;
+    justify-self: start;
+
+
+    input{
+        width: 80px;
+        line-height: 26px;
+        border: none;
+        background: transparent;
+        text-align: right;
+
+        &::-webkit-inner-spin-button{
+            margin-left: 5px;
+        }
+        
+        &:focus{
+            outline: none;
+        }
+    }
+    
+    &:focus-within{
+        outline: 2px solid black;
+    }
+    .unit{
+        display: block;
+        width: 20px;
+        text-align: center;
+    }
+}
+

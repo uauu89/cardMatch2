@@ -1,8 +1,14 @@
 import Score from "./Score";
 import Timer from "./Timer";
+import GameButton from "../ui/GameButton";
 
 import "./GameHUD.css";
-import GameButton from "../../ui/GameButton";
+
+
+interface HudProps{
+    modal_settings: boolean;
+    setModal_settings: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const GameHUD = ()=>{
 
@@ -15,7 +21,8 @@ const GameHUD = ()=>{
                 <GameButton gameMode="vs"/>
             </div>
 
-            <button type="button" className="SettingButton"></button>
+           
+
             
         </div>
     )

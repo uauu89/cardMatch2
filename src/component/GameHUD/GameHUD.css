@@ -24,20 +24,3 @@
     column-gap: 24px;
     justify-content: flex-end;
 }
-
-
-.SettingButton{
-
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    background-color: var(--color_main);
-    border: 0;
-    border-bottom-left-radius: 30px;
-    cursor: pointer;
-    
-    
-
-}

@@ -1,12 +1,14 @@
 import "./InputRadio.css";
 
 type RadioProps = {
+    attr_label: string,
     attr_name: string,
     attr_checked: boolean,
 }
 
-const InputRadio = ({attr_name, attr_checked}: RadioProps)=>{
+const InputRadio = ({attr_label, attr_name, attr_checked}: RadioProps)=>{
 
+    
     return (
 
         <label className="InputRadio">
@@ -15,7 +17,7 @@ const InputRadio = ({attr_name, attr_checked}: RadioProps)=>{
                 name={attr_name}
                 checked={attr_checked}
             />
-            라디오버튼
+            {attr_label}
         </label>
     )
 }

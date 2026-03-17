@@ -9,6 +9,7 @@
     cursor: pointer;
     font-weight: 700;
     color: var(--color_main);
+    background-color: #FFF;
 
     input[type=radio]{
         position: absolute;
@@ -26,7 +27,5 @@
     &:has(:checked){
         color: #FFF;
         background-color: var(--color_main);
-
-
     }
 }
