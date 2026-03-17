@@ -8,6 +8,7 @@ import "./CSS/common.css"
 function App() {
     return (
         <>
+            <div>깃허브 푸쉬 테스트</div>
             <GameHUD />
             <GameBoard />
             <Settings />
