@@ -1,0 +1,42 @@
+
+.inputNumber{
+        /* display: flex; */
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid var(--color_main);
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 0 10px;
+    justify-self: start;
+
+    color: var(--color_font_green);
+    font-weight: 700;
+
+
+    input{
+        width: 60px;
+        line-height: 26px;
+        border: none;
+        background: transparent;
+        text-align: right;
+
+        &::-webkit-inner-spin-button{
+            margin-left: 6px;
+        }
+        
+        &:focus{
+            outline: none;
+        }
+    }
+    
+    &:focus-within{
+        outline: 2px solid black;
+    }
+    .unit{
+        display: block;
+        width: 12px;
+        text-align: center;
+    }
+}

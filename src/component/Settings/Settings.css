@@ -62,54 +62,51 @@
     }
 
     .settings_item{
-        display: grid;
-        grid-template-columns: 70px auto auto;
-        align-items: center;
-        column-gap: 30px;
-        row-gap: 10px;
-
+        padding-left: 16px;
         margin-top: 20px;
+        &.grid{
+
+            display: grid;
+            grid-template-columns: 70px auto;
+            /* display: flex; */
+            align-items: center;
+            /* align-items: flex-start; */
+            
+            column-gap: 30px;
+            row-gap: 10px;
+
+        }
+
+        .settings_itemLabel{
+            width: 70px;
+        }
     }
+}
+.sub{
+    padding-left: 16px;
+}
+
+.gridColSpan{
+    grid-column: 2;
+    grid-row: 2;
 }
 
 
-
-.inputnumberWrap{
-        /* display: flex; */
-    display: inline-flex;
-    justify-content: space-between;
+.InputRangeWrap{
+    display: flex;
     align-items: center;
-    box-sizing: border-box;
-    border: 2px solid var(--color_main);
-    border-radius: 5px;
-    background-color: #fff;
-    padding: 0 10px;
-    justify-self: start;
-
-
-    input{
-        width: 80px;
-        line-height: 26px;
-        border: none;
-        background: transparent;
-        text-align: right;
-
-        &::-webkit-inner-spin-button{
-            margin-left: 5px;
-        }
-        
-        &:focus{
-            outline: none;
-        }
-    }
-    
-    &:focus-within{
-        outline: 2px solid black;
-    }
-    .unit{
-        display: block;
-        width: 20px;
-        text-align: center;
-    }
+    justify-content: space-between;
+    column-gap: 10px;
 }
 
+.btnFlexWrap{
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+}
+
+
+.difficultyDetails{
+
+    padding-left: 24px;
+}

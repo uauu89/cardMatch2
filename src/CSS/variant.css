@@ -5,6 +5,9 @@
     --color_gray1: #f4f4f4;
     --color_gray2: #ddd;
 
+    --color_font_black: #242;
+    --color_font_green: #408e51;
+
     --cardSize_ratio : 1;
     
     --cardSize_width: calc(120px * var(--cardSize_ratio));

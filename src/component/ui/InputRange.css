@@ -12,6 +12,7 @@
     margin: 0 1px;
     
     width: 260px;
+    flex-grow: 1;
 
     &::-webkit-slider-thumb{
         appearance: none;

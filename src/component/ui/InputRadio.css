@@ -5,11 +5,16 @@
 
     border: 2px solid var(--color_main);
     padding: 4px 8px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: 700;
-    color: var(--color_main);
+    text-align: center;
+    color: var(--color_font_green);
     background-color: #FFF;
+
+    line-height: 18px;
+
+    flex-grow: 1;
 
     input[type=radio]{
         position: absolute;

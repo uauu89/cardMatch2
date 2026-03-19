@@ -12,3 +12,35 @@ p{
     margin: 0;
     line-height: 1.5;
 }
+input{
+    color: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #242;
+    border: 2px solid var(--color_main);
+    border-radius:5px;
+}
+::-webkit-scrollbar-track {
+	background: var(--color_main); 
+}
+
+
+body::after{
+    position: fixed;
+    display: block;
+    content: "";
+    width: 10px;
+    height: 100vh;
+    background-color: var(--color_main);
+    top: 0;
+    right: 0;
+    z-index: 90;
+}
