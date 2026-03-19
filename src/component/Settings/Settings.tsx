@@ -5,9 +5,11 @@ import InputCheck from "../ui/InputCheck";
 import InputRange from "../ui/InputRange";
 import InputNumber from "../ui/InputNumber";
 import GameButton from "../ui/GameButton";
+import IconGear from "../../assets/icons/IconGear";
+import IconXmark from "../../assets/icons/IconXmark";
 
 const Settings = ()=>{
-    const [modal_settings, setModal_settings] = useState<boolean>(true);
+    const [modal_settings, setModal_settings] = useState<boolean>(false);
 
     return (
         <div className="settings_container">
@@ -17,6 +19,11 @@ const Settings = ()=>{
                 className={`SettingButton ${modal_settings && "modalOpen"}`}
                 onClick={()=>setModal_settings(prev=>!prev)}
             >
+                {modal_settings ? 
+                    <IconXmark size={24} color="#FFF" ></IconXmark> : 
+                    <span className="icon_rotate"><IconGear size={28} color="#FFF"/></span>
+                }
+                
             </button>
 
 

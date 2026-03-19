@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'JalnanGothic-subset';
+    /* font-weight: normal; */
+    /* font-style: normal; */
+    font-display: swap;
+    src: url('/src/assets/fonts/JalnanGothic-subset.woff2') format('woff2');
+}
+
+
+
+/*
+@font-face {
+    font-family: 'SeoulAlrim';
+    font-weight: 700;
+    font-display: swap;
+    src: url('/src/assets/fonts/SeoulAlrimTTF-Bold.ttf') format('trueType');
+}
+
+@font-face {
+    font-family: 'SeoulAlrim';
+    font-weight: 900;
+    font-display: swap;
+    src: url('/src/assets/fonts/SeoulAlrimTTF-Heavy.ttf') format('trueType');
+}
+*/

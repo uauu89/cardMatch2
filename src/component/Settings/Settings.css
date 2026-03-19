@@ -16,6 +16,19 @@
     border: 0;
     border-bottom-left-radius: 30px;
     cursor: pointer;
+    margin-right: 10px;
+    
+
+    .icon_rotate{
+        transition: 1.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    &:hover .icon_rotate{
+        transform: rotate(180deg);
+    }
 }
 
 
