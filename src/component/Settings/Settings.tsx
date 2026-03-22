@@ -7,9 +7,11 @@ import InputNumber from "../ui/InputNumber";
 import GameButton from "../ui/GameButton";
 import IconGear from "../../assets/icons/IconGear";
 import IconXmark from "../../assets/icons/IconXmark";
+import IconCaretDown from "../../assets/icons/IconCaretDown";
 
 const Settings = ()=>{
     const [modal_settings, setModal_settings] = useState<boolean>(false);
+    const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
 
     return (
         <div className="settings_container">
@@ -120,7 +122,6 @@ const Settings = ()=>{
                         />
                     </div>
 
-
                     <div className="settings_item grid">
                         <div className="settings_itemLabel">난이도</div>
 
@@ -146,95 +147,110 @@ const Settings = ()=>{
                                 attr_checked={false}
                             />
                         </div>
+
+                        <section className="difficultyConfig">
+                            <header>
+                                <h4 >
+                                    <button type="button"
+                                        className={`diffTabButton ${switch_difficultyConfig && "open"}`}
+                                        onClick={()=>{setSwitch_difficultyConfig(prev=>!prev)}}
+                                    >
+                                        난이도 세부 내용
+                                        <span className="diffTabButton_icon">
+                                            <IconCaretDown size={14}/>
+                                        </span>
+                                    </button>
+                                </h4>
+                            </header>
+
+                            <div className={`diffConfig_container ${switch_difficultyConfig && "open"}`}>
+                                <div className="diffConfig_list">
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            남은 카드 비율 ※ 열어 본 카드 비율이 설정값 이하일 경우 열어 본 카드 선택
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={1}
+                                                max={99}
+                                                value={4}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            임의선택 : 이미 열어 본 카드를 다시 선택할 확률
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={1}
+                                                max={99}
+                                                value={4}
+                                            />
+                                        </div>
+                                    </div>
+
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            임의선택 : 열어보지 않은 카드를 선택할 확률
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={1}
+                                                max={99}
+                                                value={4}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            확정선택 : 현재 선택한 카드와 맞는 카드를 선택할 확률
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={1}
+                                                max={99}
+                                                value={4}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            확정선택 : 이미 열어 본 카드 중 짝이 맞는 카드를 선택할 확률
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={1}
+                                                max={99}
+                                                value={4}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </section>
                     </div>
 
 
-                    <section className="difficultyDetails">
-                        <header>
-                            <h4>난이도 세부 내용</h4>
-                        </header>
-                        
-                        <div>
-                            <div>
-                                남은 카드 비율 ※ 열어 본 카드 비율이 설정값 이하일 경우 열어 본 카드 선택
-                            </div>
-                            <div className="InputRangeWrap">
-                                <InputRange />  
-                                <InputNumber
-                                    unit={"%"}
-                                    min={1}
-                                    max={99}
-                                    value={4}
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                임의선택 : 이미 열어 본 카드를 다시 선택할 확률
-                            </div>
-                            <div className="InputRangeWrap">
-                                <InputRange />  
-                                <InputNumber
-                                    unit={"%"}
-                                    min={1}
-                                    max={99}
-                                    value={4}
-                                />
-                            </div>
-                        </div>
-
-
-                        <div>
-                            <div>
-                                임의선택 : 열어보지 않은 카드를 선택할 확률
-                            </div>
-                            <div className="InputRangeWrap">
-                                <InputRange />  
-                                <InputNumber
-                                    unit={"%"}
-                                    min={1}
-                                    max={99}
-                                    value={4}
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                확정선택 : 현재 선택한 카드와 맞는 카드를 선택할 확률
-                            </div>
-                            <div className="InputRangeWrap">
-                                <InputRange />  
-                                <InputNumber
-                                    unit={"%"}
-                                    min={1}
-                                    max={99}
-                                    value={4}
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                확정선택 : 이미 열어 본 카드 중 짝이 맞는 카드를 선택할 확률
-                            </div>
-                            <div className="InputRangeWrap">
-                                <InputRange />  
-                                <InputNumber
-                                    unit={"%"}
-                                    min={1}
-                                    max={99}
-                                    value={4}
-                                />
-                            </div>
-                        </div>
-
-                    </section>
 
                 </section>
 
-                <div>
+                <div className="settingDone_container">
                     <div>※ 카드 크기를 제외한 변경된 옵션은 다음 게임부터 적용됩니다.</div>
 
                     <div className="GameButton__container">

@@ -1,10 +1,11 @@
 .Score{
     display: flex;
     flex-direction: column;
-    height: 140px;
+    /* height: 140px; */
     justify-content: space-evenly;
     /* margin-left: 5%; */
     padding: 20px 0;
+    row-gap: 16px;
 
     :where(.score__row){
         display: flex;
@@ -21,5 +22,16 @@
         color: #999;
         font-weight: 700;
         font-size: 14px;
+    }
+}
+
+
+@media (max-width: 1100px) {
+
+    .Score{
+        .score__row{
+            column-gap: unset;
+            justify-content: space-between;
+        }
     }
 }

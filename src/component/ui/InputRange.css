@@ -13,6 +13,8 @@
     
     width: 260px;
     flex-grow: 1;
+    margin: 8px 0;
+    
 
     &::-webkit-slider-thumb{
         appearance: none;

@@ -16,10 +16,13 @@
     src: url('/src/assets/fonts/SeoulAlrimTTF-Bold.ttf') format('trueType');
 }
 
+*/
 @font-face {
-    font-family: 'SeoulAlrim';
+    /* 서울알림체 Basic Latin 95글자 서브셋 */
+    /* A-Z, a-z, 0-9, punctuation */
+    
+    font-family: 'SeoulAlrim-time';
     font-weight: 900;
     font-display: swap;
-    src: url('/src/assets/fonts/SeoulAlrimTTF-Heavy.ttf') format('trueType');
+    src: url('/src/assets/fonts/SeoulAlrimTTF-Heavy-subset.woff2') format('woff2');
 }
-*/
