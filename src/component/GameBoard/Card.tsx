@@ -26,7 +26,9 @@ export default function Card({order, cardNumber, opend, onClick} : CardProps){
             <div className="card__face front">
                 <div className="card__deco--diamond top"></div>
                 <div className="card__deco--diamond bottom"></div>
-                <span className="card__number">{cardNumber}</span>
+                <span className="card__number">
+                    {cardNumber}
+                </span>
             </div>
         </div>
     )
