@@ -6,16 +6,18 @@ import "./GameHUD.css";
 
 
 interface HudProps{
-    modal_settings: boolean;
-    setModal_settings: React.Dispatch<React.SetStateAction<boolean>>;
+    // modal_settings: boolean;
+    // setModal_settings: React.Dispatch<React.SetStateAction<boolean>>;
+    endRendering: boolean;
+    opt_timer: number;
 }
 
-const GameHUD = ()=>{
+const GameHUD = ({endRendering, opt_timer} : HudProps)=>{
 
     return (
         <div className="GameHUD">
             <Score />
-            <Timer />
+            <Timer endRendering={endRendering} opt_timer={opt_timer}/>
             <div className="GameButton__container">
                 <GameButton gameMode="single"/>
                 <GameButton gameMode="vs"/>

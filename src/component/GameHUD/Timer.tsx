@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Timer.css"
 
-const Timer = ()=>{
+interface TimerProps {
+    endRendering: boolean;
+    opt_timer: number;
+}
 
-    const [time, setTime] = useState(89)
+const Timer = ({endRendering, opt_timer} : TimerProps)=>{
+
+    const [time, setTime] = useState(opt_timer);
+
+
+    useEffect(()=>{
+        if(endRendering){
+            console.log("timer Excute");
+        }
+    }, [endRendering])
 
     return(
         <div className="Timer">
-            {time}
+            {endRendering && time}
         </div>
     )
 }

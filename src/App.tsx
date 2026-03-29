@@ -10,17 +10,33 @@ import "./CSS/utility.css";
 import { useState } from 'react';
 
 function App() {
-    const [gameStart, setGameStart] = useState<boolean>(true);
+    const [gameStart, setGameStart] = useState<boolean>(false);
+
+    const [endRendering, setEndRendering] = useState<boolean>(false);
+
+    const [opt_previewAnimation, setOpt_previewAnimation] = useState<boolean>(true);
+    const [opt_timer, setOpt_timer] = useState<number>(30);
+    
 
     return (
         <>
-            <GameHUD />
+            <GameHUD
+                endRendering={endRendering}
+                opt_timer={opt_timer}
+            />
             <GameBoard 
                 gameStart={gameStart}
-                setGameStart={setGameStart}
+                opt_previewAnimation = {opt_previewAnimation}
+                endRendering = {endRendering}
+                setEndRendering = {setEndRendering}
             />
-            <Settings />
-            {false && <GameOver />}
+            <Settings 
+                opt_previewAnimation={opt_previewAnimation}
+                setOpt_previewAnimation={setOpt_previewAnimation}
+                opt_timer={opt_timer}
+                setOpt_timer={setOpt_timer}
+            />
+            {!gameStart && <GameOver setGameStart={setGameStart}/>}
         </>
     )
 }

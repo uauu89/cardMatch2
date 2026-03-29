@@ -7,10 +7,12 @@ import "./gameBoard.css"
 
 interface GameBoardProps {
     gameStart: boolean;
-    setGameStart: React.Dispatch<React.SetStateAction<boolean>>;
+    opt_previewAnimation: boolean;
+    endRendering: boolean;
+    setEndRendering: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function GameBoard({gameStart, setGameStart}: GameBoardProps){
+export default function GameBoard({gameStart, opt_previewAnimation, endRendering, setEndRendering}: GameBoardProps){
 
     
     const [cards_value, setCards_value] = useState<number[]>([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
@@ -58,7 +60,15 @@ export default function GameBoard({gameStart, setGameStart}: GameBoardProps){
                         key={`${index}-${number}`}
                         order={index}
                         cardNumber={number}
+                        cardsCount={cards_value.length}
                         opend={cards_opend[index]}
+                        opt_previewAnimation={opt_previewAnimation}
+
+                        isLastCard={index === cards_value.length - 1}
+
+                        endRendering={endRendering}
+                        setEndRendering={setEndRendering}
+
                         onClick={()=>changeCardState(index)}
                     />
                 )

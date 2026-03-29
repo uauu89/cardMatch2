@@ -1,7 +1,11 @@
 import GameButton from "../ui/GameButton";
 import "./GameOver.css"
 
-const GameOver = ()=>{
+interface GameOverProps{
+    setGameStart: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const GameOver = ({setGameStart}: GameOverProps)=>{
 
     return (
         <div className="GameOver__bg">
@@ -32,6 +36,7 @@ const GameOver = ()=>{
                 <div className="GameButtonWrap">
                     <GameButton gameMode="single"/>
                     <GameButton gameMode="vs"/>
+                    <button type="button" onClick={()=>{setGameStart(prev=>!prev)}}> test </button>
                 </div>
             </div>
 

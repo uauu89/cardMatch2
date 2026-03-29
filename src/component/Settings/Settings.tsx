@@ -9,9 +9,18 @@ import IconGear from "../../assets/icons/IconGear";
 import IconXmark from "../../assets/icons/IconXmark";
 import IconCaretDown from "../../assets/icons/IconCaretDown";
 
-const Settings = ()=>{
+interface SettingsProps{
+    opt_previewAnimation: boolean;
+    setOpt_previewAnimation: React.Dispatch<React.SetStateAction<boolean>>;
+    opt_timer: number;
+    setOpt_timer: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, setOpt_timer}: SettingsProps)=>{
     const [modal_settings, setModal_settings] = useState<boolean>(false);
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
+
+    const tempCheckHandler = ()=>{};
 
     return (
         <div className="settings_container">
@@ -56,9 +65,11 @@ const Settings = ()=>{
                                 value={4}
                             />
                             <InputCheck 
-                                labelText="제한 없음"
                                 checked={false}
-                            />
+                                checkHandler={setOpt_previewAnimation}
+                            >
+                                제한 없음
+                            </InputCheck>
 
                         </div>
 
@@ -89,10 +100,12 @@ const Settings = ()=>{
                         </div>
                   
                         <div className="gridColSpan">
-                            <InputCheck 
-                                labelText="화면 크기에 따라 자동 변경"
+                            <InputCheck
                                 checked={true}
-                            />
+                                checkHandler={setOpt_previewAnimation}
+                            >
+                                화면 크기에 따라 자동 변경
+                            </InputCheck>
                         </div>
                     </div>
 
@@ -105,9 +118,11 @@ const Settings = ()=>{
 
                     <div className="settings_item">
                         <InputCheck 
-                            labelText="카드 확인 여부"
-                            checked={false}
-                        />
+                            checked={opt_previewAnimation}
+                            checkHandler={setOpt_previewAnimation}
+                        >
+                        카드 확인 여부
+                        </InputCheck>
                     </div>
 
                 </section>
@@ -117,9 +132,11 @@ const Settings = ()=>{
 
                     <div className="settings_item">
                         <InputCheck 
-                            labelText="연속 선택 여부"
                             checked={false}
-                        />
+                            checkHandler={setOpt_previewAnimation}
+                        >
+                            연속 선택 여부
+                        </InputCheck>
                     </div>
 
                     <div className="settings_item grid">
