@@ -7,12 +7,11 @@ import "./CSS/fonts.css";
 import "./CSS/variant.css";
 import "./CSS/common.css";
 import "./CSS/utility.css";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
     const [gameStart, setGameStart] = useState<boolean>(false);
 
-    const [endRendering, setEndRendering] = useState<boolean>(false);
 
     const [opt_previewAnimation, setOpt_previewAnimation] = useState<boolean>(true);
     const [opt_timer, setOpt_timer] = useState<number>(5);
@@ -23,17 +22,20 @@ function App() {
 
     /* 확장 고려 phase : paused, gameOver / result ... */
 
+    const gameOver = ["init", "ready"].includes(gamePhase);
+
     return (
         <>
             <GameHUD
-                endRendering={endRendering}
+                gamePhase={gamePhase}
                 opt_timer={opt_timer}
             />
             <GameBoard 
                 gameStart={gameStart}
                 opt_previewAnimation = {opt_previewAnimation}
-                endRendering = {endRendering}
-                setEndRendering = {setEndRendering}
+
+                gamePhase={gamePhase}
+                setGamePhase={setGamePhase}
             />
             <Settings 
                 opt_previewAnimation={opt_previewAnimation}
@@ -41,7 +43,7 @@ function App() {
                 opt_timer={opt_timer}
                 setOpt_timer={setOpt_timer}
             />
-            {!gameStart && <GameOver setGameStart={setGameStart}/>}
+            {gameOver && <GameOver setGamePhase={setGamePhase}/>}
         </>
     )
 }

@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from "react";
 import "./Card.css"
 
 
@@ -9,8 +10,9 @@ interface CardProps {
     opt_previewAnimation: boolean;
 
     isLastCard: boolean;
-    endRendering: boolean;
-    setEndRendering: React.Dispatch<React.SetStateAction<boolean>>;
+
+    gamePhase: "init" | "ready" | "dealing" | "playing";
+    setGamePhase: Dispatch<SetStateAction<"init" | "ready" | "dealing" | "playing">>;
 
     
     onClick: ()=>void;
@@ -18,7 +20,7 @@ interface CardProps {
 }
 
 
-export default function Card({order, cardNumber, cardsCount, opend, opt_previewAnimation, isLastCard, endRendering, setEndRendering, onClick} : CardProps){
+export default function Card({order, cardNumber, cardsCount, opend, opt_previewAnimation, isLastCard, gamePhase, setGamePhase, onClick} : CardProps){
 
     const styleAttr = {
         "--delayParam" : order,
@@ -33,7 +35,9 @@ export default function Card({order, cardNumber, cardsCount, opend, opt_previewA
             : "initAnimation--bounce";
         if(e.animationName !== targetAnimation) return;
 
-        setEndRendering(true);
+        setGamePhase("playing");
+
+        // setEndRendering(true);
     }
 
     return (
@@ -41,13 +45,13 @@ export default function Card({order, cardNumber, cardsCount, opend, opt_previewA
             className={[
                 "card",
                 opend && "card--opend",
-                !endRendering && "card--animation-rendering",
+                gamePhase === "dealing" && "card--animation-rendering",
             ].filter(Boolean).join(" ")}
 
             style={styleAttr}
 
             onClick={()=>{
-                if(endRendering){
+                if(gamePhase === "playing"){
                     onClick();
                 }
             }}
@@ -65,7 +69,7 @@ export default function Card({order, cardNumber, cardsCount, opend, opt_previewA
             <div 
                 className={[
                     "card__previewWrapper", 
-                    (opt_previewAnimation && !endRendering ) && "card--animation-preview",
+                    (opt_previewAnimation && gamePhase==="dealing" ) && "card--animation-preview",
                 ].filter(Boolean).join(" " )}
                 
             >

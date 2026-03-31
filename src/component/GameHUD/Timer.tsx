@@ -2,21 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import "./Timer.css"
 
 interface TimerProps {
-    endRendering: boolean;
     opt_timer: number;
+    gamePhase: "init" | "ready" | "dealing" | "playing";
 }
 
-const Timer = ({endRendering, opt_timer} : TimerProps)=>{
+const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
 
     const [time, setTime] = useState(opt_timer);
     const timerRef = useRef<number | null>(null);
     const [timerRunning, setTimerRunning] = useState(true);
 
 
+
     useEffect(()=>{
+        if(gamePhase === "playing"){
+            setTimerRunning(true);
+        }
+    }, [gamePhase])
 
+
+
+
+    useEffect(()=>{
         if(!timerRunning) return;
-
         timerRef.current = setInterval(()=>{
             setTime(prev=>{
                 if(prev <= 1){
@@ -26,10 +34,13 @@ const Timer = ({endRendering, opt_timer} : TimerProps)=>{
                 return prev -1;
             });
             
-        }, 1000)
+        }, 1000);
 
         return ()=>{
-            if(timerRef.current !== null) clearInterval(timerRef.current);
+            if(timerRef.current !== null) {
+                clearInterval(timerRef.current);
+                setTime(opt_timer);
+            };
         };
 
     }, [timerRunning])
@@ -44,7 +55,7 @@ const Timer = ({endRendering, opt_timer} : TimerProps)=>{
     return(
         <div className="Timer">
 
-            {timerRunning && endRendering && time}
+            {timerRunning && gamePhase==="playing" && time}
         </div>
     )
 }

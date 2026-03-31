@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { useGameStore } from "../../store/gameStore";
 
 import Card from "./Card";
@@ -8,11 +8,11 @@ import "./gameBoard.css"
 interface GameBoardProps {
     gameStart: boolean;
     opt_previewAnimation: boolean;
-    endRendering: boolean;
-    setEndRendering: React.Dispatch<React.SetStateAction<boolean>>;
+    gamePhase: "init" | "ready" | "dealing" | "playing";
+    setGamePhase: Dispatch<SetStateAction<"init" | "ready" | "dealing" | "playing">>;
 }
 
-export default function GameBoard({gameStart, opt_previewAnimation, endRendering, setEndRendering}: GameBoardProps){
+export default function GameBoard({gameStart, opt_previewAnimation, gamePhase, setGamePhase}: GameBoardProps){
 
     
     const [cards_value, setCards_value] = useState<number[]>([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
@@ -50,12 +50,14 @@ export default function GameBoard({gameStart, opt_previewAnimation, endRendering
     //     return () => clearTimeout(timeout);
     // }, [visibleCount]);
 
+    // const gameStarted = gamePhase === "dealing" || "playing";
+    const gameStarted = ["dealing", "playing"].includes(gamePhase);
     return(
 
         <div className="gameBoard">
            
 
-            {gameStart && cards_value.map((number, index)=>(
+            {gameStarted && cards_value.map((number, index)=>(
                     <Card
                         key={`${index}-${number}`}
                         order={index}
@@ -66,8 +68,9 @@ export default function GameBoard({gameStart, opt_previewAnimation, endRendering
 
                         isLastCard={index === cards_value.length - 1}
 
-                        endRendering={endRendering}
-                        setEndRendering={setEndRendering}
+                        gamePhase={gamePhase}
+                        setGamePhase={setGamePhase}
+
 
                         onClick={()=>changeCardState(index)}
                     />
