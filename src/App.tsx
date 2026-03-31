@@ -15,8 +15,13 @@ function App() {
     const [endRendering, setEndRendering] = useState<boolean>(false);
 
     const [opt_previewAnimation, setOpt_previewAnimation] = useState<boolean>(true);
-    const [opt_timer, setOpt_timer] = useState<number>(30);
+    const [opt_timer, setOpt_timer] = useState<number>(5);
     
+
+    const [gamePhase, setGamePhase] = useState<"init" | "ready" | "dealing" | "playing">("init");
+    const [gameMode, setGameMode] = useState<"single" | "vs">("single");
+
+    /* 확장 고려 phase : paused, gameOver / result ... */
 
     return (
         <>
