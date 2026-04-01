@@ -8,6 +8,7 @@ import GameButton from "../ui/GameButton";
 import IconGear from "../../assets/icons/IconGear";
 import IconXmark from "../../assets/icons/IconXmark";
 import IconCaretDown from "../../assets/icons/IconCaretDown";
+import { useOptionStore } from "../../stores/useOptionStore";
 
 interface SettingsProps{
     opt_previewAnimation: boolean;
@@ -19,6 +20,8 @@ interface SettingsProps{
 const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, setOpt_timer}: SettingsProps)=>{
     const [modal_settings, setModal_settings] = useState<boolean>(false);
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
+
+    const {opt_cardNum, updateCardNum} = useOptionStore();
 
     const tempCheckHandler = ()=>{};
 
@@ -51,6 +54,13 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
                         <InputNumber
                             min={2}
                             value={4}
+                        />
+                        <input type="text" 
+                            value={opt_cardNum}
+                            onChange={(e)=>{
+                                const newValue = Number(e.currentTarget.value);
+                                updateCardNum(newValue);
+                            }}
                         />
                     </div>
 

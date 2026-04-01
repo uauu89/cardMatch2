@@ -1,10 +1,14 @@
 import { create } from "zustand";
 
 interface OptionProps{
-
+    opt_cardNum: number;
+    updateCardNum: (number:number)=>void;
 }
 
 export const useOptionStore = create<OptionProps>(set => ({
+    opt_cardNum: 6,
+
+    updateCardNum : (num)=>set({opt_cardNum: num}),
     /*
         공통 > 
             카드 범위
