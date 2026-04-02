@@ -1,10 +1,11 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { useGameStore } from "../../store/gameStore";
 
 import Card from "./Card";
 import "./gameBoard.css"
 import { useCardsStore } from "../../stores/useCardsStore";
 import { useOptionStore } from "../../stores/useOptionStore";
+import { useShallow } from "zustand/shallow";
+import { useGameStore } from "../../stores/useGameStore";
 
 
 interface GameBoardProps {
@@ -16,57 +17,70 @@ interface GameBoardProps {
 
 export default function GameBoard({gameStart, opt_previewAnimation, gamePhase, setGamePhase}: GameBoardProps){
 
-    const {cards_value, cards_opend, cards_memory, cards_selected, shuffleCards, openCards, resetOpendCards} = useCardsStore();
+    const {
+        cards_value,
+        cards_opend,
+        cards_memory,
+        cards_selected,
+        shuffleCards,
+        openCards,
+        resetOpendCards
+    } = useCardsStore(useShallow(state => ({
+        cards_value: state.cards_value,
+        cards_opend: state.cards_opend,
+        cards_memory: state.cards_memory,
+        cards_selected: state.cards_selected,
+        shuffleCards: state.shuffleCards,
+        openCards: state.openCards,
+        resetOpendCards: state.resetOpendCards,
+    })));
+
+    // const {
+    //     cardClick,
+    // } = useGameStore(useShallow(state=>({
+    //     cardClick: state.cardClick
+    // })))
+
+    
     const opt_cardNum = useOptionStore(state => state.opt_cardNum);
-    
-    
-    // const [cards_value, setCards_value] = useState<number[]>([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6]);
-    // const [cards_opend, setCards_opend] = useState<boolean[]>([false, false, false, false, false, false, false, false, false, false, false, false]);
-    // const [cards_matched, setCards_matched] = useState<boolean[]>([]);
-    // const [cards_selected, setCards_selected] = useState<number[]>([]);
-    
-    /*
-    const changeCardState = (index: number, ) => {
-        setCards_opend(prev => {
-            const newState = [...prev];
-            newState[index] = true;
-            return newState;
-        })
-
-        console.log("selected number : ", cards_value[index]);
-
-        // setCards_selected(prev=>{
-
-        // })
-
-    }
-    */
-
-
-    // const cards_value = useGameStore(state => state.cards_value);
-    // const cards_opend = useGameStore(state => state.cards_opend);
-    // const changeCardState = useGameStore(state => state.changeCardState);
-    
-    // useEffect(() => {
-    //     if (visibleCount >= cards.length) return;
-
-    //     const timeout = setTimeout(() => {
-    //         setVisibleCount(prev => prev + 1);
-    //     }, 1000);
-
-    //     return () => clearTimeout(timeout);
-    // }, [visibleCount]);
-
-    // const gameStarted = gamePhase === "dealing" || "playing";
 
     const gameStarted = ["dealing", "playing"].includes(gamePhase);
+
+
+    const checkMatch = () => {
+        
+        const {cards_value, cards_selected, markingCardOwner, resetOpendCards,} = useCardsStore.getState();
+        const {input_lock, input_unlock} = useGameStore.getState();
+        
+        if(cards_selected.length !== 2) return;
+        
+        input_lock();
+        const [card1, card2] = cards_selected;
+        console.log("cards_selected : ", cards_selected);
+
+        if(cards_value[card1] === cards_value[card2]){
+            markingCardOwner("single");
+        }
+        setTimeout(()=>{
+            input_unlock();
+            resetOpendCards();
+        }, 500)
+        
+    }
+    const cardClick = (index: number, number: number)=>{
+        // const checkMatch = useGameStore.getState();
+        const {openCards} = useCardsStore.getState();
+        openCards(index, number);
+        checkMatch();
+    };
+
 
     
     useEffect(()=>{
         if(gamePhase === "dealing"){
             shuffleCards(opt_cardNum);
         }
-    }, [gamePhase])
+    }, [gamePhase]);
     return(
 
         <div className="gameBoard">
@@ -89,7 +103,7 @@ export default function GameBoard({gameStart, opt_previewAnimation, gamePhase, s
 
 
                         // onClick={()=>changeCardState(index)}
-                        onClick={()=>openCards(index, number)}
+                        onClick={()=>cardClick(index, number)}
                     />
                 )
             )}
