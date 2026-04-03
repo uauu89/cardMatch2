@@ -50,11 +50,11 @@ export default function GameBoard({gameStart, opt_previewAnimation, gamePhase, s
     const checkMatch = () => {
         
         const {cards_value, cards_selected, markingCardOwner, resetOpendCards,} = useCardsStore.getState();
-        const {input_lock, input_unlock} = useGameStore.getState();
+        const {turnState, setTurnState} = useGameStore.getState();
         
         if(cards_selected.length !== 2) return;
         
-        input_lock();
+        setTurnState("transition");
         const [card1, card2] = cards_selected;
         console.log("cards_selected : ", cards_selected);
 
@@ -62,7 +62,7 @@ export default function GameBoard({gameStart, opt_previewAnimation, gamePhase, s
             markingCardOwner("single");
         }
         setTimeout(()=>{
-            input_unlock();
+            setTurnState("active");
             resetOpendCards();
         }, 500)
         

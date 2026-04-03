@@ -1,22 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import "./Timer.css"
+import { useOptionStore } from "../../stores/useOptionStore";
+import { useGameStore } from "../../stores/useGameStore";
 
-interface TimerProps {
-    opt_timer: number;
-    gamePhase: "init" | "ready" | "dealing" | "playing";
-}
+// interface TimerProps {
+//     opt_timer: number;
+//     gamePhase: "init" | "ready" | "dealing" | "playing";
+// }
 
-const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
+// const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
+const Timer = ()=>{
 
-    const [time, setTime] = useState(opt_timer);
+    // const opt_timerDuration = useOptionStore(state => state.opt_timerDuration);
+
+    const {gamePhase, turnState, setTurnState} = useGameStore();
+    const {opt_timerDuration, opt_timerNoLimit} = useOptionStore();
+    
+    const [timeRemaining, setTimeRemaining] = useState(opt_timerDuration);
     const timerRef = useRef<number | null>(null);
-    const [timerRunning, setTimerRunning] = useState(true);
+
+    const [timerOn, setTimerOn] = useState(true);
+
+    /* timeRemain */
 
 
 
     useEffect(()=>{
-        if(gamePhase === "playing"){
-            setTimerRunning(true);
+        if(gamePhase === "playing" && !opt_timerNoLimit){
+            setTimerOn(true);
         }
     }, [gamePhase])
 
@@ -24,11 +35,12 @@ const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
 
 
     useEffect(()=>{
-        if(!timerRunning) return;
+        if(!timerOn) return;
+
         timerRef.current = setInterval(()=>{
-            setTime(prev=>{
+            setTimeRemaining(prev=>{
                 if(prev <= 1){
-                    setTimerRunning(false);
+                    setTimerOn(false);
                     return 0
                 }
                 return prev -1;
@@ -39,11 +51,11 @@ const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
         return ()=>{
             if(timerRef.current !== null) {
                 clearInterval(timerRef.current);
-                setTime(opt_timer);
+                setTimeRemaining(opt_timerDuration);
             };
         };
 
-    }, [timerRunning])
+    }, [timerOn])
 
 
     // useEffect(()=>{
@@ -55,7 +67,7 @@ const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
     return(
         <div className="Timer">
 
-            {timerRunning && gamePhase==="playing" && time}
+            {timerOn && gamePhase==="playing" && timeRemaining}
         </div>
     )
 }

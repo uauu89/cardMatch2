@@ -2,13 +2,31 @@ import { create } from "zustand";
 
 interface OptionProps{
     opt_cardNum: number;
-    updateCardNum: (number:number)=>void;
+    opt_cardSize: number;
+    opt_cardSizeResponsive: boolean;
+
+    opt_cardPreview: boolean;
+
+    opt_timerDuration: number;
+    opt_timerNoLimit: boolean;
+
+
+    updateCardNum: (num:number) => void;
+    updatetimerDuration: (num:number) => void;
 }
 
 export const useOptionStore = create<OptionProps>(set => ({
     opt_cardNum: 6,
+    opt_cardSize: 1,
+    opt_cardSizeResponsive: false,
 
-    updateCardNum : (num)=>set({opt_cardNum: num}),
+    opt_cardPreview: true,
+
+    opt_timerDuration: 30,
+    opt_timerNoLimit: false,
+
+    updateCardNum: (num)=>set({opt_cardNum: num}),
+    updatetimerDuration: (num)=>set({opt_timerDuration: num}),
     /*
         공통 > 
             카드 범위
