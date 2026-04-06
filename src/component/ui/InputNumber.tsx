@@ -1,25 +1,25 @@
-import { useState } from "react";
 import "./InputNumber.css"
 
 interface NumberProps {
     unit?: string;
     min?: number;
     max?: number;
-    value: number;
+    value: number | "";
     disabled?: boolean;
+
+    changeHandler : (num: number | "") => void;
     
 }
 
-const InputNumber = ({unit, min, max, value, disabled}: NumberProps)=>{
+const InputNumber = ({unit, min, max, value, disabled, changeHandler}: NumberProps)=>{
 
-    const [inputValue, setInputValue] = useState<number | "">(4);
     return(
         <div className="inputNumber">
             <input 
                 type="number" 
                 min={min}
                 max={max}
-                value={inputValue}
+                value={value}
                 disabled={disabled}
 
                
@@ -27,13 +27,13 @@ const InputNumber = ({unit, min, max, value, disabled}: NumberProps)=>{
                     const inputValue = e.currentTarget.value;
 
                     if(inputValue === ""){
-                        setInputValue("");
+                        changeHandler("");
                         return;
                     }
 
                     const newValue = Number(inputValue);
                     if(Number.isNaN(newValue)) return;
-                    setInputValue(newValue);
+                    changeHandler(newValue);
                     
                 }}
                 onBlur={e=>{
@@ -46,7 +46,7 @@ const InputNumber = ({unit, min, max, value, disabled}: NumberProps)=>{
                     if(max !== undefined && newValue > max){
                         newValue = max;
                     }
-                    setInputValue(newValue);
+                    changeHandler(newValue);
                 }}
                 
             />

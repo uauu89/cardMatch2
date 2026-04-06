@@ -2,13 +2,13 @@ import { create } from "zustand";
 
 interface GameProps {
     gameMode: "single" | "vs",
-    gamePhase: "init" | "ready" | "dealing" | "playing";
+    gamePhase: "ready" | "gameOver" | "dealing" | "playing";
     turnState: "active" | "transition" | "paused";
     currentPlayer: "single" | "player" | "ai";
 
 
     setGameMode: (mode: "single" | "vs") => void;
-    setGamePhase: (phase: "init" | "ready" | "dealing" | "playing") => void;
+    setGamePhase: (phase: "ready" | "gameOver" | "dealing" | "playing") => void;
     setTurnState: (turn: "active" | "transition" | "paused") => void;
     setCurrentPlayer: (player: "single" | "player" | "ai") => void;
     
@@ -43,7 +43,7 @@ interface GameProps {
             if(타이머가 0초가 되면){
                 1. turnState를 "transition"으로 변경
                 
-                3. resetOpendCards() 실행
+                3. resetOpenedCards() 실행
                 4. 점수계산 정답콤보수 초기화
                 5. turnState를 "active"로 변경
             }
@@ -65,7 +65,7 @@ interface GameProps {
         
         3. 두 장의 카드 정답여부 체크
             if(정답이면){
-                markingCardOwner()    //cards_owner[]에 정답표시
+                markCardOwner()    //cards_owner[]에 정답표시
                 점수 계산
                 if(모든 카드를 맞췄는지){
                     게임종료 처리
@@ -73,7 +73,7 @@ interface GameProps {
             }else{
                 점수계산 정답콤보수 초기화    
             }
-        4. resetOpendCards() 실행
+        4. resetOpenedCards() 실행
         5. turnState를 "active"로 변경
     }
 
@@ -86,12 +86,12 @@ interface GameProps {
 
 export const useGameStore = create<GameProps>(set=>({
     gameMode: "single",
-    gamePhase: "init",
+    gamePhase: "ready",
     turnState: "paused",
     currentPlayer: "single",
 
     setGameMode: (mode: "single" | "vs") => set({gameMode: mode}),
-    setGamePhase: (phase: "init" | "ready" | "dealing" | "playing") => set({gamePhase: phase}),
+    setGamePhase: (phase: "ready" | "gameOver" | "dealing" | "playing") => set({gamePhase: phase}),
     setTurnState: (turn: "active" | "transition" | "paused") => set({turnState: turn}),
     setCurrentPlayer: (player: "single" | "player" | "ai") => set({currentPlayer: player}),
 

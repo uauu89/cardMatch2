@@ -8,42 +8,24 @@ import "./CSS/variant.css";
 import "./CSS/common.css";
 import "./CSS/utility.css";
 import { useEffect, useState } from 'react';
+import { useGameStore } from './stores/useGameStore';
+import { useShallow } from 'zustand/shallow';
 
 function App() {
     const [gameStart, setGameStart] = useState<boolean>(false);
 
+    const {gamePhase} = useGameStore(useShallow(state=>({
+        gamePhase: state.gamePhase,
+    })))
 
-    const [opt_previewAnimation, setOpt_previewAnimation] = useState<boolean>(true);
-    const [opt_timer, setOpt_timer] = useState<number>(5);
-    
-
-    const [gamePhase, setGamePhase] = useState<"init" | "ready" | "dealing" | "playing">("init");
-    const [gameMode, setGameMode] = useState<"single" | "vs">("single");
-
-    /* 확장 고려 phase : paused, gameOver / result ... */
-
-    const gameOver = ["init", "ready"].includes(gamePhase);
+    const gameOver = ["ready", "gameOver"].includes(gamePhase);
 
     return (
         <>
-            <GameHUD
-                gamePhase={gamePhase}
-                opt_timer={opt_timer}
-            />
-            <GameBoard 
-                gameStart={gameStart}
-                opt_previewAnimation = {opt_previewAnimation}
-
-                gamePhase={gamePhase}
-                setGamePhase={setGamePhase}
-            />
-            <Settings 
-                opt_previewAnimation={opt_previewAnimation}
-                setOpt_previewAnimation={setOpt_previewAnimation}
-                opt_timer={opt_timer}
-                setOpt_timer={setOpt_timer}
-            />
-            {gameOver && <GameOver setGamePhase={setGamePhase}/>}
+            <GameHUD />
+            <GameBoard />
+            <Settings />
+            {gameOver && <GameOver />}
         </>
     )
 }

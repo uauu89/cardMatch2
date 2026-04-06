@@ -39,4 +39,8 @@
         width: 12px;
         text-align: center;
     }
+
+    &:has(:disabled){
+        background-color: #ccc;
+    }
 }

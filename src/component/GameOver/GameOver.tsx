@@ -1,13 +1,7 @@
-import type { Dispatch, SetStateAction } from "react";
 import GameButton from "../ui/GameButton";
 import "./GameOver.css"
 
-interface GameOverProps{
-    // setGameStart: React.Dispatch<React.SetStateAction<boolean>>
-    setGamePhase: Dispatch<SetStateAction<"init" | "ready" | "dealing" | "playing">>
-}
-
-const GameOver = ({setGamePhase}: GameOverProps)=>{
+const GameOver = ()=>{
 
     return (
         <div className="GameOver__bg">
@@ -36,9 +30,8 @@ const GameOver = ({setGamePhase}: GameOverProps)=>{
                 </>
 
                 <div className="GameButtonWrap">
-                    <GameButton gameMode="single"/>
-                    <GameButton gameMode="vs"/>
-                    <button type="button" onClick={()=>{setGamePhase("dealing")}}> test </button>
+                    <GameButton inputGameMode="single"/>
+                    <GameButton inputGameMode="vs"/>
                 </div>
             </div>
 

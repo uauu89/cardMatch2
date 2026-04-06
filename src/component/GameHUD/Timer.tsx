@@ -3,36 +3,23 @@ import "./Timer.css"
 import { useOptionStore } from "../../stores/useOptionStore";
 import { useGameStore } from "../../stores/useGameStore";
 
-// interface TimerProps {
-//     opt_timer: number;
-//     gamePhase: "init" | "ready" | "dealing" | "playing";
-// }
-
-// const Timer = ({gamePhase, opt_timer} : TimerProps)=>{
 const Timer = ()=>{
-
-    // const opt_timerDuration = useOptionStore(state => state.opt_timerDuration);
 
     const {gamePhase, turnState, setTurnState} = useGameStore();
     const {opt_timerDuration, opt_timerNoLimit} = useOptionStore();
     
-    const [timeRemaining, setTimeRemaining] = useState(opt_timerDuration);
     const timerRef = useRef<number | null>(null);
-
-    const [timerOn, setTimerOn] = useState(true);
-
-    /* timeRemain */
-
-
+    const [timerOn, setTimerOn] = useState(false);
+    const [timeRemaining, setTimeRemaining] = useState(opt_timerDuration);
 
     useEffect(()=>{
-        if(gamePhase === "playing" && !opt_timerNoLimit){
+        if(gamePhase === "playing" && turnState === "active" && !opt_timerNoLimit){
             setTimerOn(true);
         }
-    }, [gamePhase])
-
-
-
+        if(turnState === "transition"){
+            setTimerOn(false);
+        }
+    }, [gamePhase, turnState])
 
     useEffect(()=>{
         if(!timerOn) return;
@@ -41,7 +28,7 @@ const Timer = ()=>{
             setTimeRemaining(prev=>{
                 if(prev <= 1){
                     setTimerOn(false);
-                    return 0
+                    return 0;
                 }
                 return prev -1;
             });
@@ -52,23 +39,28 @@ const Timer = ()=>{
             if(timerRef.current !== null) {
                 clearInterval(timerRef.current);
                 setTimeRemaining(opt_timerDuration);
+                setTurnState("transition");
+
+                const {gamePhase,} = useGameStore.getState();
+
+                if(gamePhase !== "gameOver"){
+                    setTimeout(()=>{
+                        setTimerOn(true);
+                    }, 500)
+                }
             };
         };
 
     }, [timerOn])
 
-
-    // useEffect(()=>{
-    //     if(endRendering){
-    //         console.log("timer Excute");
-    //     }
-    // }, [endRendering])
-
     return(
+    
         <div className="Timer">
 
             {timerOn && gamePhase==="playing" && timeRemaining}
+            
         </div>
+       
     )
 }
 

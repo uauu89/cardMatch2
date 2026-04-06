@@ -1,12 +1,14 @@
 import "./InputRadio.css";
 
-type RadioProps = {
-    attr_label: string,
-    attr_name: string,
-    attr_checked: boolean,
+type RadioProps<T> = {
+    label: string;
+    name: string;
+    value: T;
+    checked: boolean;
+    changeHandler: (val: T) => void;
 }
 
-const InputRadio = ({attr_label, attr_name, attr_checked}: RadioProps)=>{
+const InputRadio = <T,>({label, name, checked, value, changeHandler}: RadioProps<T>)=>{
 
     
     return (
@@ -14,10 +16,12 @@ const InputRadio = ({attr_label, attr_name, attr_checked}: RadioProps)=>{
         <label className="InputRadio">
             <input
                 type="Radio"
-                name={attr_name}
-                checked={attr_checked}
+                name={name}
+                value={value as any}
+                checked={checked}
+                onChange={() => {changeHandler(value)}}
             />
-            {attr_label}
+            {label}
         </label>
     )
 }

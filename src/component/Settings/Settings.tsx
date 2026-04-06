@@ -9,6 +9,7 @@ import IconGear from "../../assets/icons/IconGear";
 import IconXmark from "../../assets/icons/IconXmark";
 import IconCaretDown from "../../assets/icons/IconCaretDown";
 import { useOptionStore } from "../../stores/useOptionStore";
+import { useShallow } from "zustand/shallow";
 
 interface SettingsProps{
     opt_previewAnimation: boolean;
@@ -17,13 +18,45 @@ interface SettingsProps{
     setOpt_timer: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, setOpt_timer}: SettingsProps)=>{
+const Settings = ()=>{
     const [modal_settings, setModal_settings] = useState<boolean>(false);
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
 
-    const {opt_cardNum, updateCardNum} = useOptionStore();
+    // const {opt_cardNum, updateCardNum} = useOptionStore(useShallow(state => ({
+    //     opt_cardNum: state.opt_cardNum,
+    //     updateCardNum: state.updateCardNum,
+    // })));
 
-    const tempCheckHandler = ()=>{};
+    const opt_cardNum = useOptionStore(state => state.opt_cardNum);
+    const setOpt_cardNum = useOptionStore(state => state.setOpt_cardNum);
+
+    const opt_timerDuration = useOptionStore(state => state.opt_timerDuration);
+    const setOpt_timerDuration = useOptionStore(state => state.setOpt_timerDuration);
+
+    const opt_timerNoLimit = useOptionStore(state => state.opt_timerNoLimit);
+    const setOpt_timerNoLimit = useOptionStore(state => state.setOpt_timerNoLimit);
+
+    const opt_cardSize = useOptionStore(state => state.opt_cardSize);
+    const setOpt_cardSize = useOptionStore(state => state.setOpt_cardSize);
+
+    const opt_cardSizeResponsive = useOptionStore(state => state.opt_cardSizeResponsive);
+    const setOpt_cardSizeResponsive = useOptionStore(state => state.setOpt_cardSizeResponsive);
+
+    const opt_cardPreview = useOptionStore(state => state.opt_cardPreview);
+    const setOpt_cardPreview = useOptionStore(state => state.setOpt_cardPreview);
+
+    const opt_difficulty = useOptionStore(state => state.opt_difficulty);
+    const setOpt_difficulty = useOptionStore(state => state.setOpt_difficulty);
+
+    const difficultyDetails = useOptionStore(state => state.difficultyDetails);
+    const setDifficulty_update = useOptionStore(state => state.setDifficulty_update);
+
+
+
+    // setDifficultyConfigPartial({ mistakeProbability: 0.3 });
+
+
+
 
     return (
         <div className="settings_container">
@@ -53,14 +86,8 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
 
                         <InputNumber
                             min={2}
-                            value={4}
-                        />
-                        <input type="text" 
                             value={opt_cardNum}
-                            onChange={(e)=>{
-                                const newValue = Number(e.currentTarget.value);
-                                updateCardNum(newValue);
-                            }}
+                            changeHandler={setOpt_cardNum}
                         />
                     </div>
 
@@ -72,11 +99,13 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
                                 unit={"s"}
                                 min={1}
                                 max={99}
-                                value={4}
+                                disabled={opt_timerNoLimit}
+                                value={opt_timerDuration}
+                                changeHandler={setOpt_timerDuration}
                             />
                             <InputCheck 
-                                checked={false}
-                                checkHandler={setOpt_previewAnimation}
+                                checked={opt_timerNoLimit}
+                                checkHandler={setOpt_timerNoLimit}
                             >
                                 제한 없음
                             </InputCheck>
@@ -93,26 +122,32 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
 
                         <div className="btnFlexWrap">
                             <InputRadio
-                                attr_label="대"
-                                attr_name="cardSize"
-                                attr_checked={false}
+                                label="대"
+                                name="cardSize"
+                                value={1}
+                                checked={opt_cardSize === 1}
+                                changeHandler={setOpt_cardSize}
                             />
                             <InputRadio
-                                attr_label="중"
-                                attr_name="cardSize"
-                                attr_checked={false}
+                                label="중"
+                                name="cardSize"
+                                value={0.8}
+                                checked={opt_cardSize === 0.8}
+                                changeHandler={setOpt_cardSize}
                             />
                             <InputRadio
-                                attr_label="소"
-                                attr_name="cardSize"
-                                attr_checked={false}
+                                label="소"
+                                name="cardSize"
+                                value={0.6}
+                                checked={opt_cardSize === 0.6}
+                                changeHandler={setOpt_cardSize}
                             />
                         </div>
                   
                         <div className="gridColSpan">
                             <InputCheck
-                                checked={true}
-                                checkHandler={setOpt_previewAnimation}
+                                checked={opt_cardSizeResponsive}
+                                checkHandler={setOpt_cardSizeResponsive}
                             >
                                 화면 크기에 따라 자동 변경
                             </InputCheck>
@@ -128,8 +163,8 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
 
                     <div className="settings_item">
                         <InputCheck 
-                            checked={opt_previewAnimation}
-                            checkHandler={setOpt_previewAnimation}
+                            checked={opt_cardPreview}
+                            checkHandler={setOpt_cardPreview}
                         >
                         카드 확인 여부
                         </InputCheck>
@@ -143,7 +178,7 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
                     <div className="settings_item">
                         <InputCheck 
                             checked={false}
-                            checkHandler={setOpt_previewAnimation}
+                            checkHandler={()=>{console.log("emptyAction")}}
                         >
                             연속 선택 여부
                         </InputCheck>
@@ -154,24 +189,32 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
 
                         <div className="btnFlexWrap">
                             <InputRadio
-                                attr_label="1단계"
-                                attr_name="difficulty"
-                                attr_checked={true}
+                                label="1단계"
+                                name="difficulty"
+                                value={1}
+                                checked={opt_difficulty === 1}
+                                changeHandler={setOpt_difficulty}
                             />
                             <InputRadio
-                                attr_label="2단계"
-                                attr_name="difficulty"
-                                attr_checked={false}
+                                label="2단계"
+                                name="difficulty"
+                                value={2}
+                                checked={opt_difficulty === 2}
+                                changeHandler={setOpt_difficulty}
                             />
                             <InputRadio
-                                attr_label="3단계"
-                                attr_name="difficulty"
-                                attr_checked={false}
+                                label="3단계"
+                                name="difficulty"
+                                value={3}
+                                checked={opt_difficulty === 3}
+                                changeHandler={setOpt_difficulty}
                             />
                             <InputRadio
-                                attr_label="4단계"
-                                attr_name="difficulty"
-                                attr_checked={false}
+                                label="4단계"
+                                name="difficulty"
+                                value={4}
+                                checked={opt_difficulty === 4}
+                                changeHandler={setOpt_difficulty}
                             />
                         </div>
 
@@ -197,12 +240,26 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
                                             남은 카드 비율 ※ 열어 본 카드 비율이 설정값 이하일 경우 열어 본 카드 선택
                                         </div>
                                         <div className="InputRangeWrap">
-                                            <InputRange />  
+                                            <InputRange 
+                                                value={difficultyDetails.remains}
+                                                changeHandler={(num)=>{
+                                                    if(num === "") return;
+                                                    setDifficulty_update({
+                                                        remains: num,
+                                                    })
+                                                }}
+                                            />  
                                             <InputNumber
                                                 unit={"%"}
-                                                min={1}
-                                                max={99}
-                                                value={4}
+                                                min={0}
+                                                max={100}
+                                                value={difficultyDetails.remains}
+                                                changeHandler={(num)=>{
+                                                    
+                                                    setDifficulty_update({
+                                                        remains: num,
+                                                    })
+                                                }}
                                             />
                                         </div>
                                     </div>
@@ -281,8 +338,8 @@ const Settings = ({opt_previewAnimation, setOpt_previewAnimation, opt_timer, set
                     <div>※ 카드 크기를 제외한 변경된 옵션은 다음 게임부터 적용됩니다.</div>
 
                     <div className="GameButton__container">
-                        <GameButton gameMode="single"/>
-                        <GameButton gameMode="vs"/>
+                        <GameButton inputGameMode="single"/>
+                        <GameButton inputGameMode="vs"/>
                     </div>
 
                 </div>

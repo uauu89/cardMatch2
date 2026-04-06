@@ -14,8 +14,8 @@ const IconXmark = ({size, color = "currentColor", ...props} : IconProps)=>{
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >
-                <path d="M12 12L112 112" stroke={color} stroke-width={size} stroke-linecap="round"/>
-                <path d="M12 112L112 12" stroke={color} stroke-width={size} stroke-linecap="round"/>
+                <path d="M12 12L112 112" stroke={color} strokeWidth={size} strokeLinecap="round"/>
+                <path d="M12 112L112 12" stroke={color} strokeWidth={size} strokeLinecap="round"/>
         </svg>
     )
 }

@@ -1,10 +1,19 @@
-
-import { useState } from "react";
 import "./InputRange.css"
 
-const InputRange = ()=>{
+type NumberValue = number | "";
 
-    const [value, setValue] = useState(30);
+interface RangeProps {
+    min? : number;
+    max? : number;
+    step? : number;
+    value?: NumberValue;
+    changeHandler : (num: NumberValue) => void;
+}
+
+const InputRange = ({min = 0, max = 100, step = 1, value = 0, changeHandler} : RangeProps)=>{
+
+    const rangeValue = value === "" ? 0 : value;
+    const rangePercent = (rangeValue - min) / (max - min) * 100;
 
 
     return(
@@ -12,12 +21,17 @@ const InputRange = ()=>{
         <input
             type="range"
             className="InputRange"
-            style={{background : `linear-gradient(to right, var(--color_main) ${value}%, #fff ${value}%)`}}
-            value={value}
-            onChange={e=>{
-                const changeValue = Number(e.target.value);
-                setValue(changeValue)
+            min={min}
+            max={max}
+            step={step}
+            
+            style={{background : `linear-gradient(to right, var(--color_main) ${rangePercent}%, #fff ${rangePercent}%)`}}
+            value={rangeValue}
+            onChange={(e)=>{
+                const inputValue = e.currentTarget.value;
+                changeHandler(Number(inputValue));
             }}
+            
         />
     )
 }

@@ -1,32 +1,76 @@
 import { create } from "zustand";
 
+type NumberValue = number | "";
+
+type DifficultyConfig = {
+  remains: NumberValue;
+};
+
 interface OptionProps{
-    opt_cardNum: number;
+    opt_cardNum: NumberValue;
+    opt_timerDuration: NumberValue;
+    opt_timerNoLimit: boolean;
+
     opt_cardSize: number;
     opt_cardSizeResponsive: boolean;
 
     opt_cardPreview: boolean;
 
-    opt_timerDuration: number;
-    opt_timerNoLimit: boolean;
+    opt_difficulty: number;
+
+    // ditails : number;
+    difficultyDetails : {
+        remains : NumberValue,
+    }
 
 
-    updateCardNum: (num:number) => void;
-    updatetimerDuration: (num:number) => void;
+    setOpt_cardNum: (num: NumberValue) => void;
+    setOpt_timerDuration: (num: NumberValue) => void;
+    setOpt_timerNoLimit: () => void;
+    
+    setOpt_cardSize: (num: number) => void;
+    setOpt_cardSizeResponsive: () => void;
+
+    setOpt_cardPreview: () => void;
+
+    setOpt_difficulty: (num: number) => void;
+
+    setDifficulty_update: (config: Partial<DifficultyConfig>) => void;
 }
 
 export const useOptionStore = create<OptionProps>(set => ({
     opt_cardNum: 6,
+    opt_timerDuration: 20,
+    opt_timerNoLimit: false,
+
     opt_cardSize: 1,
     opt_cardSizeResponsive: false,
 
     opt_cardPreview: true,
 
-    opt_timerDuration: 30,
-    opt_timerNoLimit: false,
+    opt_difficulty: 3,
 
-    updateCardNum: (num)=>set({opt_cardNum: num}),
-    updatetimerDuration: (num)=>set({opt_timerDuration: num}),
+    difficultyDetails: {
+        remains: 10,
+    },
+
+    setOpt_cardNum: (num)=>set({opt_cardNum: num}),
+    setOpt_timerDuration: (num)=>set({opt_timerDuration: num}),
+    setOpt_timerNoLimit: () => set(state => ({opt_timerNoLimit: !state.opt_timerNoLimit})),
+
+    setOpt_cardSize: (num)=>set({opt_cardSize: num}),
+    setOpt_cardSizeResponsive: () => set(state => ({opt_timerNoLimit: !state.opt_cardSizeResponsive})),
+
+    setOpt_cardPreview: () => set(state => ({opt_cardPreview: !state.opt_cardPreview})),
+
+    setOpt_difficulty: (num)=>set({opt_difficulty: num}),
+
+    setDifficulty_update: (config) => set(state => ({
+        difficultyDetails: {
+            ...state.difficultyDetails,
+            ...config,
+        }
+    }))
     /*
         공통 > 
             카드 범위

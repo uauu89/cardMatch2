@@ -1,5 +1,8 @@
 import type { Dispatch, SetStateAction } from "react";
 import "./Card.css"
+import { useGameStore } from "../../stores/useGameStore";
+import { useShallow } from "zustand/shallow";
+import { useOptionStore } from "../../stores/useOptionStore";
 
 
 interface CardProps {
@@ -7,20 +10,26 @@ interface CardProps {
     cardNumber: number;
     cardsCount: number;
     opend: boolean;
-    opt_previewAnimation: boolean;
-
+    owner: "single" | "player" | "ai" | null;
     isLastCard: boolean;
-
-    gamePhase: "init" | "ready" | "dealing" | "playing";
-    setGamePhase: Dispatch<SetStateAction<"init" | "ready" | "dealing" | "playing">>;
-
-    
     onClick: ()=>void;
-
 }
 
 
-export default function Card({order, cardNumber, cardsCount, opend, opt_previewAnimation, isLastCard, gamePhase, setGamePhase, onClick} : CardProps){
+export default function Card({order, cardNumber, cardsCount, opend, owner, isLastCard, onClick} : CardProps){
+
+
+    const {gamePhase, turnState, setGamePhase, setTurnState} = useGameStore(useShallow(state=>({
+        gamePhase: state.gamePhase,
+        turnState: state.turnState,
+        
+        setGamePhase: state.setGamePhase,
+        setTurnState: state.setTurnState,
+    })))
+
+    const {opt_cardPreview} = useOptionStore(useShallow(state=>({
+        opt_cardPreview: state.opt_cardPreview,
+    })))
 
     const styleAttr = {
         "--delayParam" : order,
@@ -30,14 +39,17 @@ export default function Card({order, cardNumber, cardsCount, opend, opt_previewA
     const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>)=>{
         if(!isLastCard) return;
 
-        const targetAnimation = opt_previewAnimation
+        const targetAnimation = opt_cardPreview
             ? "initAnimation--preview"
             : "initAnimation--bounce";
         if(e.animationName !== targetAnimation) return;
 
         setGamePhase("playing");
 
-        // setEndRendering(true);
+        setTimeout(()=>{
+            setTurnState("active");
+            console.log("animation end, turnState > active")
+        }, 500)
     }
 
     return (
@@ -50,26 +62,19 @@ export default function Card({order, cardNumber, cardsCount, opend, opt_previewA
 
             style={styleAttr}
 
+            onAnimationEnd={handleAnimationEnd}
+
             onClick={()=>{
-                if(gamePhase === "playing"){
+                if(gamePhase === "playing" && turnState === "active" && !opend){
                     onClick();
                 }
             }}
-            // onAnimationEnd={(e)=>{
-            //     if(isLastCard){
-            //         const animationName = opt_previewAnimation? "initAnimation--preview" : "initAnimation--bounce";
-            //         if(e.animationName === animationName){
-            //             console.log("test, animation finish");
-            //             setEndRendering(true);
-            //         }
-            //     }
-            // }}
-            onAnimationEnd={handleAnimationEnd}
         >
             <div 
                 className={[
                     "card__previewWrapper", 
-                    (opt_previewAnimation && gamePhase==="dealing" ) && "card--animation-preview",
+                    (opt_cardPreview && gamePhase==="dealing" ) && "card--animation-preview",
+                    owner !== null && owner,
                 ].filter(Boolean).join(" " )}
                 
             >
