@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useOptionStore } from "./useOptionStore";
 
 interface GameProps {
     gameMode: "single" | "vs",
@@ -6,6 +7,15 @@ interface GameProps {
     turnState: "active" | "transition" | "paused";
     currentPlayer: "single" | "player" | "ai";
 
+    gameOption: {
+        opt_cardNum: number;
+        opt_timerDuration: number;
+        opt_timerNoLimit: boolean;
+        opt_cardPreview: boolean;
+        difficultyDetails: {
+            remains: number;
+        }
+    };
 
     setGameMode: (mode: "single" | "vs") => void;
     setGamePhase: (phase: "ready" | "gameOver" | "dealing" | "playing") => void;
@@ -90,9 +100,35 @@ export const useGameStore = create<GameProps>(set=>({
     turnState: "paused",
     currentPlayer: "single",
 
+    gameOption: {
+        opt_cardNum: 6,
+        opt_timerDuration: 20,
+        opt_timerNoLimit: false,
+        opt_cardPreview: true,
+        difficultyDetails: {
+            remains: 10,
+        },
+    },
+
     setGameMode: (mode: "single" | "vs") => set({gameMode: mode}),
     setGamePhase: (phase: "ready" | "gameOver" | "dealing" | "playing") => set({gamePhase: phase}),
     setTurnState: (turn: "active" | "transition" | "paused") => set({turnState: turn}),
     setCurrentPlayer: (player: "single" | "player" | "ai") => set({currentPlayer: player}),
+
+    updateGameOption: () => {
+        const option = useOptionStore.getState();
+        set({
+            gameOption: {
+                opt_cardNum: Number(option.opt_cardNum),
+                opt_timerDuration: Number(option.opt_timerDuration),
+                opt_timerNoLimit: option.opt_timerNoLimit,
+                opt_cardPreview: option.opt_cardPreview,
+                difficultyDetails: {
+                    remains: Number(option.difficultyDetails.remains),
+                },
+            }
+        })
+
+    }
 
 }))

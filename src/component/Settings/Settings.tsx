@@ -11,13 +11,6 @@ import IconCaretDown from "../../assets/icons/IconCaretDown";
 import { useOptionStore } from "../../stores/useOptionStore";
 import { useShallow } from "zustand/shallow";
 
-interface SettingsProps{
-    opt_previewAnimation: boolean;
-    setOpt_previewAnimation: React.Dispatch<React.SetStateAction<boolean>>;
-    opt_timer: number;
-    setOpt_timer: React.Dispatch<React.SetStateAction<number>>;
-}
-
 const Settings = ()=>{
     const [modal_settings, setModal_settings] = useState<boolean>(false);
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);

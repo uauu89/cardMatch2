@@ -12,24 +12,31 @@ interface CardProps {
     opend: boolean;
     owner: "single" | "player" | "ai" | null;
     isLastCard: boolean;
-    onClick: ()=>void;
+    handler_animationEnd: () => void;
+    handler_click: () => void;
 }
 
 
-export default function Card({order, cardNumber, cardsCount, opend, owner, isLastCard, onClick} : CardProps){
+export default function Card({
+    order,
+    cardNumber,
+    cardsCount,
+    opend,
+    owner,
+    isLastCard,
+    handler_animationEnd,
+    handler_click,
+} : CardProps){
 
 
-    const {gamePhase, turnState, setGamePhase, setTurnState} = useGameStore(useShallow(state=>({
-        gamePhase: state.gamePhase,
-        turnState: state.turnState,
-        
-        setGamePhase: state.setGamePhase,
-        setTurnState: state.setTurnState,
-    })))
+    const gamePhase = useGameStore(state=>state.gamePhase);
+    const turnState = useGameStore(state=>state.turnState);
+    const opt_cardPreview = useOptionStore(state=>state.opt_cardPreview);
 
-    const {opt_cardPreview} = useOptionStore(useShallow(state=>({
-        opt_cardPreview: state.opt_cardPreview,
-    })))
+    // const {setGamePhase, setTurnState} = useGameStore(useShallow(state=>({
+    //     setGamePhase: state.setGamePhase,
+    //     setTurnState: state.setTurnState,
+    // })));
 
     const styleAttr = {
         "--delayParam" : order,
@@ -37,19 +44,15 @@ export default function Card({order, cardNumber, cardsCount, opend, owner, isLas
     } as React.CSSProperties;
 
     const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>)=>{
-        if(!isLastCard) return;
 
-        const targetAnimation = opt_cardPreview
-            ? "initAnimation--preview"
-            : "initAnimation--bounce";
-        if(e.animationName !== targetAnimation) return;
-
-        setGamePhase("playing");
-
-        setTimeout(()=>{
-            setTurnState("active");
-            console.log("animation end, turnState > active")
-        }, 500)
+        if(isLastCard){
+            const targetAnimation = opt_cardPreview
+                ? "initAnimation--preview"
+                : "initAnimation--bounce";
+            if(e.animationName !== targetAnimation) return;
+            handler_animationEnd();
+        }
+        
     }
 
     return (
@@ -59,14 +62,11 @@ export default function Card({order, cardNumber, cardsCount, opend, owner, isLas
                 opend && "card--opend",
                 gamePhase === "dealing" && "card--animation-rendering",
             ].filter(Boolean).join(" ")}
-
             style={styleAttr}
-
             onAnimationEnd={handleAnimationEnd}
-
             onClick={()=>{
                 if(gamePhase === "playing" && turnState === "active" && !opend){
-                    onClick();
+                    handler_click();
                 }
             }}
         >

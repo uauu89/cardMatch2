@@ -10,7 +10,7 @@ const Timer = ()=>{
     
     const timerRef = useRef<number | null>(null);
     const [timerOn, setTimerOn] = useState(false);
-    const [timeRemaining, setTimeRemaining] = useState(opt_timerDuration);
+    const [timeRemaining, setTimeRemaining] = useState(Number(opt_timerDuration));
 
     useEffect(()=>{
         if(gamePhase === "playing" && turnState === "active" && !opt_timerNoLimit){
@@ -37,8 +37,9 @@ const Timer = ()=>{
 
         return ()=>{
             if(timerRef.current !== null) {
+                console.log("timer > clear interval");
                 clearInterval(timerRef.current);
-                setTimeRemaining(opt_timerDuration);
+                setTimeRemaining(Number(opt_timerDuration));
                 setTurnState("transition");
 
                 const {gamePhase,} = useGameStore.getState();

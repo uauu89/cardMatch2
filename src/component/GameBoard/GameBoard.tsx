@@ -1,4 +1,4 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 
 import Card from "./Card";
 import "./gameBoard.css"
@@ -17,13 +17,14 @@ interface GameBoardProps {
 
 export default function GameBoard(){
 
-    const {
-        cards_value,
-        cards_opend,
-        cards_memory,
-        // cards_selected,
-        cards_owner,
+    const timer_dealingAnimation = useRef<number | null>(null);
 
+    const cards_value = useCardsStore(state => state.cards_value);
+    const cards_opend = useCardsStore(state => state.cards_opend);
+    const cards_memory = useCardsStore(state => state.cards_memory);
+    const cards_owner = useCardsStore(state => state.cards_owner);
+
+    const {
         clearCards,
         shuffleCards,
         openCards,
@@ -31,12 +32,6 @@ export default function GameBoard(){
         markCardOwner,
         resetOpenedCards
     } = useCardsStore(useShallow(state => ({
-        cards_value: state.cards_value,
-        cards_opend: state.cards_opend,
-        cards_memory: state.cards_memory,
-        // cards_selected: state.cards_selected,
-        cards_owner: state.cards_owner,
-
         clearCards: state.clearCards,
         shuffleCards: state.shuffleCards,
         openCards: state.openCards,
@@ -45,21 +40,21 @@ export default function GameBoard(){
         resetOpenedCards: state.resetOpenedCards,
     })));
 
-    const { gamePhase, setGamePhase, setTurnState } = useGameStore(useShallow(state=> ({
-        gamePhase: state.gamePhase,
-        setGamePhase: state.setGamePhase,
-        setTurnState: state.setTurnState,
-        
-    })))
+    const gamePhase = useGameStore(state => state.gamePhase);
+    const setGamePhase = useGameStore(state => state.setGamePhase);
+    const setTurnState = useGameStore(state => state.setTurnState);
 
-    // const {
-    //     cardClick,
-    // } = useGameStore(useShallow(state=>({
-    //     cardClick: state.cardClick
-    // })))
 
     
-    const opt_cardNum = useOptionStore(state => state.opt_cardNum);
+
+    
+    function syncDelay(ms: number) {
+        return new Promise<void>(resolve => setTimeout(resolve, ms))
+    }
+
+    
+    // const opt_cardNum = useOptionStore(state => state.opt_cardNum);
+
     const gameStarted = ["dealing", "playing"].includes(gamePhase);
 
     const resetGame = () => {
@@ -67,10 +62,11 @@ export default function GameBoard(){
         setGamePhase("gameOver");
     }
 
+    
+
     const checkMatch = () => {
-        
-        // const {cards_value, cards_selected, markCardOwner, resetOpenedCards,} = useCardsStore.getState();
-        const {cards_selected,} = useCardsStore.getState();
+
+        const {cards_selected} = useCardsStore.getState();
         if(cards_selected.length !== 2) return;
         
         setTurnState("transition");
@@ -78,9 +74,11 @@ export default function GameBoard(){
 
 
         if(cards_value[card1] === cards_value[card2]){
+            const {currentPlayer} = useGameStore.getState();
+            const {cards_owner,} = useCardsStore.getState();
+
             markCardOwner("single");
 
-            const {cards_owner,} = useCardsStore.getState();
             if(cards_owner.every(owner => owner !== null)){
                 console.log("gameover");
                 resetGame();
@@ -91,28 +89,34 @@ export default function GameBoard(){
             setTurnState("active");
             resetOpenedCards();
         }, 500)
-        
     }
 
-
-
-
+    const case_correct = () => {}
 
     const cardClick = (index: number, number: number)=>{
-        // const checkMatch = useGameStore.getState();
-        // const {openCards} = useCardsStore.getState();
         openCards(index, number);
         recordOpenedCards(index, number);
         checkMatch();
+        // await syncDelay(500);
     };
 
+    const handle_endDealingAnimation = () => {
+        setGamePhase("playing");
 
+        if(timer_dealingAnimation.current){
+            clearTimeout(timer_dealingAnimation.current)
+        } ;
+        
+        timer_dealingAnimation.current = window.setTimeout(()=>{
+            setTurnState("active");
+        }, 500)
+    }
     
-    useEffect(()=>{
-        if(gamePhase === "dealing"){
-            shuffleCards(opt_cardNum);
-        }
-    }, [gamePhase]);
+    // useEffect(()=>{
+    //     if(gamePhase === "dealing"){
+    //         shuffleCards(Number(opt_cardNum));
+    //     }
+    // }, [gamePhase]);
     return(
 
         <div className="gameBoard">
@@ -129,7 +133,8 @@ export default function GameBoard(){
                         owner={cards_owner[index]}
                         isLastCard={index === cards_value.length - 1}
 
-                        onClick={()=>cardClick(index, number)}
+                        handler_animationEnd={handle_endDealingAnimation}
+                        handler_click={()=>cardClick(index, number)}
                     />
                 )
             )}
