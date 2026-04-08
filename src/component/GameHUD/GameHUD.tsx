@@ -9,7 +9,7 @@ interface HudProps{
     // modal_settings: boolean;
     // setModal_settings: React.Dispatch<React.SetStateAction<boolean>>;
     // endRendering: boolean;
-    gamePhase: "ready" | "gameOver" | "dealing" | "playing";
+    gamePhase: "ready" | "gameOver" | "gameStart" | "dealing" | "playing";
     opt_timer: number;
 }
 

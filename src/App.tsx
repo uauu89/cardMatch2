@@ -7,16 +7,11 @@ import "./CSS/fonts.css";
 import "./CSS/variant.css";
 import "./CSS/common.css";
 import "./CSS/utility.css";
-import { useEffect, useState } from 'react';
 import { useGameStore } from './stores/useGameStore';
-import { useShallow } from 'zustand/shallow';
 
 function App() {
-    const [gameStart, setGameStart] = useState<boolean>(false);
-
-    const {gamePhase} = useGameStore(useShallow(state=>({
-        gamePhase: state.gamePhase,
-    })))
+    const gamePhase = useGameStore(state=>state.gamePhase);
+    
 
     const gameOver = ["ready", "gameOver"].includes(gamePhase);
 

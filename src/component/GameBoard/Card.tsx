@@ -1,9 +1,5 @@
-import type { Dispatch, SetStateAction } from "react";
 import "./Card.css"
 import { useGameStore } from "../../stores/useGameStore";
-import { useShallow } from "zustand/shallow";
-import { useOptionStore } from "../../stores/useOptionStore";
-
 
 interface CardProps {
     order: number;
@@ -31,7 +27,7 @@ export default function Card({
 
     const gamePhase = useGameStore(state=>state.gamePhase);
     const turnState = useGameStore(state=>state.turnState);
-    const opt_cardPreview = useOptionStore(state=>state.opt_cardPreview);
+    const opt_cardPreview = useGameStore(state=>state.opt_cardPreview);
 
     // const {setGamePhase, setTurnState} = useGameStore(useShallow(state=>({
     //     setGamePhase: state.setGamePhase,
@@ -52,7 +48,7 @@ export default function Card({
             if(e.animationName !== targetAnimation) return;
             handler_animationEnd();
         }
-        
+
     }
 
     return (

@@ -9,16 +9,10 @@ import IconGear from "../../assets/icons/IconGear";
 import IconXmark from "../../assets/icons/IconXmark";
 import IconCaretDown from "../../assets/icons/IconCaretDown";
 import { useOptionStore } from "../../stores/useOptionStore";
-import { useShallow } from "zustand/shallow";
 
 const Settings = ()=>{
     const [modal_settings, setModal_settings] = useState<boolean>(false);
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
-
-    // const {opt_cardNum, updateCardNum} = useOptionStore(useShallow(state => ({
-    //     opt_cardNum: state.opt_cardNum,
-    //     updateCardNum: state.updateCardNum,
-    // })));
 
     const opt_cardNum = useOptionStore(state => state.opt_cardNum);
     const setOpt_cardNum = useOptionStore(state => state.setOpt_cardNum);
@@ -40,6 +34,9 @@ const Settings = ()=>{
 
     const opt_difficulty = useOptionStore(state => state.opt_difficulty);
     const setOpt_difficulty = useOptionStore(state => state.setOpt_difficulty);
+
+    const opt_continueTurn = useOptionStore(state => state.opt_continueTurn);
+    const setOpt_continueTurn = useOptionStore(state => state.setOpt_continueTurn);
 
     const difficultyDetails = useOptionStore(state => state.difficultyDetails);
     const setDifficulty_update = useOptionStore(state => state.setDifficulty_update);
@@ -170,8 +167,8 @@ const Settings = ()=>{
 
                     <div className="settings_item">
                         <InputCheck 
-                            checked={false}
-                            checkHandler={()=>{console.log("emptyAction")}}
+                            checked={opt_continueTurn}
+                            checkHandler={setOpt_continueTurn}
                         >
                             연속 선택 여부
                         </InputCheck>

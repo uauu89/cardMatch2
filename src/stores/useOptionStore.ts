@@ -7,6 +7,7 @@ type DifficultyConfig = {
 };
 
 interface OptionProps{
+    // 공통 옵션
     opt_cardNum: NumberValue;
     opt_timerDuration: NumberValue;
     opt_timerNoLimit: boolean;
@@ -14,8 +15,11 @@ interface OptionProps{
     opt_cardSize: number;
     opt_cardSizeResponsive: boolean;
 
+    // 싱글 옵션
     opt_cardPreview: boolean;
 
+    // 대전 옵션
+    opt_continueTurn: boolean;
     opt_difficulty: number;
 
     // ditails : number;
@@ -33,21 +37,23 @@ interface OptionProps{
 
     setOpt_cardPreview: () => void;
 
+    setOpt_continueTurn: () => void;
     setOpt_difficulty: (num: number) => void;
 
     setDifficulty_update: (config: Partial<DifficultyConfig>) => void;
 }
 
 export const useOptionStore = create<OptionProps>(set => ({
-    opt_cardNum: 6,
+    opt_cardNum: 2,
     opt_timerDuration: 20,
     opt_timerNoLimit: false,
 
     opt_cardSize: 1,
     opt_cardSizeResponsive: false,
 
-    opt_cardPreview: true,
+    opt_cardPreview: false,
 
+    opt_continueTurn: false,
     opt_difficulty: 3,
 
     difficultyDetails: {
@@ -63,6 +69,7 @@ export const useOptionStore = create<OptionProps>(set => ({
 
     setOpt_cardPreview: () => set(state => ({opt_cardPreview: !state.opt_cardPreview})),
 
+    setOpt_continueTurn : () => set(state => ({opt_continueTurn : !state.opt_continueTurn})),
     setOpt_difficulty: (num)=>set({opt_difficulty: num}),
 
     setDifficulty_update: (config) => set(state => ({

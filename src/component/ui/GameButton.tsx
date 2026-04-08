@@ -3,7 +3,8 @@ import IconRoateRight from "../../assets/icons/IconRoateRight";
 import "./GameButton.css"
 import { useGameStore } from "../../stores/useGameStore";
 import { useCardsStore } from "../../stores/useCardsStore";
-import { useOptionStore } from "../../stores/useOptionStore";
+import { syncDelay } from "../../utils";
+import { useScoreStore } from "../../stores/useScoreStore";
 
 
 interface GameButtonProps {
@@ -14,32 +15,40 @@ interface GameButtonProps {
 
 const GameButton = ({inputGameMode} : GameButtonProps)=>{
 
-    const { setGameMode, setGamePhase, setTurnState } = useGameStore(useShallow(state => ({
+    const { setGameMode, setGamePhase, setTurnState, applyGameOption } = useGameStore(useShallow(state => ({
         setGameMode: state.setGameMode,
         setGamePhase: state.setGamePhase,
         setTurnState: state.setTurnState,
+        applyGameOption: state.applyGameOption,
     })));
-
-    const opt_cardNum = useOptionStore(state => state.opt_cardNum);
 
     const shuffleCards = useCardsStore(state=>state.shuffleCards);
     const clearCards = useCardsStore(state=>state.clearCards);
 
+    const clearScore = useScoreStore(state => state.clearScore);
+
+
+    const process_gameStart = async () => {
+        clearCards();
+        clearScore();
+        applyGameOption();
+        setGameMode(inputGameMode);
+        setGamePhase("gameStart");
+
+        await syncDelay(10);
+
+        const {opt_cardNum} = useGameStore.getState();
+        shuffleCards(opt_cardNum);
+        setTurnState("transition");
+        setGamePhase("dealing");
+    }
+
+
     return(
         <button type="button"
-            className="GameButton" onClick={()=>{
-                setGameMode(inputGameMode);
-                clearCards();
-                setGamePhase("ready");
-                
-                setTimeout(()=>{
-                    
-                    shuffleCards(Number(opt_cardNum));
-                    setTurnState("transition");
-                    setGamePhase("dealing");
-
-                }, 100)
-            }}>
+            className="GameButton"
+            onClick={process_gameStart}
+        >
             <IconRoateRight size={20} />
             <span className="btn__name">새 게임</span>
             <span className="btn__gameMode">
