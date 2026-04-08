@@ -17,6 +17,8 @@ export default function GameBoard(){
     // const cards_memory = useCardsStore(state => state.cards_memory);
     const cards_owner = useCardsStore(state => state.cards_owner);
 
+    const cards_selected = useCardsStore(state => state.cards_selected);
+
     const {
         clearCards,
         // shuffleCards,
@@ -40,7 +42,10 @@ export default function GameBoard(){
 
     const gameMode = useGameStore(state => state.gameMode);
     const gamePhase = useGameStore(state => state.gamePhase);
+    const turnState = useGameStore(state => state.turnState);
     const opt_continueTurn = useGameStore(state => state.opt_continueTurn);
+
+    const currentPlayer = useGameStore(state => state.currentPlayer);
 
     const setGamePhase = useGameStore(state => state.setGamePhase);
     const setTurnState = useGameStore(state => state.setTurnState);
@@ -49,33 +54,36 @@ export default function GameBoard(){
     const gameStarted = ["dealing", "playing"].includes(gamePhase);
 
     const checkMatch = async () => {
-        const {cards_selected} = useCardsStore.getState();
-        if(cards_selected.length !== 2) return;
-        
-        setTurnState("transition");
+        // const {cards_selected} = useCardsStore.getState();
+        // if( cards_selected.length !== 2 ) return;
         await syncDelay(500);
-        
-        const [card1, card2] = cards_selected;
-        const {currentPlayer} = useGameStore.getState();
+        if( cards_selected.length === 2 ){
+            const [card1, card2] = cards_selected;
+            // const {currentPlayer} = useGameStore.getState();
 
-        if(cards_value[card1] === cards_value[card2]){
-            markCardOwner(currentPlayer);
-            correctScore(currentPlayer);
-            const {cards_owner,} = useCardsStore.getState();
-            if(cards_owner.every(owner => owner !== null)){
-                clearCards();
-                setGamePhase("gameOver");
-                return;
-            }
-            if(gameMode === "vs" && !opt_continueTurn) {
+            if(cards_value[card1] === cards_value[card2]){
+                markCardOwner(currentPlayer);
+                correctScore(currentPlayer);
+                const {cards_owner,} = useCardsStore.getState();
+                if(cards_owner.every(owner => owner !== null)){
+                    clearCards();
+                    setGamePhase("gameOver");
+                    return;
+                }
+                if(gameMode === "vs" && !opt_continueTurn) {
+                    setCurrentPlayer(getNextPlayer(currentPlayer));
+                }
+            }else{
+                wrongScore(currentPlayer);
                 setCurrentPlayer(getNextPlayer(currentPlayer));
             }
-        }else{
-            wrongScore(currentPlayer);
-            setCurrentPlayer(getNextPlayer(currentPlayer));
         }
+        
         resetOpenedCards();
         setTurnState("active");
+        // setTimeout(()=>{
+        // }, 500)
+        
     }
     
     const getNextPlayer = (player: "single" | "player" | "ai") => player === "player" ? "ai" : "player";
@@ -83,7 +91,10 @@ export default function GameBoard(){
     const cardClick = (index: number)=>{
         openCards(index);
         recordOpenedCards(index);
-        checkMatch();
+        // checkMatch();
+
+        const {cards_selected} = useCardsStore.getState();
+        if(cards_selected.length === 2) setTurnState("transition");
     };
 
     const handle_endDealingAnimation = () => {
@@ -91,6 +102,14 @@ export default function GameBoard(){
         if(timer_dealingAnimation.current) clearTimeout(timer_dealingAnimation.current);
         timer_dealingAnimation.current = window.setTimeout(()=>setTurnState("active"), 500);
     }
+
+
+    useEffect(()=>{
+        if(gamePhase === "playing" && turnState === "transition"){
+            checkMatch();
+        }
+
+    }, [gamePhase, turnState])
     
     return(
 
