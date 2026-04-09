@@ -75,7 +75,9 @@ export default function GameBoard(){
                 }
             }else{
                 wrongScore(currentPlayer);
-                setCurrentPlayer(getNextPlayer(currentPlayer));
+                if(gameMode === "vs"){
+                    setCurrentPlayer(getNextPlayer(currentPlayer));
+                }
             }
         }
         
@@ -86,7 +88,21 @@ export default function GameBoard(){
         
     }
     
-    const getNextPlayer = (player: "single" | "player" | "ai") => player === "player" ? "ai" : "player";
+    // const getNextPlayer = (player: "single" | "player" | "ai") => player === "player" ? "ai" : "player";
+
+    
+
+    const setNextPlayer = () => {
+        const NEXT_PLAYER_MAP = {
+            player: "ai",
+            ai: "player",
+            single: "single"
+        };
+        
+    }
+
+const getNextPlayer = (player) => NEXT_PLAYER_MAP[player] || player;
+    
 
     const cardClick = (index: number)=>{
         openCards(index);

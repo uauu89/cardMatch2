@@ -25,8 +25,9 @@ export default function Card({
 } : CardProps){
 
 
-    const gamePhase = useGameStore(state=>state.gamePhase);
-    const turnState = useGameStore(state=>state.turnState);
+    const gamePhase = useGameStore(state => state.gamePhase);
+    const turnState = useGameStore(state => state.turnState);
+    const currentPlayer = useGameStore(state => state.currentPlayer);
     const opt_cardPreview = useGameStore(state=>state.opt_cardPreview);
 
     // const {setGamePhase, setTurnState} = useGameStore(useShallow(state=>({
@@ -61,7 +62,7 @@ export default function Card({
             style={styleAttr}
             onAnimationEnd={handleAnimationEnd}
             onClick={()=>{
-                if(gamePhase === "playing" && turnState === "active" && !opend){
+                if(gamePhase === "playing" && turnState === "active" && currentPlayer !== "ai" && !opend){
                     handler_click();
                 }
             }}

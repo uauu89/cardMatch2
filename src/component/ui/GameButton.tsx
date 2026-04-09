@@ -15,11 +15,12 @@ interface GameButtonProps {
 
 const GameButton = ({inputGameMode} : GameButtonProps)=>{
 
-    const { setGameMode, setGamePhase, setTurnState, applyGameOption } = useGameStore(useShallow(state => ({
+    const { setGameMode, setGamePhase, setTurnState, applyGameOption, determineFirstPlayer } = useGameStore(useShallow(state => ({
         setGameMode: state.setGameMode,
         setGamePhase: state.setGamePhase,
         setTurnState: state.setTurnState,
         applyGameOption: state.applyGameOption,
+        determineFirstPlayer: state.determineFirstPlayer,
     })));
 
     const shuffleCards = useCardsStore(state=>state.shuffleCards);
@@ -34,6 +35,7 @@ const GameButton = ({inputGameMode} : GameButtonProps)=>{
         applyGameOption();
         setGameMode(inputGameMode);
         setGamePhase("gameStart");
+        determineFirstPlayer();
 
         await syncDelay(10);
 
