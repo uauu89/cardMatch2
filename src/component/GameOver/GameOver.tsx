@@ -47,7 +47,10 @@ const GameOver = ()=>{
         return (
             <div className="GameOver__bg">
                 <div className="GameOver__window">
-                    새 게임 버튼으로 게임을 시작할 수 있습니다.
+                    <div className="GameOver_welcomePrompt">
+                        <p>환영합니다</p>
+                        새 게임 버튼으로 게임을 시작할 수 있습니다.
+                    </div>
                     <div className="GameButtonWrap">
                         <GameButton inputGameMode="single"/>
                         <GameButton inputGameMode="vs"/>
@@ -63,10 +66,10 @@ const GameOver = ()=>{
     return (
         <div className="GameOver__bg">
             <div className="GameOver__window">
-                <h2 className="GameOver__title">{result}</h2>
+                <h2 className="GameOver__result">{result}</h2>
                 <p>{score}</p>
                 
-                <div className="div">
+                <div className="GameOver_restartPrompt">
                     <p>게임이 끝났습니다.</p>
                     <p>새 게임 버튼으로 새로운 게임을 시작할 수 있습니다.</p>
                 </div>

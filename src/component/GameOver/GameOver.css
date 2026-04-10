@@ -23,7 +23,7 @@
 
 
 
-.GameOver__title{
+.GameOver__result{
     font-size: 48px;
     font-weight: 700;
     margin-bottom: 5px;
@@ -37,8 +37,11 @@
     margin-top: 24px;
 }
 
-.div{
-    color: #242;
+.GameOver_welcomePrompt{
+    padding: 20px 0;
+}
+
+.GameOver_restartPrompt{
     font-weight: 400;
     margin-top: 20px;
     font-size: 14px;

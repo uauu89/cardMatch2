@@ -5,6 +5,7 @@ import { useGameStore } from "../../stores/useGameStore";
 import { useCardsStore } from "../../stores/useCardsStore";
 import { syncDelay } from "../../utils";
 import { useScoreStore } from "../../stores/useScoreStore";
+import { useUIStore } from "../../stores/useUIStore";
 
 
 interface GameButtonProps {
@@ -15,10 +16,11 @@ interface GameButtonProps {
 
 const GameButton = ({inputGameMode} : GameButtonProps)=>{
 
-    const { setGameMode, setGamePhase, setTurnState, applyGameOption, determineFirstPlayer } = useGameStore(useShallow(state => ({
+    const { setGameMode, setGamePhase, setTurnState, setCardChecking, applyGameOption, determineFirstPlayer } = useGameStore(useShallow(state => ({
         setGameMode: state.setGameMode,
         setGamePhase: state.setGamePhase,
         setTurnState: state.setTurnState,
+        setCardChecking: state.setCardChecking,
         applyGameOption: state.applyGameOption,
         determineFirstPlayer: state.determineFirstPlayer,
     })));
@@ -28,13 +30,17 @@ const GameButton = ({inputGameMode} : GameButtonProps)=>{
 
     const clearScore = useScoreStore(state => state.clearScore);
 
+    const close_modalSettings = useUIStore(state => state.close_modalSettings);
+
 
     const process_gameStart = async () => {
+        close_modalSettings();
         clearCards();
         clearScore();
         applyGameOption();
         setGameMode(inputGameMode);
         setGamePhase("gameStart");
+        setCardChecking("ready");
         determineFirstPlayer();
 
         await syncDelay(10);

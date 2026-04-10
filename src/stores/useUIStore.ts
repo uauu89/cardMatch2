@@ -3,9 +3,11 @@ import { create } from "zustand";
 
 interface UIProps{
     modal_settings: boolean;
-    setModal_settings: () => void;
+    toggle_modalSettings: () => void;
+    close_modalSettings: () => void;
 }
 export const useUIStore = create<UIProps>(set=>({
     modal_settings: false,
-    setModal_settings: () => set(state=>({modal_settings: !state.modal_settings})),
-}))
+    toggle_modalSettings: () => set(state => ({modal_settings: !state.modal_settings})),
+    close_modalSettings: () => set({modal_settings: false}),
+})) 

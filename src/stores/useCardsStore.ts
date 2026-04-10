@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 interface CardsProps{
 
@@ -18,7 +19,7 @@ interface CardsProps{
 
 }
 
-export const useCardsStore = create<CardsProps>(set =>({
+export const useCardsStore = create<CardsProps>()(devtools(set =>({
 
     cards_value: [],
     cards_opend: [],
@@ -86,8 +87,6 @@ export const useCardsStore = create<CardsProps>(set =>({
     },
 
     markCardOwner: (owner)=>{
-        console.log("mark card owner excute");
-        console.log("owner : ", owner);
         set(state => {
             const [card1, card2] = state.cards_selected;
             const copy_owner = [...state.cards_owner];
@@ -105,4 +104,4 @@ export const useCardsStore = create<CardsProps>(set =>({
         }))
     }
 
-}))
+})))

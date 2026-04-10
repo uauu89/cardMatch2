@@ -9,9 +9,14 @@ import IconGear from "../../assets/icons/IconGear";
 import IconXmark from "../../assets/icons/IconXmark";
 import IconCaretDown from "../../assets/icons/IconCaretDown";
 import { useOptionStore } from "../../stores/useOptionStore";
+import { useUIStore } from "../../stores/useUIStore";
 
 const Settings = ()=>{
-    const [modal_settings, setModal_settings] = useState<boolean>(false);
+
+    const modal_settings = useUIStore(state => state.modal_settings);
+    const toggle_modalSettings = useUIStore(state => state.toggle_modalSettings);
+    
+    // const [modal_settings, setModal_settings] = useState<boolean>(false);
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
 
     const opt_cardNum = useOptionStore(state => state.opt_cardNum);
@@ -54,7 +59,7 @@ const Settings = ()=>{
             <button
                 type="button"
                 className={`SettingButton ${modal_settings && "modalOpen"}`}
-                onClick={()=>setModal_settings(prev=>!prev)}
+                onClick={()=>toggle_modalSettings()}
             >
                 {modal_settings ? 
                     <IconXmark size={24} color="#FFF" ></IconXmark> : 

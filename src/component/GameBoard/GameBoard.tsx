@@ -43,74 +43,75 @@ export default function GameBoard(){
     const gameMode = useGameStore(state => state.gameMode);
     const gamePhase = useGameStore(state => state.gamePhase);
     const turnState = useGameStore(state => state.turnState);
+    const cardChecking = useGameStore(state => state.cardChecking);
     const opt_continueTurn = useGameStore(state => state.opt_continueTurn);
 
     const currentPlayer = useGameStore(state => state.currentPlayer);
 
     const setGamePhase = useGameStore(state => state.setGamePhase);
     const setTurnState = useGameStore(state => state.setTurnState);
-    const setCurrentPlayer = useGameStore(state => state.setCurrentPlayer);
+    const turnTransition = useGameStore(state => state.turnTransition);
+    const setCardChecking = useGameStore(state => state.setCardChecking);
+    const setNextPlayer = useGameStore(state => state.setNextPlayer);
 
     const gameStarted = ["dealing", "playing"].includes(gamePhase);
 
     const checkMatch = async () => {
-        // const {cards_selected} = useCardsStore.getState();
-        // if( cards_selected.length !== 2 ) return;
+        // if( cards_selected.length !== 2 ) return; 
         await syncDelay(500);
         if( cards_selected.length === 2 ){
             const [card1, card2] = cards_selected;
-            // const {currentPlayer} = useGameStore.getState();
-
             if(cards_value[card1] === cards_value[card2]){
-                markCardOwner(currentPlayer);
-                correctScore(currentPlayer);
-                const {cards_owner,} = useCardsStore.getState();
-                if(cards_owner.every(owner => owner !== null)){
-                    clearCards();
-                    setGamePhase("gameOver");
-                    return;
-                }
-                if(gameMode === "vs" && !opt_continueTurn) {
-                    setCurrentPlayer(getNextPlayer(currentPlayer));
-                }
+                caseCorrect(currentPlayer);
             }else{
-                wrongScore(currentPlayer);
-                if(gameMode === "vs"){
-                    setCurrentPlayer(getNextPlayer(currentPlayer));
-                }
+                caseWrong(currentPlayer);
             }
         }
-        
+        setCardChecking("done");
+
+    }
+    const NextTurn = async () => {
+        // await checkMatch();
         resetOpenedCards();
+        // await syncDelay(500);
         setTurnState("active");
-        // setTimeout(()=>{
-        // }, 500)
-        
-    }
-    
-    // const getNextPlayer = (player: "single" | "player" | "ai") => player === "player" ? "ai" : "player";
-
-    
-
-    const setNextPlayer = () => {
-        const NEXT_PLAYER_MAP = {
-            player: "ai",
-            ai: "player",
-            single: "single"
-        };
-        
+        setCardChecking("ready");
     }
 
-const getNextPlayer = (player) => NEXT_PLAYER_MAP[player] || player;
-    
+    const caseCorrect = (currentPlayer : "single" | "player" | "ai") => {
+        markCardOwner(currentPlayer);
+        correctScore(currentPlayer);
+        const {cards_owner,} = useCardsStore.getState();
+        if(cards_owner.every(owner => owner !== null)){
+            caseGameOver();
+            return;
+        }
+        if(!opt_continueTurn) {
+            setNextPlayer();
+        }
+    }
+    const caseWrong = (currentPlayer : "single" | "player" | "ai") => {
+        wrongScore(currentPlayer);
+        setNextPlayer();
+    }
+    const caseGameOver = () => {
+        clearCards();
+        setGamePhase("gameOver");
+    }
+    // const resetProcess = () => {
+    //     setCardChecking("ready");
+    //     resetOpenedCards();
+    // }
 
     const cardClick = (index: number)=>{
         openCards(index);
         recordOpenedCards(index);
-        // checkMatch();
 
         const {cards_selected} = useCardsStore.getState();
-        if(cards_selected.length === 2) setTurnState("transition");
+        if(cards_selected.length === 2){
+            // setTurnState("transition");
+            turnTransition();
+        };
     };
 
     const handle_endDealingAnimation = () => {
@@ -122,10 +123,19 @@ const getNextPlayer = (player) => NEXT_PLAYER_MAP[player] || player;
 
     useEffect(()=>{
         if(gamePhase === "playing" && turnState === "transition"){
-            checkMatch();
+            // checkMatch();
+            // NextTurn();
+            if(cardChecking === "checking"){
+                checkMatch();
+            }else if(cardChecking === "done"){
+                NextTurn();
+            }
         }
+        
 
-    }, [gamePhase, turnState])
+    }, [gamePhase, turnState, cardChecking])
+
+    
     
     return(
 

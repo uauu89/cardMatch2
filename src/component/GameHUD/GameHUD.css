@@ -1,12 +1,7 @@
 .GameHUD{
-
-    /* display: flex; */
-    /* justify-content: space-between; */
     align-items: center;
     display: grid;
-    /* grid-template-columns: 1fr fit-content(100%) 1fr; */
     grid-template-columns: repeat(3, 1fr);
-
 
     padding: 16px 5%;
 
