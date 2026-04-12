@@ -16,39 +16,33 @@ interface GameButtonProps {
 
 const GameButton = ({inputGameMode} : GameButtonProps)=>{
 
-    const { setGameMode, setGamePhase, setTurnState, setCardChecking, applyGameOption, determineFirstPlayer } = useGameStore(useShallow(state => ({
-        setGameMode: state.setGameMode,
+    const { setGamePhase, gameInitialSetup, applyGameOption} = useGameStore(useShallow(state => ({
         setGamePhase: state.setGamePhase,
-        setTurnState: state.setTurnState,
-        setCardChecking: state.setCardChecking,
         applyGameOption: state.applyGameOption,
-        determineFirstPlayer: state.determineFirstPlayer,
+        gameInitialSetup: state.gameInitialSetup,
     })));
 
     const shuffleCards = useCardsStore(state=>state.shuffleCards);
     const clearCards = useCardsStore(state=>state.clearCards);
-
     const clearScore = useScoreStore(state => state.clearScore);
-
     const close_modalSettings = useUIStore(state => state.close_modalSettings);
 
 
     const process_gameStart = async () => {
         close_modalSettings();
+
         clearCards();
         clearScore();
+
         applyGameOption();
-        setGameMode(inputGameMode);
-        setGamePhase("gameStart");
-        setCardChecking("ready");
-        determineFirstPlayer();
+        gameInitialSetup(inputGameMode),
 
         await syncDelay(10);
 
         const {opt_cardNum} = useGameStore.getState();
         shuffleCards(opt_cardNum);
-        setTurnState("transition");
         setGamePhase("dealing");
+        
     }
 
 

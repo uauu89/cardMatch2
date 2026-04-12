@@ -5,28 +5,25 @@ import { useGameStore } from "../../stores/useGameStore";
 
 interface TimerProps{
     duration: number;
-    onTimeOut: () => void;
+    handleTimeOut: () => void;
 }
 
-const Timer = ({duration, onTimeOut}: TimerProps) => {
+const Timer = ({duration, handleTimeOut}: TimerProps) => {
     
     const [timeRemaining, setTimeRemaining] = useState(duration);
-    const turnTransition = useGameStore(state => state.turnTransition);
-    const setTurnState = useGameStore(state => state.setTurnState);
+    const endTurn_timeOut = useGameStore(state => state.endTurn_timeOut);
 
     useEffect(()=>{
         const TimerID = window.setInterval(() => {
             setTimeRemaining(prev => (prev > 0 ? prev - 1 : 0));
         }, 1000);
-
         return () => window.clearInterval(TimerID);            
     }, []);
 
     useEffect(()=>{
         if(timeRemaining === 0) {
-            // setTurnState("transition");
-            onTimeOut();
-            turnTransition();
+            handleTimeOut();
+            endTurn_timeOut();
         }
     }, [timeRemaining])
 

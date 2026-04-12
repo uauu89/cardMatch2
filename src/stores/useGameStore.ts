@@ -3,9 +3,9 @@ import { useOptionStore } from "./useOptionStore";
 
 interface GameProps {
     gameMode: "single" | "vs",
-    gamePhase: "ready" | "gameOver" | "gameStart" | "dealing" | "playing";
-    turnState: "active" | "transition" | "paused";
-    cardChecking: "ready" | "checking" | "done";
+    gamePhase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing";
+    turnState: "ready" | "active" | "transition" | "paused";
+    cardChecking: "ready" | "checking" | "timeout";
     currentPlayer: "single" | "player" | "ai";
     
     opt_cardNum: number;
@@ -18,22 +18,23 @@ interface GameProps {
     };
 
     setGameMode: (mode: "single" | "vs") => void;
-    setGamePhase: (phase: "ready" | "gameOver" | "gameStart" | "dealing" | "playing") => void;
-    setTurnState: (turn: "active" | "transition" | "paused") => void;
-    setCardChecking: (step: "ready" | "checking" | "done") => void;
+    setGamePhase: (phase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing") => void;
+    setTurnState: (turn: "ready" | "active" | "transition" | "paused") => void;
+    setCardChecking: (step: "ready" | "checking" | "timeout") => void;
     setCurrentPlayer: (player: "single" | "player" | "ai") => void;
+    gameInitialSetup: (inputGameMode: "single" | "vs") => void;
     applyGameOption: () => void;
-    turnTransition: () => void;
-    determineFirstPlayer: () => void;
+    endTurn_cardSelect: () => void;
+    endTurn_timeOut: () => void;
     setNextPlayer: () => void;
     
 }
 
 export const useGameStore = create<GameProps>(set=>({
     gameMode: "single",
-    gamePhase: "ready",
-    turnState: "paused",
-    cardChecking: "done",
+    gamePhase: "welcome",
+    turnState: "ready",
+    cardChecking: "ready",
     currentPlayer: "single",
     
     opt_cardNum: 6,
@@ -46,9 +47,9 @@ export const useGameStore = create<GameProps>(set=>({
     },
 
     setGameMode: (mode: "single" | "vs") => set({gameMode: mode}),
-    setGamePhase: (phase: "ready" | "gameOver" | "gameStart" | "dealing" | "playing") => set({gamePhase: phase}),
-    setTurnState: (turn: "active" | "transition" | "paused") => set({turnState: turn}),
-    setCardChecking: (step: "ready" | "checking" | "done") => set({cardChecking: step}),
+    setGamePhase: (phase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing") => set({gamePhase: phase}),
+    setTurnState: (turn: "ready" | "active" | "transition" | "paused") => set({turnState: turn}),
+    setCardChecking: (step: "ready" | "checking" | "timeout") => set({cardChecking: step}),
     setCurrentPlayer: (player: "single" | "player" | "ai") => set({currentPlayer: player}),
 
     applyGameOption: () => {
@@ -66,23 +67,33 @@ export const useGameStore = create<GameProps>(set=>({
 
     },
 
-    turnTransition : () => {
+    gameInitialSetup : (inputGameMode : "single" | "vs") => {
+        const firstPlayer = inputGameMode === "single" ? "single" : "player";
+        set({
+            gameMode: inputGameMode,
+            gamePhase: "gameStart",
+            cardChecking: "ready",
+            currentPlayer: firstPlayer,
+        })
+    },
+
+
+
+    endTurn_cardSelect : () => {
         set({
             turnState: "transition",
             cardChecking: "checking",
         })
     },
 
-    determineFirstPlayer: () => {
-        set(state => {
-            const gameMode = state.gameMode;
-            const firstPlayer = gameMode === "single" ? "single" : "player";
-            return {
-                currentPlayer: firstPlayer
-            }
-
+    endTurn_timeOut: () => {
+        set({
+            turnState: "transition",
+            cardChecking: "timeout",
         })
     },
+
+   
     
     setNextPlayer: () => {
         set(state => {

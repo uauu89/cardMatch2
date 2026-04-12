@@ -15,7 +15,7 @@ export default function GameBoard(){
 
     const cards_value = useCardsStore(state => state.cards_value);
     const cards_opend = useCardsStore(state => state.cards_opend);
-    const cards_memory = useCardsStore(state => state.cards_memory);
+    // const cards_memory = useCardsStore(state => state.cards_memory);
     const cards_owner = useCardsStore(state => state.cards_owner);
 
     const cards_selected = useCardsStore(state => state.cards_selected);
@@ -24,12 +24,14 @@ export default function GameBoard(){
         clearCards,
         // shuffleCards,
         openCards,
+        recordOpenedCards,
         markCardOwner,
         resetOpenedCards
     } = useCardsStore(useShallow(state => ({
         clearCards: state.clearCards,
         // shuffleCards: state.shuffleCards,
         openCards: state.openCards,
+        recordOpenedCards: state.recordOpenedCards,
         markCardOwner: state.markCardOwner,
         resetOpenedCards: state.resetOpenedCards,
     })));
@@ -49,41 +51,33 @@ export default function GameBoard(){
 
     const setGamePhase = useGameStore(state => state.setGamePhase);
     const setTurnState = useGameStore(state => state.setTurnState);
-    const endTurn_cardSelect = useGameStore(state => state.endTurn_cardSelect);
+    const turnTransition = useGameStore(state => state.turnTransition);
     const setCardChecking = useGameStore(state => state.setCardChecking);
     const setNextPlayer = useGameStore(state => state.setNextPlayer);
 
     const gameStarted = ["dealing", "playing"].includes(gamePhase);
 
-    const handle_endDealingAnimation = () => {
-        setGamePhase("playing");
-        if(timer_dealingAnimation.current) clearTimeout(timer_dealingAnimation.current);
-        timer_dealingAnimation.current = window.setTimeout(() => setTurnState("active"), 500);
-    }
-
-    const cardClick = (index: number)=>{
-        openCards(index);
-
-        const {cards_selected,} = useCardsStore.getState();
-        if(cards_selected.length === 2){
-            endTurn_cardSelect();
-        };
-    };
-
     const checkMatch = async (cards_selected: number[]) => {
         // await syncDelay(500);
+        
         const [card1, card2] = cards_selected;
         if(cards_value[card1] === cards_value[card2]){
-            await syncDelay(500);
+            await syncDelay(300);
             caseCorrect(currentPlayer);
         }else{
             caseWrong(currentPlayer);
         }
-        await syncDelay(500);
+        
+        setCardChecking("done");
+
+    }
+    const NextTurn = async () => {
         resetOpenedCards();
         setCardChecking("ready");
         setTurnState("active");
+        // await syncDelay(300);
     }
+
     const caseCorrect = (currentPlayer : "single" | "player" | "ai") => {
         markCardOwner(currentPlayer);
         correctScore(currentPlayer);
@@ -105,15 +99,21 @@ export default function GameBoard(){
         setGamePhase("gameOver");
     }
 
-    const skipTurn = async () => {
-        // await syncDelay(100);
-        resetOpenedCards();
-        await syncDelay(500);
-        setNextPlayer();
-        setCardChecking("ready");
-        setTurnState("active");
-    }
+    const cardClick = (index: number)=>{
+        openCards(index);
+        recordOpenedCards(index);
 
+        const {cards_selected, cards_opend} = useCardsStore.getState();
+        if(cards_selected.length === 2){
+            turnTransition();
+        };
+    };
+
+    const handle_endDealingAnimation = () => {
+        setGamePhase("playing");
+        if(timer_dealingAnimation.current) clearTimeout(timer_dealingAnimation.current);
+        timer_dealingAnimation.current = window.setTimeout(()=>setTurnState("active"), 500);
+    }
 
     const aiProcess = async (
         cards_selected: number[],
@@ -121,46 +121,46 @@ export default function GameBoard(){
         cards_memory : (number | null)[],
         cards_owner: ("single" | "player" | "ai" | null)[]
     ) => {
-        if(cards_selected.length === 0){
-            await syncDelay(500); 
-            const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
-            console.log("com_idx : ", com_idx);
-            cardClick(com_idx);
-        }else if(cards_selected.length === 1){
-            await syncDelay(500); 
-            const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
-            console.log("com_idx : ", com_idx);
-            cardClick(com_idx);
-        }
+        await syncDelay(1000); 
+        const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
+        console.log("com_idx : ", com_idx);
+        cardClick(com_idx);
     }
 
-
-
     useEffect(() => {
+        // const {currentPlayer} = useGameStore.getState();
+        // console.log("useEffect currentPlayer");
+
+        if(currentPlayer !== "ai") return;
+        // console.log("--- useEffect currentPlayer case ai");
+
+        const {cards_selected, cards_opend, cards_memory, cards_owner} = useCardsStore.getState();
+
+        if(cards_selected.length < 2 ){
+            console.log("---ai turn")
+            // aiProcess(cards_selected, cards_opend, cards_memory, cards_owner)
+        }
+
+    }, [currentPlayer, cards_selected])
+
+    useEffect(()=>{
         if(gamePhase !== "playing") return;
+        // console.log("useEffect playing")
+
         if(turnState === "transition"){
             if(cardChecking === "checking"){
                 checkMatch(cards_selected);
-            }
-            if(cardChecking === "timeout"){
-                skipTurn();
+            }else if(cardChecking === "done"){
+                NextTurn();
+                
             }
         }
+        
+
     }, [gamePhase, turnState, cardChecking])
 
-    useEffect(() => {
-        if(gamePhase !== "playing") return;
-        if(currentPlayer !== "ai") return;
-        if(turnState === "active"){
-            const {cards_selected} = useCardsStore.getState();
-            if(cards_selected.length < 2){
-                aiProcess(cards_selected, cards_opend, cards_memory, cards_owner)
-            }
-        }
-
-
-    }, [gamePhase, currentPlayer, turnState, cards_selected])
-
+    
+    
     return(
 
         <div className="gameBoard">

@@ -43,7 +43,7 @@ const GameOver = ()=>{
         aiScore: state.aiScore,
     })));
 
-    if(gamePhase === "ready") {
+    if(gamePhase === "welcome") {
         return (
             <div className="GameOver__bg">
                 <div className="GameOver__window">

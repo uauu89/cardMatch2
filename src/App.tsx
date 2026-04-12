@@ -13,7 +13,7 @@ function App() {
     const gamePhase = useGameStore(state=>state.gamePhase);
     
 
-    const gameOver = ["ready", "gameOver"].includes(gamePhase);
+    const gameOver = ["welcome", "gameOver"].includes(gamePhase);
 
     return (
         <>

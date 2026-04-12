@@ -44,8 +44,8 @@ interface OptionProps{
 }
 
 export const useOptionStore = create<OptionProps>(set => ({
-    opt_cardNum: 2,
-    opt_timerDuration: 20,
+    opt_cardNum: 4,
+    opt_timerDuration: 3,
     opt_timerNoLimit: false,
 
     opt_cardSize: 1,

@@ -35,34 +35,30 @@ import Timer from "./Timer"
 const StatusDisplay = () => {
     const gamePhase = useGameStore(state => state.gamePhase);
     const turnState = useGameStore(state => state.turnState);
+    const currentPlayer = useGameStore(state => state.currentPlayer);
 
     const opt_timerDuration = useGameStore(state => state.opt_timerDuration);
     const opt_timerNoLimit = useGameStore(state => state.opt_timerNoLimit);
 
-    
-
     const [timerOn, setTimerOn] = useState(false);
-
-
-
-    const onTimeOut = useCallback(() => setTimerOn(false), []);
-
+    const handleTimeOut = useCallback(() => setTimerOn(false), []);
     
     useEffect(()=>{
-        if(gamePhase === "playing" && turnState === "active" && !opt_timerNoLimit){
+        if(
+            gamePhase === "playing"
+            && turnState === "active"
+            && currentPlayer !== "ai"
+            && !opt_timerNoLimit
+        ){
             setTimerOn(true);
         }else{
             setTimerOn(false);
         }
-    }, [gamePhase, turnState]);
-
-
-
-    
+    }, [gamePhase, turnState, currentPlayer]);
     
     return (
         <div className="StatusDisplay">
-            { timerOn && <Timer duration={opt_timerDuration} onTimeOut={onTimeOut}/> }
+            { timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/> }
         </div>
     )
 }

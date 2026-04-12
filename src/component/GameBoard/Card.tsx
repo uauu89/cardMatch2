@@ -30,11 +30,6 @@ export default function Card({
     const currentPlayer = useGameStore(state => state.currentPlayer);
     const opt_cardPreview = useGameStore(state=>state.opt_cardPreview);
 
-    // const {setGamePhase, setTurnState} = useGameStore(useShallow(state=>({
-    //     setGamePhase: state.setGamePhase,
-    //     setTurnState: state.setTurnState,
-    // })));
-
     const styleAttr = {
         "--delayParam" : order,
         "--delay_preview" : cardsCount,

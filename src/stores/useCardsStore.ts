@@ -13,7 +13,7 @@ interface CardsProps{
 
     shuffleCards: (cardsRange: number) => void;
     openCards: (index: number) => void;
-    recordOpenedCards: (index: number) => void;
+    // recordOpenedCards: (index: number) => void;
     markCardOwner: (owner: ("single" | "player" | "ai")) => void;
     resetOpenedCards: () => void;
 
@@ -74,17 +74,17 @@ export const useCardsStore = create<CardsProps>()(devtools(set =>({
         })
     },
 
-    recordOpenedCards: (index) => {
-        set(state => {
-            const selectedCardNumber = state.cards_value[index];
-            const copy_memory = [...state.cards_memory];
-            if(copy_memory[index] !== null) copy_memory[index] = selectedCardNumber;
+    // recordOpenedCards: (index) => {
+    //     set(state => {
+    //         const selectedCardNumber = state.cards_value[index];
+    //         const copy_memory = [...state.cards_memory];
+    //         if(copy_memory[index] !== null) copy_memory[index] = selectedCardNumber;
             
-            return {
-                cards_memory: copy_memory
-            }
-        })
-    },
+    //         return {
+    //             cards_memory: copy_memory
+    //         }
+    //     })
+    // },
 
     markCardOwner: (owner)=>{
         set(state => {
