@@ -19,89 +19,79 @@ interface CardsProps{
 
 }
 
-export const useCardsStore = create<CardsProps>()(devtools(set =>({
-
-    cards_value: [],
-    cards_opend: [],
-    cards_memory: [],
-    cards_owner: [],
-    cards_selected: [],
-
-    clearCards: () => {
-
-        set({
+export const useCardsStore = create<CardsProps>()(
+    devtools(
+        set =>({
             cards_value: [],
             cards_opend: [],
             cards_memory: [],
             cards_owner: [],
             cards_selected: [],
-        })
-    },
 
-    shuffleCards : (cardsRange) => {
-        const doubleArray = Array.from({ length: cardsRange }, (_, i) => i + 1)
-                                .flatMap(x=>[x, x]);
+            clearCards: () => {
+                set({
+                    cards_value: [],
+                    cards_opend: [],
+                    cards_memory: [],
+                    cards_owner: [],
+                    cards_selected: [],
+                })
+            },
 
-        for (let i = doubleArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [doubleArray[i], doubleArray[j]] = [doubleArray[j], doubleArray[i]];
-        }
+            shuffleCards : (cardsRange) => {
+                const doubleArray = Array.from({ length: cardsRange }, (_, i) => i + 1)
+                                        .flatMap(x=>[x, x]);
 
-        set({
-            cards_value: doubleArray,
-            cards_opend: new Array(doubleArray.length).fill(false),
-            cards_memory: new Array(doubleArray.length).fill(null),
-            cards_owner: new Array(doubleArray.length).fill(null),
-        })
-    },
+                for (let i = doubleArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [doubleArray[i], doubleArray[j]] = [doubleArray[j], doubleArray[i]];
+                }
 
+                set({
+                    cards_value: doubleArray,
+                    cards_opend: new Array(doubleArray.length).fill(false),
+                    cards_memory: new Array(doubleArray.length).fill(null),
+                    cards_owner: new Array(doubleArray.length).fill(null),
+                })
+            },
 
-    openCards : (index) => {
-        set(state => {
-            const selectedCardNumber = state.cards_value[index];
-            const copy_opend = [...state.cards_opend];
-            copy_opend[index] = true;
+            openCards : (index) => {
+                set(state => {
+                    const selectedCardNumber = state.cards_value[index];
+                    const copy_opend = [...state.cards_opend];
+                    copy_opend[index] = true;
 
-            const copy_memory = [...state.cards_memory];
-            if(copy_memory[index] === null) copy_memory[index] = selectedCardNumber;
+                    const copy_memory = [...state.cards_memory];
+                    if(copy_memory[index] === null) copy_memory[index] = selectedCardNumber;
 
-            const copy_selected = [...state.cards_selected, index];
-            return {
-                cards_opend: copy_opend,
-                cards_memory: copy_memory,
-                cards_selected: copy_selected,
+                    const copy_selected = [...state.cards_selected, index];
+                    return {
+                        cards_opend: copy_opend,
+                        cards_memory: copy_memory,
+                        cards_selected: copy_selected,
+                    }
+                })
+            },
+
+            markCardOwner: (owner)=>{
+                set(state => {
+                    const [card1, card2] = state.cards_selected;
+                    const copy_owner = [...state.cards_owner];
+                    copy_owner[card1] = owner;
+                    copy_owner[card2] = owner;
+
+                    return {cards_owner: copy_owner};
+                })
+            },
+
+            resetOpenedCards: ()=>{
+                set(state => ({
+                    cards_opend: new Array(state.cards_value.length).fill(false),
+                    cards_selected: [],
+                }))
             }
-        })
-    },
+        }),
 
-    // recordOpenedCards: (index) => {
-    //     set(state => {
-    //         const selectedCardNumber = state.cards_value[index];
-    //         const copy_memory = [...state.cards_memory];
-    //         if(copy_memory[index] !== null) copy_memory[index] = selectedCardNumber;
-            
-    //         return {
-    //             cards_memory: copy_memory
-    //         }
-    //     })
-    // },
-
-    markCardOwner: (owner)=>{
-        set(state => {
-            const [card1, card2] = state.cards_selected;
-            const copy_owner = [...state.cards_owner];
-            copy_owner[card1] = owner;
-            copy_owner[card2] = owner;
-
-            return {cards_owner: copy_owner};
-        })
-    },
-
-    resetOpenedCards: ()=>{
-        set(state => ({
-            cards_opend: new Array(state.cards_value.length).fill(false),
-            cards_selected: [],
-        }))
-    }
-
-})))
+        {name: "useCardsStore"}
+    )
+)

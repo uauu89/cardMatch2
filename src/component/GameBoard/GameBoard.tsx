@@ -124,13 +124,17 @@ export default function GameBoard(){
         if(cards_selected.length === 0){
             await syncDelay(500); 
             const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
-            console.log("com_idx : ", com_idx);
+            // await syncDelay(1000); 
+            console.log("### first com_idx : ", com_idx);
             cardClick(com_idx);
+            // console.log("com_idx : ", com_idx);
         }else if(cards_selected.length === 1){
             await syncDelay(500); 
             const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
-            console.log("com_idx : ", com_idx);
+            // await syncDelay(1000); 
+            console.log("### second com_idx : ", com_idx);
             cardClick(com_idx);
+            // console.log("com_idx : ", com_idx);
         }
     }
 
