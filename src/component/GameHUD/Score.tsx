@@ -7,8 +7,8 @@ const Score = ()=>{
     const gameMode = useGameStore(state => state.gameMode);
     const playerScore = useScoreStore(state => state.playerScore);
     const playerCombo = useScoreStore(state => state.playerCombo);
-    const aiScore = useScoreStore(state => state.aiScore);
-    const aiCombo = useScoreStore(state => state.aiCombo);
+    const comScore = useScoreStore(state => state.comScore);
+    const comCombo = useScoreStore(state => state.comCombo);
 
     return(
         <div className="Score">
@@ -18,8 +18,8 @@ const Score = ()=>{
             </div>
             {gameMode === "vs" && (
                 <div className="score__row">
-                    <div className="scoreDisplay__score">컴퓨터 : {aiScore}</div>
-                    <div className="scoreDisplay__combo">콤보 : {aiCombo}</div>
+                    <div className="scoreDisplay__score">컴퓨터 : {comScore}</div>
+                    <div className="scoreDisplay__combo">콤보 : {comCombo}</div>
                 </div>
             )}
         </div>

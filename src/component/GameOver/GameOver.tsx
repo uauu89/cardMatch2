@@ -4,7 +4,7 @@ import { useScoreStore } from "../../stores/useScoreStore";
 import GameButton from "../ui/GameButton";
 import "./GameOver.css"
 
-const getResultMessage = (gameMode: "single" | "vs", playerScore: number, aiScore: number) => {
+const getResultMessage = (gameMode: "single" | "vs", playerScore: number, comScore: number) => {
     if(gameMode === "single"){
         return {
             result: "게임 종료",
@@ -12,23 +12,23 @@ const getResultMessage = (gameMode: "single" | "vs", playerScore: number, aiScor
         }
     }
 
-    if(playerScore > aiScore){
+    if(playerScore > comScore){
         return {
             result: "승리",
-            score: `${playerScore}점 : ${aiScore}점으로 승리했습니다.`
+            score: `${playerScore}점 : ${comScore}점으로 승리했습니다.`
         }
     }
 
-    if(playerScore < aiScore){
+    if(playerScore < comScore){
         return {
             result: "패배",
-            score: `${playerScore}점 : ${aiScore}점으로 패배했습니다.`
+            score: `${playerScore}점 : ${comScore}점으로 패배했습니다.`
         }
     }
     
     return{
         result: "무승부",
-        score: `${playerScore}점 : ${aiScore}점으로 무승부입니다.`
+        score: `${playerScore}점 : ${comScore}점으로 무승부입니다.`
     }
     
 }
@@ -38,9 +38,9 @@ const GameOver = ()=>{
         gamePhase: state.gamePhase,
         gameMode: state.gameMode,
     })));
-    const {playerScore, aiScore} = useScoreStore(useShallow(state => ({
+    const {playerScore, comScore} = useScoreStore(useShallow(state => ({
         playerScore: state.playerScore,
-        aiScore: state.aiScore,
+        comScore: state.comScore,
     })));
 
     if(gamePhase === "welcome") {
@@ -61,7 +61,7 @@ const GameOver = ()=>{
 
     }
   
-    const {result, score} = getResultMessage(gameMode, playerScore, aiScore);
+    const {result, score} = getResultMessage(gameMode, playerScore, comScore);
 
     return (
         <div className="GameOver__bg">

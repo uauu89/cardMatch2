@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useGameStore } from "../../stores/useGameStore";
 import "./StatusDisplay.css"
 import Timer from "./Timer"
+import Spinner from "../../assets/svg/Spinner";
+import ComStatus from "./ComStatus";
 
 /*
     gamePhase가 ready일 때
@@ -47,7 +49,7 @@ const StatusDisplay = () => {
         if(
             gamePhase === "playing"
             && turnState === "active"
-            && currentPlayer !== "ai"
+            && currentPlayer !== "com"
             && !opt_timerNoLimit
         ){
             setTimerOn(true);
@@ -58,7 +60,19 @@ const StatusDisplay = () => {
     
     return (
         <div className="StatusDisplay">
-            { timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/> }
+            {
+                currentPlayer === "com"
+                    ? <ComStatus />
+                    : turnState === "active"
+                        ? <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
+                        : turnState === "transition" && <Spinner />
+                        
+                    // : timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
+
+                    
+            }
+            
+            
         </div>
     )
 }

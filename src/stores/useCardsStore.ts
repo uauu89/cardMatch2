@@ -6,7 +6,7 @@ interface CardsProps{
     cards_value: number[];
     cards_opend: boolean[];
     cards_memory: (number | null)[];
-    cards_owner: ("single" | "player" | "ai" | null)[];
+    cards_owner: ("single" | "player" | "com" | null)[];
     cards_selected: number[];
 
     clearCards: () => void;
@@ -14,7 +14,7 @@ interface CardsProps{
     shuffleCards: (cardsRange: number) => void;
     openCards: (index: number) => void;
     // recordOpenedCards: (index: number) => void;
-    markCardOwner: (owner: ("single" | "player" | "ai")) => void;
+    markCardOwner: (owner: ("single" | "player" | "com")) => void;
     resetOpenedCards: () => void;
 
 }

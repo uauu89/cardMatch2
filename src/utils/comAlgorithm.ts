@@ -37,17 +37,6 @@
 */
 
 
-
-/*
-    cards_value
-    cards_opend
-    cards_memory
-    cards_owner
-    cards_selected
-*/
-    
-
-
 // 미사용
 /*
 const aiCase_pick_matchingSecondCard = (
@@ -63,7 +52,7 @@ const aiCase_pick_matchingSecondCard = (
 }
 const aiCase_pick_knownPair = (
     cards_memory : (number | null)[],
-    cards_owner: ("single" | "player" | "ai" | null)[]
+    cards_owner: ("single" | "player" | "com" | null)[]
 ) => {
     const memoryMap: number[][] = Array.from({length: cards_memory.length / 2 + 1}, () => []);
 
@@ -88,13 +77,13 @@ const aiCase_random_fromUnknownArray = (
         return acc;
     }, []);
 
-    const ai_index = Math.floor(Math.random() * filteredArray.length) ;
-    return filteredArray[ai_index];
+    const com_index = Math.floor(Math.random() * filteredArray.length) ;
+    return filteredArray[com_index];
 }
 const aiCase_random_fromKnownArray = (
     cards_opend: boolean[],
     cards_memory : (number | null)[],
-    cards_owner: ("single" | "player" | "ai" | null)[]
+    cards_owner: ("single" | "player" | "com" | null)[]
 ) => {
     const filteredArray = cards_memory.reduce<number[]>((acc, current, index) => {
         if (current !== null && cards_opend[index] === false, cards_owner[index] === null) {
@@ -103,13 +92,35 @@ const aiCase_random_fromKnownArray = (
         return acc;
     }, []);
 
-    const ai_index = Math.floor(Math.random() * filteredArray.length) ;
-    return filteredArray[ai_index];
+    const com_index = Math.floor(Math.random() * filteredArray.length) ;
+    return filteredArray[com_index];
 }
 */
 // 미사용
 
 
+
+
+/*
+
+com_idx 값을 배열로 전달,
+정답을 아는 카드일 경우 두 개의 idx를 리턴
+
+cardClick을 반복문으로 실행,
+
+com_idx의 개수가 한개일 경우 comAlgorithm을 한번 더 실행
+
+return값으로 알고리즘의 케이스도 같이 전달(실수여부는 제외)한 후 
+checkMatch에서 알고리즘 케이스에 따라 정답 반응 다르게
+
+예) 카드의 정답을 전부 아는 경우 "확신" 상태를 전달 / 실수 발생해서 잘못된 idx 값 전달
+    - 확신 상태에서 정답 > 당연/당당 등의 이모지 출력
+    - 확신 상태에서 오답 > 놀람(부정 의미)/당황등의 이모지 출력
+
+    카드의 정답을 모르는 경우 "고민" 상태를 전달
+    - 고민 상태에서 정답 > 놀람(긍정 의미)/신남 등의 이모지 출력
+    - 고민 상태에서 오답 > 아쉬움(감정표현이 크지 않은) 등의 이모지 출력
+*/
 
 const dice = () => {
     return Math.floor(Math.random() * 100);
@@ -120,7 +131,7 @@ const mistakeChance = 10;
 
 const pickRandom_completely = (
     cards_opend: boolean[],
-    cards_owner: ("single" | "player" | "ai" | null)[]
+    cards_owner: ("single" | "player" | "com" | null)[]
 ) => {
     const filteredArray = cards_opend.reduce<number[]>((acc, isOpen, index) => {
         if (!isOpen && cards_owner[index] === null) {
@@ -129,8 +140,8 @@ const pickRandom_completely = (
         return acc;
     }, []);
 
-    const ai_index = Math.floor(Math.random() * filteredArray.length) ;
-    return filteredArray[ai_index];
+    const com_index = Math.floor(Math.random() * filteredArray.length) ;
+    return filteredArray[com_index];
 }
 
 
@@ -150,7 +161,7 @@ const getIndex_matchingSecondCard = (
 
 const getArray_knownPairIndex = (
     cards_memory : (number | null)[],
-    cards_owner: ("single" | "player" | "ai" | null)[]
+    cards_owner: ("single" | "player" | "com" | null)[]
 ) => {
     const result: number[][] = Array.from({length: cards_memory.length / 2 + 1}, () => []);
 
@@ -176,7 +187,7 @@ const getArray_knownPairIndex = (
 
     return null;
 }
-const getArray_revealAndHIddenCardsIndex = (cards_memory : (number | null)[], cards_opend: boolean[], cards_owner: ("single" | "player" | "ai" | null)[]) => {
+const getArray_revealAndHIddenCardsIndex = (cards_memory : (number | null)[], cards_opend: boolean[], cards_owner: ("single" | "player" | "com" | null)[]) => {
     const reveal:number[] = [];
     const hidden:number[] = [];
     
@@ -203,11 +214,11 @@ const pickRandom_targetArray = (targetArray : number[]) => {
     return targetArray[randomIndex];
 }
 
-export const aiAlgorithm = (
+export const comAlgorithm = (
     cards_selected: number[],
     cards_opend: boolean[],
     cards_memory : (number | null)[],
-    cards_owner: ("single" | "player" | "ai" | null)[]
+    cards_owner: ("single" | "player" | "com" | null)[]
 ) => {
     
     const firstCardIndex = cards_selected[0] === undefined ? null : cards_selected[0];

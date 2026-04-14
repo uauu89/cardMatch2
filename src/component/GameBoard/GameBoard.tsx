@@ -7,7 +7,7 @@ import { useShallow } from "zustand/shallow";
 import { useGameStore } from "../../stores/useGameStore";
 import { syncDelay } from "../../utils";
 import { useScoreStore } from "../../stores/useScoreStore";
-import { aiAlgorithm } from "../../utils/aiAlgorithm";
+import { comAlgorithm } from "../../utils/comAlgorithm";
 
 export default function GameBoard(){
 
@@ -49,7 +49,7 @@ export default function GameBoard(){
 
     const setGamePhase = useGameStore(state => state.setGamePhase);
     const setTurnState = useGameStore(state => state.setTurnState);
-    const endTurn_cardSelect = useGameStore(state => state.endTurn_cardSelect);
+    const endTurn_doneCardSelect = useGameStore(state => state.endTurn_doneCardSelect);
     const setCardChecking = useGameStore(state => state.setCardChecking);
     const setNextPlayer = useGameStore(state => state.setNextPlayer);
 
@@ -63,15 +63,15 @@ export default function GameBoard(){
 
     const cardClick = (index: number)=>{
         openCards(index);
-
         const {cards_selected,} = useCardsStore.getState();
         if(cards_selected.length === 2){
-            endTurn_cardSelect();
+
+            endTurn_doneCardSelect();
         };
     };
 
     const checkMatch = async (cards_selected: number[]) => {
-        // await syncDelay(500);
+        await syncDelay(500);
         const [card1, card2] = cards_selected;
         if(cards_value[card1] === cards_value[card2]){
             await syncDelay(500);
@@ -84,7 +84,7 @@ export default function GameBoard(){
         setCardChecking("ready");
         setTurnState("active");
     }
-    const caseCorrect = (currentPlayer : "single" | "player" | "ai") => {
+    const caseCorrect = (currentPlayer : "single" | "player" | "com") => {
         markCardOwner(currentPlayer);
         correctScore(currentPlayer);
         const {cards_owner,} = useCardsStore.getState();
@@ -96,7 +96,7 @@ export default function GameBoard(){
             setNextPlayer();
         }
     }
-    const caseWrong = (currentPlayer : "single" | "player" | "ai") => {
+    const caseWrong = (currentPlayer : "single" | "player" | "com") => {
         wrongScore(currentPlayer);
         setNextPlayer();
     }
@@ -107,30 +107,32 @@ export default function GameBoard(){
 
     const skipTurn = async () => {
         // await syncDelay(100);
+        console.log("skipTurn before sync");
         resetOpenedCards();
-        await syncDelay(500);
+        await syncDelay(700);
+        console.log("skipTurn after sync");
         setNextPlayer();
         setCardChecking("ready");
         setTurnState("active");
     }
 
 
-    const aiProcess = async (
+    const comProcess = async (
         cards_selected: number[],
         cards_opend: boolean[],
         cards_memory : (number | null)[],
-        cards_owner: ("single" | "player" | "ai" | null)[]
+        cards_owner: ("single" | "player" | "com" | null)[]
     ) => {
         if(cards_selected.length === 0){
             await syncDelay(500); 
-            const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
+            const com_idx = comAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
             // await syncDelay(1000); 
             console.log("### first com_idx : ", com_idx);
             cardClick(com_idx);
             // console.log("com_idx : ", com_idx);
         }else if(cards_selected.length === 1){
             await syncDelay(500); 
-            const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
+            const com_idx = comAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
             // await syncDelay(1000); 
             console.log("### second com_idx : ", com_idx);
             cardClick(com_idx);
@@ -154,11 +156,11 @@ export default function GameBoard(){
 
     useEffect(() => {
         if(gamePhase !== "playing") return;
-        if(currentPlayer !== "ai") return;
+        if(currentPlayer !== "com") return;
         if(turnState === "active"){
             const {cards_selected} = useCardsStore.getState();
             if(cards_selected.length < 2){
-                aiProcess(cards_selected, cards_opend, cards_memory, cards_owner)
+                comProcess(cards_selected, cards_opend, cards_memory, cards_owner)
             }
         }
 

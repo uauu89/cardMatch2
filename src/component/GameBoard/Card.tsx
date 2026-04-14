@@ -6,7 +6,7 @@ interface CardProps {
     cardNumber: number;
     cardsCount: number;
     opend: boolean;
-    owner: "single" | "player" | "ai" | null;
+    owner: "single" | "player" | "com" | null;
     isLastCard: boolean;
     handler_animationEnd: () => void;
     handler_click: () => void;
@@ -57,7 +57,7 @@ export default function Card({
             style={styleAttr}
             onAnimationEnd={handleAnimationEnd}
             onClick={()=>{
-                if(gamePhase === "playing" && turnState === "active" && currentPlayer !== "ai" && !opend){
+                if(gamePhase === "playing" && turnState === "active" && currentPlayer !== "com" && !opend){
                     handler_click();
                 }
             }}

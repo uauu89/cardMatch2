@@ -7,7 +7,7 @@ import { useShallow } from "zustand/shallow";
 import { useGameStore } from "../../stores/useGameStore";
 import { syncDelay } from "../../utils";
 import { useScoreStore } from "../../stores/useScoreStore";
-import { aiAlgorithm } from "../../utils/aiAlgorithm";
+import { comAlgorithm } from "../../utils/comAlgorithm";
 
 export default function GameBoard(){
 
@@ -78,7 +78,7 @@ export default function GameBoard(){
         // await syncDelay(300);
     }
 
-    const caseCorrect = (currentPlayer : "single" | "player" | "ai") => {
+    const caseCorrect = (currentPlayer : "single" | "player" | "com") => {
         markCardOwner(currentPlayer);
         correctScore(currentPlayer);
         const {cards_owner,} = useCardsStore.getState();
@@ -90,7 +90,7 @@ export default function GameBoard(){
             setNextPlayer();
         }
     }
-    const caseWrong = (currentPlayer : "single" | "player" | "ai") => {
+    const caseWrong = (currentPlayer : "single" | "player" | "com") => {
         wrongScore(currentPlayer);
         setNextPlayer();
     }
@@ -119,7 +119,7 @@ export default function GameBoard(){
         cards_selected: number[],
         cards_opend: boolean[],
         cards_memory : (number | null)[],
-        cards_owner: ("single" | "player" | "ai" | null)[]
+        cards_owner: ("single" | "player" | "com" | null)[]
     ) => {
         await syncDelay(1000); 
         const com_idx = aiAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
@@ -131,7 +131,7 @@ export default function GameBoard(){
         // const {currentPlayer} = useGameStore.getState();
         // console.log("useEffect currentPlayer");
 
-        if(currentPlayer !== "ai") return;
+        if(currentPlayer !== "com") return;
         // console.log("--- useEffect currentPlayer case ai");
 
         const {cards_selected, cards_opend, cards_memory, cards_owner} = useCardsStore.getState();
