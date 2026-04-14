@@ -30,6 +30,8 @@ const GameButton = ({inputGameMode} : GameButtonProps)=>{
 
     const process_gameStart = async () => {
         close_modalSettings();
+        await syncDelay(10);
+        // setGamePhase("gameOver");
 
         clearCards();
         clearScore();

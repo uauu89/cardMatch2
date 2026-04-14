@@ -5,7 +5,7 @@ import "./gameBoard.css"
 import { useCardsStore } from "../../stores/useCardsStore";
 import { useShallow } from "zustand/shallow";
 import { useGameStore } from "../../stores/useGameStore";
-import { syncDelay } from "../../utils";
+import { checkGameVersion, syncDelay } from "../../utils";
 import { useScoreStore } from "../../stores/useScoreStore";
 import { comAlgorithm } from "../../utils/comAlgorithm";
 
@@ -63,24 +63,25 @@ export default function GameBoard(){
 
     const cardClick = (index: number)=>{
         openCards(index);
+
         const {cards_selected,} = useCardsStore.getState();
         if(cards_selected.length === 2){
-
             endTurn_doneCardSelect();
+            checkMatch(cards_selected);
         };
     };
 
     const checkMatch = async (cards_selected: number[]) => {
-        await syncDelay(500);
+        const {gameVersion} = useGameStore.getState();
+        await syncDelay(500); if(checkGameVersion(gameVersion)) return;
         const [card1, card2] = cards_selected;
         if(cards_value[card1] === cards_value[card2]){
-            await syncDelay(500);
             caseCorrect(currentPlayer);
         }else{
             caseWrong(currentPlayer);
         }
-        await syncDelay(500);
         resetOpenedCards();
+        await syncDelay(500); if(checkGameVersion(gameVersion)) return;
         setCardChecking("ready");
         setTurnState("active");
     }
@@ -105,16 +106,14 @@ export default function GameBoard(){
         setGamePhase("gameOver");
     }
 
-    const skipTurn = async () => {
-        // await syncDelay(100);
-        console.log("skipTurn before sync");
-        resetOpenedCards();
-        await syncDelay(700);
-        console.log("skipTurn after sync");
-        setNextPlayer();
-        setCardChecking("ready");
-        setTurnState("active");
-    }
+    // const skipTurn = async () => {
+    //     // await syncDelay(100);
+    //     resetOpenedCards();
+    //     await syncDelay(700);
+    //     setNextPlayer();
+    //     setCardChecking("ready");
+    //     setTurnState("active");
+    // }
 
 
     const comProcess = async (
@@ -146,10 +145,10 @@ export default function GameBoard(){
         if(gamePhase !== "playing") return;
         if(turnState === "transition"){
             if(cardChecking === "checking"){
-                checkMatch(cards_selected);
+                // checkMatch(cards_selected);
             }
             if(cardChecking === "timeout"){
-                skipTurn();
+                // skipTurn();
             }
         }
     }, [gamePhase, turnState, cardChecking])

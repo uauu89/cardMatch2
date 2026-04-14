@@ -3,6 +3,7 @@ import { useOptionStore } from "./useOptionStore";
 import { devtools } from "zustand/middleware";
 
 interface GameProps {
+    gameVersion : number;
     gameMode: "single" | "vs",
     gamePhase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing";
     turnState: "ready" | "active" | "transition" | "paused";
@@ -23,11 +24,14 @@ interface GameProps {
 
 
 
+    
+    
     setGameMode: (mode: "single" | "vs") => void;
     setGamePhase: (phase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing") => void;
     setTurnState: (turn: "ready" | "active" | "transition" | "paused") => void;
     setCardChecking: (step: "ready" | "checking" | "timeout") => void;
     setCurrentPlayer: (player: "single" | "player" | "com") => void;
+
     gameInitialSetup: (inputGameMode: "single" | "vs") => void;
     applyGameOption: () => void;
     endTurn_doneCardSelect: () => void;
@@ -39,6 +43,7 @@ interface GameProps {
 export const useGameStore = create<GameProps>()(
     devtools(
         set => ({
+            gameVersion: 0,
             gameMode: "single",
             gamePhase: "welcome",
             turnState: "ready",
@@ -62,7 +67,7 @@ export const useGameStore = create<GameProps>()(
             setTurnState: (turn: "ready" | "active" | "transition" | "paused") => set({turnState: turn}),
             setCardChecking: (step: "ready" | "checking" | "timeout") => set({cardChecking: step}),
             setCurrentPlayer: (player: "single" | "player" | "com") => set({currentPlayer: player}),
-
+            
             applyGameOption: () => {
                 const options = useOptionStore.getState();
                 set({
@@ -80,13 +85,15 @@ export const useGameStore = create<GameProps>()(
 
             gameInitialSetup : (inputGameMode : "single" | "vs") => {
                 const firstPlayer = inputGameMode === "single" ? "single" : "player";
-                set({
+                set(state => ({
+                    gameVersion: state.gameVersion + 1,
                     gameMode: inputGameMode,
                     gamePhase: "gameStart",
+                    turnState: "ready",
                     comState: "default",
                     cardChecking: "ready",
                     currentPlayer: firstPlayer,
-                })
+                }))
             },
 
             endTurn_doneCardSelect : () => {
