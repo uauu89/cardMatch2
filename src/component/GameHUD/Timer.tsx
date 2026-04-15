@@ -17,7 +17,6 @@ const Timer = ({duration, handleTimeOut}: TimerProps) => {
     const setNextPlayer = useGameStore(state => state.setNextPlayer);
 
     const resetOpenedCards= useCardsStore(state => state.resetOpenedCards);
-    const setCardChecking = useGameStore(state => state.setCardChecking);
     const setTurnState = useGameStore(state => state.setTurnState);
 
     const skipTurn = async () => {
@@ -30,7 +29,6 @@ const Timer = ({duration, handleTimeOut}: TimerProps) => {
         if(checkGameVersion(gameVersion)) return;
 
         setNextPlayer();
-        setCardChecking("ready");
         setTurnState("active");
     }
 

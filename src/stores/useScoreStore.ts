@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import type { Type_currentPlayer } from "../types/game";
 
 interface scoreProps{
     playerCombo: number;
@@ -11,8 +12,8 @@ interface scoreProps{
     setComCombo: (num: number) => void;
     setComScore: (num: number) => void;
 
-    correctScore: (targetPlayer: "single" | "player" | "com") => void;
-    wrongScore: (targetPlayer: "single" | "player" | "com") => void;
+    correctScore: (targetPlayer: Type_currentPlayer) => void;
+    wrongScore: (targetPlayer: Type_currentPlayer) => void;
 
     clearScore: () => void;
 }

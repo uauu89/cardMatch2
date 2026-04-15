@@ -1,16 +1,16 @@
 import { create } from "zustand";
 import { useOptionStore } from "./useOptionStore";
 import { devtools } from "zustand/middleware";
+import type { Type_ComState, Type_currentPlayer, Type_GamePhase, Type_turnState } from "../types/game";
 
 interface GameProps {
     gameVersion : number;
     gameMode: "single" | "vs",
-    gamePhase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing";
-    turnState: "ready" | "active" | "transition" | "paused";
-    cardChecking: "ready" | "checking" | "timeout";
-    currentPlayer: "single" | "player" | "com";
+    gamePhase: Type_GamePhase
+    turnState: Type_turnState;
+    currentPlayer: Type_currentPlayer;
 
-    comState: "default" | "skip";
+    comState: Type_ComState;
     opt_skipComState : boolean;
     
     opt_cardNum: number;
@@ -27,11 +27,11 @@ interface GameProps {
     
     
     setGameMode: (mode: "single" | "vs") => void;
-    setGamePhase: (phase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing") => void;
-    setTurnState: (turn: "ready" | "active" | "transition" | "paused") => void;
-    setCardChecking: (step: "ready" | "checking" | "timeout") => void;
-    setCurrentPlayer: (player: "single" | "player" | "com") => void;
+    setGamePhase: (phase: Type_GamePhase) => void;
+    setTurnState: (turn: Type_turnState) => void;
+    setCurrentPlayer: (player: Type_currentPlayer) => void;
 
+    setComState: (state : Type_ComState) => void;
     gameInitialSetup: (inputGameMode: "single" | "vs") => void;
     applyGameOption: () => void;
     endTurn_doneCardSelect: () => void;
@@ -47,7 +47,6 @@ export const useGameStore = create<GameProps>()(
             gameMode: "single",
             gamePhase: "welcome",
             turnState: "ready",
-            cardChecking: "ready",
             currentPlayer: "single",
             comState: "default",
 
@@ -62,12 +61,11 @@ export const useGameStore = create<GameProps>()(
                 remains: 10,
             },
             
-            setGameMode: (mode: "single" | "vs") => set({gameMode: mode}),
-            setGamePhase: (phase: "welcome" | "gameOver" | "gameStart" | "dealing" | "playing") => set({gamePhase: phase}),
-            setTurnState: (turn: "ready" | "active" | "transition" | "paused") => set({turnState: turn}),
-            setCardChecking: (step: "ready" | "checking" | "timeout") => set({cardChecking: step}),
-            setCurrentPlayer: (player: "single" | "player" | "com") => set({currentPlayer: player}),
-            
+            setGameMode: (mode) => set({gameMode: mode}),
+            setGamePhase: (phase) => set({gamePhase: phase}),
+            setTurnState: (turn) => set({turnState: turn}),
+            setCurrentPlayer: (player) => set({currentPlayer: player}),
+            setComState: (state) => set({comState: state}),
             applyGameOption: () => {
                 const options = useOptionStore.getState();
                 set({
@@ -75,6 +73,7 @@ export const useGameStore = create<GameProps>()(
                     opt_timerDuration: Number(options.opt_timerDuration),
                     opt_timerNoLimit: options.opt_timerNoLimit,
                     opt_cardPreview: options.opt_cardPreview,
+                    opt_skipComState: options.opt_skipComState,
                     opt_continueTurn: options.opt_continueTurn,
                     difficultyDetails: {
                         remains: Number(options.difficultyDetails.remains),
@@ -91,7 +90,6 @@ export const useGameStore = create<GameProps>()(
                     gamePhase: "gameStart",
                     turnState: "ready",
                     comState: "default",
-                    cardChecking: "ready",
                     currentPlayer: firstPlayer,
                 }))
             },
@@ -99,27 +97,30 @@ export const useGameStore = create<GameProps>()(
             endTurn_doneCardSelect : () => {
                 set({
                     turnState: "transition",
-                    cardChecking: "checking",
                 })
             },
 
             endTurn_timeOut: () => {
                 set({
                     turnState: "transition",
-                    cardChecking: "timeout",
                 })
             },
             
             setNextPlayer: () => {
                 set(state => {
-                    type Player = "single" | "player" | "com";
-                    const nextPlayerMap: Record<Player, Player> = {
+                    const nextPlayerMap: Record<Type_currentPlayer, Type_currentPlayer> = {
                         single: "single",
                         player: "com",
                         com: "player"
                     };
                     const currentPlayer = state.currentPlayer;
+                    const resetComState = nextPlayerMap[currentPlayer] === "com"
+                        ? state.opt_skipComState
+                            ? "noEmotion"
+                            : "default"
+                        : state.comState
                     return {
+                        comState: resetComState,
                         currentPlayer: nextPlayerMap[currentPlayer]
                     }
                 })

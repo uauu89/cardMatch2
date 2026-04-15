@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Settings.css"
+
 import InputRadio from "../ui/InputRadio";
 import InputCheck from "../ui/InputCheck";
 import InputRange from "../ui/InputRange";
@@ -10,6 +11,27 @@ import IconXmark from "../../assets/icons/IconXmark";
 import IconCaretDown from "../../assets/icons/IconCaretDown";
 import { useOptionStore } from "../../stores/useOptionStore";
 import { useUIStore } from "../../stores/useUIStore";
+
+/*
+    짝이 맞는 두 장의 카드 위치를 아는 경우, 정답을 선택할 확률
+    > 이미 알고 있는 한 쌍을 선택할 확률
+
+    고른 카드의 짝을 아는 경우, 정답을 선택할 확률
+    > 뒤집은 카드의 짝을 기억할 확률
+
+    정답을 모르는 경우, 선택한 적이 없는 카드를 선택할 확률
+    > 새로운 카드를 탐색할 확률
+
+    정답을 모르는 경우, 선택한 적이 있는 카드를 다시 선택할 확률
+    > 선택한 적이 있는 카드를 다시 선택할 확률
+
+    선택한 적이 있는 카드를 다시 선택하기 위한 열어본 카드의 비율
+    > 기존 노출 카드의 재선택 임계치
+
+    의도와 다른 선택을 하는 실수를 할 확률
+    >실수가 발생할 확률
+*/
+
 
 const Settings = ()=>{
 
@@ -40,18 +62,16 @@ const Settings = ()=>{
     const opt_difficulty = useOptionStore(state => state.opt_difficulty);
     const setOpt_difficulty = useOptionStore(state => state.setOpt_difficulty);
 
+    const opt_skipComState = useOptionStore(state => state.opt_skipComState);
+    const setOpt_skipComState = useOptionStore(state => state.setOpt_skipComState);
+
     const opt_continueTurn = useOptionStore(state => state.opt_continueTurn);
     const setOpt_continueTurn = useOptionStore(state => state.setOpt_continueTurn);
 
     const difficultyDetails = useOptionStore(state => state.difficultyDetails);
     const setDifficulty_update = useOptionStore(state => state.setDifficulty_update);
 
-
-
     // setDifficultyConfigPartial({ mistakeProbability: 0.3 });
-
-
-
 
     return (
         <div className="settings_container">
@@ -170,6 +190,14 @@ const Settings = ()=>{
                 <section className="sub">
                     <h3>대전 옵션</h3>
 
+                    <div className="settings_item">
+                        <InputCheck 
+                            checked={opt_skipComState}
+                            checkHandler={setOpt_skipComState}
+                        >
+                            컴퓨터 감정 표시 생략
+                        </InputCheck>
+                    </div>
                     <div className="settings_item">
                         <InputCheck 
                             checked={opt_continueTurn}

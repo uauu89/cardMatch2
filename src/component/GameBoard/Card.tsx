@@ -1,12 +1,13 @@
 import "./Card.css"
 import { useGameStore } from "../../stores/useGameStore";
+import type { Type_currentPlayer } from "../../types/game";
 
 interface CardProps {
     order: number;
     cardNumber: number;
     cardsCount: number;
     opend: boolean;
-    owner: "single" | "player" | "com" | null;
+    owner: Type_currentPlayer | null;
     isLastCard: boolean;
     handler_animationEnd: () => void;
     handler_click: () => void;
@@ -29,10 +30,10 @@ export default function Card({
     const turnState = useGameStore(state => state.turnState);
     const currentPlayer = useGameStore(state => state.currentPlayer);
     const opt_cardPreview = useGameStore(state=>state.opt_cardPreview);
-
+    
     const styleAttr = {
         "--delayParam" : order,
-        "--delay_preview" : cardsCount,
+        "--delay_preview" : cardsCount
     } as React.CSSProperties;
 
     const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>)=>{

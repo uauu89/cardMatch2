@@ -1,20 +1,20 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import type { Type_currentPlayer } from "../types/game";
 
 interface CardsProps{
 
     cards_value: number[];
     cards_opend: boolean[];
     cards_memory: (number | null)[];
-    cards_owner: ("single" | "player" | "com" | null)[];
+    cards_owner: (Type_currentPlayer | null)[];
     cards_selected: number[];
 
     clearCards: () => void;
 
     shuffleCards: (cardsRange: number) => void;
     openCards: (index: number) => void;
-    // recordOpenedCards: (index: number) => void;
-    markCardOwner: (owner: ("single" | "player" | "com")) => void;
+    markCardOwner: (owner: (Type_currentPlayer)) => void;
     resetOpenedCards: () => void;
 
 }

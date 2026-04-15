@@ -1,5 +1,16 @@
 .gameBoard{
 
+    --cardSize_ratio : 1;
+    
+    --cardSize_width: calc(120px * var(--cardSize_ratio));
+    --cardSize_height: calc(180px * var(--cardSize_ratio));
+
+    --cardSize_decoBorderWidth: calc(var(--cardSize_width) * 0.25);
+    --cardSize_decoBorderHeight: calc(var(--cardSize_height) * 0.25);
+
+    --cardSize_decoWidth: calc(var(--cardSize_decoBorderWidth) - 2px);
+    --cardSize_decoHeight: calc(var(--cardSize_decoBorderHeight) - 4px);
+
     width: 90%;
     margin: 200px auto 0;
     border: 1px solid #ccc;
@@ -9,6 +20,8 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+
+    
 }
 
 
