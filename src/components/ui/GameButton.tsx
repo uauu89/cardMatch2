@@ -1,11 +1,14 @@
 import { useShallow } from "zustand/shallow";
-import IconRoateRight from "../../assets/icons/IconRoateRight";
+
+import { useCardsStore } from "@stores/useCardsStore";
+import { useGameStore } from "@stores/useGameStore";
+import { useScoreStore } from "@stores/useScoreStore";
+import { useUIStore } from "@stores/useUIStore";
+
+import { syncDelay } from "@utils/index";
+
 import "./GameButton.css"
-import { useGameStore } from "../../stores/useGameStore";
-import { useCardsStore } from "../../stores/useCardsStore";
-import { syncDelay } from "../../utils";
-import { useScoreStore } from "../../stores/useScoreStore";
-import { useUIStore } from "../../stores/useUIStore";
+import IconRoateRight from "@icons/IconRoateRight";
 
 
 interface GameButtonProps {

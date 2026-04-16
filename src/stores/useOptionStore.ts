@@ -3,7 +3,12 @@ import { create } from "zustand";
 type NumberValue = number | "";
 
 type DifficultyConfig = {
-  remains: NumberValue;
+    opt_pairIndices: NumberValue;
+    opt_pairSecondIndex: NumberValue;
+    opt_unknownIndices: NumberValue;
+    opt_knownIndices: NumberValue;
+    opt_remainRatio: NumberValue;
+    opt_mistake: NumberValue;
 };
 
 interface OptionProps{
@@ -21,11 +26,16 @@ interface OptionProps{
     // 대전 옵션
     opt_skipComState: boolean;
     opt_continueTurn: boolean;
-    opt_difficulty: number;
+    opt_difficultyLevel: number;
 
     // ditails : number;
     difficultyDetails : {
-        remains : NumberValue,
+        opt_pairIndices: NumberValue,
+        opt_pairSecondIndex: NumberValue,
+        opt_unknownIndices: NumberValue,
+        opt_knownIndices: NumberValue,
+        opt_remainRatio: NumberValue,
+        opt_mistake: NumberValue,
     }
 
 
@@ -40,9 +50,9 @@ interface OptionProps{
 
     setOpt_skipComState: () => void;
     setOpt_continueTurn: () => void;
-    setOpt_difficulty: (num: number) => void;
 
     setDifficulty_update: (config: Partial<DifficultyConfig>) => void;
+    updateDifficultyLevel: (level: number) => void;
 }
 
 export const useOptionStore = create<OptionProps>(set => ({
@@ -57,10 +67,15 @@ export const useOptionStore = create<OptionProps>(set => ({
 
     opt_skipComState: false,
     opt_continueTurn: false,
-    opt_difficulty: 3,
+    opt_difficultyLevel: 3,
 
     difficultyDetails: {
-        remains: 10,
+        opt_pairIndices: 80,
+        opt_pairSecondIndex: 80,
+        opt_unknownIndices: 80,
+        opt_knownIndices: 30,
+        opt_remainRatio: 10,
+        opt_mistake: 30,
     },
 
     setOpt_cardNum: (num)=>set({opt_cardNum: num}),
@@ -77,12 +92,53 @@ export const useOptionStore = create<OptionProps>(set => ({
 
     setOpt_skipComState : () => set(state => ({opt_skipComState : !state.opt_skipComState})),
     setOpt_continueTurn : () => set(state => ({opt_continueTurn : !state.opt_continueTurn})),
-    setOpt_difficulty: (num)=>set({opt_difficulty: num}),
 
     setDifficulty_update: (config) => set(state => ({
         difficultyDetails: {
             ...state.difficultyDetails,
             ...config,
         }
-    }))
+    })),
+
+    updateDifficultyLevel: (level) => set(state => {
+        
+        const difficultyMap = [
+            {
+                opt_pairIndices: 70,
+                opt_pairSecondIndex: 70,
+                opt_unknownIndices: 80,
+                opt_knownIndices: 0,
+                opt_remainRatio: 0,
+                opt_mistake: 60,
+            }, {
+                opt_pairIndices: 80,
+                opt_pairSecondIndex: 80,
+                opt_unknownIndices: 80,
+                opt_knownIndices: 10,
+                opt_remainRatio: 0,
+                opt_mistake: 40,
+            }, {
+                opt_pairIndices: 80,
+                opt_pairSecondIndex: 80,
+                opt_unknownIndices: 80,
+                opt_knownIndices: 30,
+                opt_remainRatio: 10,
+                opt_mistake: 30,
+            }, {
+                opt_pairIndices: 95,
+                opt_pairSecondIndex: 95,
+                opt_unknownIndices: 90,
+                opt_knownIndices: 70,
+                opt_remainRatio: 20,
+                opt_mistake: 10,
+            }   
+        ]
+
+        return {
+            opt_difficultyLevel: level,
+            difficultyDetails: difficultyMap[level - 1]
+        }
+            
+        
+    })
 }))

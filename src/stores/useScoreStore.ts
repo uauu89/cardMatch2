@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Type_currentPlayer } from "../types/game";
+import type { Type_currentPlayer } from "@customTypes/game";
 
 interface scoreProps{
     playerCombo: number;

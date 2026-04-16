@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { Type_currentPlayer } from "../types/game";
+import type { Type_currentPlayer } from "@customTypes/game";
 
 interface CardsProps{
 

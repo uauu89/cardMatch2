@@ -1,13 +1,14 @@
-import GameHUD from './component/GameHUD/GameHUD';
-import GameBoard from './component/GameBoard/GameBoard';
-import Settings from './component/Settings/Settings';
-import GameOver from './component/GameOver/GameOver';
+import { useGameStore } from '@stores/useGameStore';
 
-import "./CSS/fonts.css";
-import "./CSS/variant.css";
-import "./CSS/common.css";
-import "./CSS/utility.css";
-import { useGameStore } from './stores/useGameStore';
+import GameHUD from '@components/GameHUD/GameHUD';
+import GameBoard from '@components/GameBoard/GameBoard';
+import Settings from '@components/Settings/Settings';
+import GameOver from '@components/GameOver/GameOver';
+
+import "@css/fonts.css";
+import "@css/variant.css";
+import "@css/common.css";
+import "@css/utility.css";
 
 function App() {
     const gamePhase = useGameStore(state=>state.gamePhase);

@@ -1,15 +1,20 @@
 import { useEffect, useRef} from "react";
+import { useShallow } from "zustand/shallow";
 
 import Card from "./Card";
+
+import { useCardsStore } from "@stores/useCardsStore";
+import { useGameStore } from "@stores/useGameStore";
+import { useOptionStore } from "@stores/useOptionStore";
+import { useScoreStore } from "@stores/useScoreStore";
+
+import { checkGameVersion, getDelayByState, syncDelay } from "@utils/index";
+import { comAlgorithm } from "@utils/comAlgorithm";
+
+import type { Type_ComState, Type_currentPlayer } from "@customTypes/game";
+
 import "./gameBoard.css"
-import { useCardsStore } from "../../stores/useCardsStore";
-import { useShallow } from "zustand/shallow";
-import { useGameStore } from "../../stores/useGameStore";
-import { checkGameVersion, getDelayByState, syncDelay } from "../../utils";
-import { useScoreStore } from "../../stores/useScoreStore";
-import { comAlgorithm } from "../../utils/comAlgorithm";
-import type { Type_ComState, Type_currentPlayer } from "../../types/game";
-import { useOptionStore } from "../../stores/useOptionStore";
+
 
 export default function GameBoard(){
 
@@ -120,18 +125,19 @@ export default function GameBoard(){
     }
     const caseGameOver = async () => {
         clearCards();
-        
         setGamePhase("gameOver");
     }
 
     const comStateCaseCorrect = (comState: Type_ComState) => {
         switch(comState){
+            case "noEmotion" : 
+                return "noEmotion";
             case "knowCorrect" : 
                 return "correct";
             case "thinking" : 
-                return "correct";
-            case "noEmotion" : 
-                return "noEmotion";
+                return "lucky";
+            case "tricky" : 
+                return "confusion";
             default :
                 return "default";
         }
@@ -144,6 +150,8 @@ export default function GameBoard(){
                 return "wrong";
             case "noEmotion" : 
                 return "noEmotion";
+            case "tricky" : 
+                return "tease";
             default :
                 return "default";
         }
@@ -168,7 +176,6 @@ export default function GameBoard(){
             await comProcess(); 
         }
     }
-
 
     const styleAttr = {
         "--cardSize_ratio" : opt_cardSize,

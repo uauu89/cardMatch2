@@ -1,6 +1,6 @@
+import { useGameStore } from "@stores/useGameStore";
+import type { Type_currentPlayer } from "@customTypes/game";
 import "./Card.css"
-import { useGameStore } from "../../stores/useGameStore";
-import type { Type_currentPlayer } from "../../types/game";
 
 interface CardProps {
     order: number;

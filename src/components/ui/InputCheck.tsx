@@ -1,10 +1,8 @@
 import "./InputCheck.css";
 
 interface CheckProps {
-    // labelText? : string;
     children?: React.ReactNode;
     checked: boolean;
-    // checkHandler: React.Dispatch<React.SetStateAction<boolean>>;
     checkHandler: () => void;
 }
 

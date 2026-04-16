@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { useGameStore } from "../../stores/useGameStore";
-import "./StatusDisplay.css"
+import { useGameStore } from "@stores/useGameStore";
 import Timer from "./Timer"
-import Spinner from "../../assets/svg/Spinner";
 import ComStatus from "./ComStatus";
+
+import "./StatusDisplay.css"
+import Spinner from "@svg/Spinner";
 
 const StatusDisplay = () => {
     const gamePhase = useGameStore(state => state.gamePhase);
@@ -36,7 +37,7 @@ const StatusDisplay = () => {
                 ? currentPlayer === "com"
                     ? <ComStatus />
                     : turnState === "active"
-                        ? <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
+                        ? timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
                         : turnState === "transition" && <Spinner />
                 : ""
             }

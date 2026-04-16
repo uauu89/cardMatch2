@@ -1,7 +1,9 @@
 import { useGameStore } from "../stores/useGameStore"
-import type { Type_ComState } from "../types/game";
+import type { Type_ComActionState } from "../types/game";
 
-type Sub_ComState = Extract<Type_ComState, "knowCorrect" | "tricky" | "thinking" | "noEmotion" | "lucky">
+export function dice(){
+    return Math.floor(Math.random() * 100);
+}
 
 export function syncDelay(ms: number) {
     return new Promise<void>(resolve => setTimeout(resolve, ms))
@@ -9,8 +11,6 @@ export function syncDelay(ms: number) {
 export function checkGameVersion(version: number){
     return version !== useGameStore.getState().gameVersion;
 }
-
-
 
 export function simpleGaussian(second: number, stdev: number) {
     // stdev 값이 클 수록 편차 커짐
@@ -21,7 +21,7 @@ export function simpleGaussian(second: number, stdev: number) {
     return Math.max(100, (sum / 3 - 0.5) * stdev * 2 + second)  ;
 }
 
-export function getDelayByState(comState: Sub_ComState){
+export function getDelayByState(comState: Type_ComActionState){
     const parmMap = {
         "knowCorrect" : {second : 300, stdev: 100},
         "tricky" : {second : 400, stdev: 200}, 

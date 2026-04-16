@@ -1,7 +1,7 @@
 import { useShallow } from "zustand/shallow";
-import { useGameStore } from "../../stores/useGameStore";
-import { useScoreStore } from "../../stores/useScoreStore";
-import GameButton from "../ui/GameButton";
+import { useGameStore } from "@stores/useGameStore";
+import { useScoreStore } from "@stores/useScoreStore";
+import GameButton from "@components/ui/GameButton";
 import "./GameOver.css"
 
 const getResultMessage = (gameMode: "single" | "vs", playerScore: number, comScore: number) => {

@@ -1,6 +1,8 @@
+
 import Score from "./Score";
-import GameButton from "../ui/GameButton";
 import StatusDisplay from "./StatusDisplay";
+import GameButton from "@components/ui/GameButton";
+
 import "./GameHUD.css";
 
 const GameHUD = ()=>{

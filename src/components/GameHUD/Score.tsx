@@ -1,5 +1,5 @@
-import { useGameStore } from "../../stores/useGameStore";
-import { useScoreStore } from "../../stores/useScoreStore";
+import { useGameStore } from "@stores/useGameStore";
+import { useScoreStore } from "@stores/useScoreStore";
 import "./Score.css"
 
 const Score = ()=>{

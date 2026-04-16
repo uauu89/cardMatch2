@@ -1,7 +1,7 @@
 import { create } from "zustand";
-import { useOptionStore } from "./useOptionStore";
 import { devtools } from "zustand/middleware";
-import type { Type_ComState, Type_currentPlayer, Type_GamePhase, Type_turnState } from "../types/game";
+import { useOptionStore } from "./useOptionStore";
+import type { Type_ComState, Type_currentPlayer, Type_GamePhase, Type_turnState } from "@customTypes/game";
 
 interface GameProps {
     gameVersion : number;
@@ -19,7 +19,12 @@ interface GameProps {
     opt_cardPreview: boolean;
     opt_continueTurn: boolean;
     difficultyDetails: {
-        remains: number;
+        opt_pairIndices: number,
+        opt_pairSecondIndex: number,
+        opt_unknownIndices: number,
+        opt_knownIndices: number,
+        opt_remainRatio: number,
+        opt_mistake: number,
     };
 
 
@@ -76,7 +81,12 @@ export const useGameStore = create<GameProps>()(
                     opt_skipComState: options.opt_skipComState,
                     opt_continueTurn: options.opt_continueTurn,
                     difficultyDetails: {
-                        remains: Number(options.difficultyDetails.remains),
+                        opt_pairIndices: Number(options.difficultyDetails.opt_pairIndices),
+                        opt_pairSecondIndex: Number(options.difficultyDetails.opt_pairSecondIndex),
+                        opt_unknownIndices: Number(options.difficultyDetails.opt_unknownIndices),
+                        opt_knownIndices: Number(options.difficultyDetails.opt_knownIndices),
+                        opt_remainRatio: Number(options.difficultyDetails.opt_remainRatio),
+                        opt_mistake: Number(options.difficultyDetails.opt_remainRatio),
                     },
                 })
 

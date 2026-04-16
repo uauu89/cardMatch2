@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useCardsStore } from "@stores/useCardsStore";
+import { useGameStore } from "@stores/useGameStore";
+import { checkGameVersion, syncDelay } from "@utils/index";
+
 import "./Timer.css"
-import { useGameStore } from "../../stores/useGameStore";
-import { useCardsStore } from "../../stores/useCardsStore";
-import { checkGameVersion, syncDelay } from "../../utils";
 
 
 interface TimerProps{
@@ -20,7 +21,6 @@ const Timer = ({duration, handleTimeOut}: TimerProps) => {
     const setTurnState = useGameStore(state => state.setTurnState);
 
     const skipTurn = async () => {
-        // await syncDelay(100);
         const {gameVersion} = useGameStore.getState();
         
         resetOpenedCards();

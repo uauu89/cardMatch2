@@ -1,45 +1,26 @@
 import { useState } from "react";
+
+import { useOptionStore } from "@stores/useOptionStore";
+import { useUIStore } from "@stores/useUIStore";
+
+import InputRadio from "@components/ui/InputRadio";
+import InputCheck from "@components/ui/InputCheck";
+import InputRange from "@components/ui/InputRange";
+import InputNumber from "@components/ui/InputNumber";
+import GameButton from "@components/ui/GameButton";
+
 import "./Settings.css"
-
-import InputRadio from "../ui/InputRadio";
-import InputCheck from "../ui/InputCheck";
-import InputRange from "../ui/InputRange";
-import InputNumber from "../ui/InputNumber";
-import GameButton from "../ui/GameButton";
-import IconGear from "../../assets/icons/IconGear";
-import IconXmark from "../../assets/icons/IconXmark";
-import IconCaretDown from "../../assets/icons/IconCaretDown";
-import { useOptionStore } from "../../stores/useOptionStore";
-import { useUIStore } from "../../stores/useUIStore";
-
-/*
-    짝이 맞는 두 장의 카드 위치를 아는 경우, 정답을 선택할 확률
-    > 이미 알고 있는 한 쌍을 선택할 확률
-
-    고른 카드의 짝을 아는 경우, 정답을 선택할 확률
-    > 뒤집은 카드의 짝을 기억할 확률
-
-    정답을 모르는 경우, 선택한 적이 없는 카드를 선택할 확률
-    > 새로운 카드를 탐색할 확률
-
-    정답을 모르는 경우, 선택한 적이 있는 카드를 다시 선택할 확률
-    > 선택한 적이 있는 카드를 다시 선택할 확률
-
-    선택한 적이 있는 카드를 다시 선택하기 위한 열어본 카드의 비율
-    > 기존 노출 카드의 재선택 임계치
-
-    의도와 다른 선택을 하는 실수를 할 확률
-    >실수가 발생할 확률
-*/
+import IconGear from "@icons/IconGear";
+import IconXmark from "@icons/IconXmark";
+import IconCaretDown from "@icons/IconCaretDown";
 
 
 const Settings = ()=>{
 
+    const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
+
     const modal_settings = useUIStore(state => state.modal_settings);
     const toggle_modalSettings = useUIStore(state => state.toggle_modalSettings);
-    
-    // const [modal_settings, setModal_settings] = useState<boolean>(false);
-    const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
 
     const opt_cardNum = useOptionStore(state => state.opt_cardNum);
     const setOpt_cardNum = useOptionStore(state => state.setOpt_cardNum);
@@ -59,19 +40,17 @@ const Settings = ()=>{
     const opt_cardPreview = useOptionStore(state => state.opt_cardPreview);
     const setOpt_cardPreview = useOptionStore(state => state.setOpt_cardPreview);
 
-    const opt_difficulty = useOptionStore(state => state.opt_difficulty);
-    const setOpt_difficulty = useOptionStore(state => state.setOpt_difficulty);
-
     const opt_skipComState = useOptionStore(state => state.opt_skipComState);
     const setOpt_skipComState = useOptionStore(state => state.setOpt_skipComState);
 
     const opt_continueTurn = useOptionStore(state => state.opt_continueTurn);
     const setOpt_continueTurn = useOptionStore(state => state.setOpt_continueTurn);
 
+    const opt_difficultyLevel = useOptionStore(state => state.opt_difficultyLevel);
+    const updateDifficultyLevel = useOptionStore(state => state.updateDifficultyLevel);
+
     const difficultyDetails = useOptionStore(state => state.difficultyDetails);
     const setDifficulty_update = useOptionStore(state => state.setDifficulty_update);
-
-    // setDifficultyConfigPartial({ mistakeProbability: 0.3 });
 
     return (
         <div className="settings_container">
@@ -215,29 +194,29 @@ const Settings = ()=>{
                                 label="1단계"
                                 name="difficulty"
                                 value={1}
-                                checked={opt_difficulty === 1}
-                                changeHandler={setOpt_difficulty}
+                                checked={opt_difficultyLevel === 1}
+                                changeHandler={updateDifficultyLevel}
                             />
                             <InputRadio
                                 label="2단계"
                                 name="difficulty"
                                 value={2}
-                                checked={opt_difficulty === 2}
-                                changeHandler={setOpt_difficulty}
+                                checked={opt_difficultyLevel === 2}
+                                changeHandler={updateDifficultyLevel}
                             />
                             <InputRadio
                                 label="3단계"
                                 name="difficulty"
                                 value={3}
-                                checked={opt_difficulty === 3}
-                                changeHandler={setOpt_difficulty}
+                                checked={opt_difficultyLevel === 3}
+                                changeHandler={updateDifficultyLevel}
                             />
                             <InputRadio
                                 label="4단계"
                                 name="difficulty"
                                 value={4}
-                                checked={opt_difficulty === 4}
-                                changeHandler={setOpt_difficulty}
+                                checked={opt_difficultyLevel === 4}
+                                changeHandler={updateDifficultyLevel}
                             />
                         </div>
 
@@ -258,17 +237,19 @@ const Settings = ()=>{
 
                             <div className={`diffConfig_container ${switch_difficultyConfig && "open"}`}>
                                 <div className="diffConfig_list">
+                                    
+
                                     <div className="diffConfig_item">
                                         <div>
-                                            남은 카드 비율 ※ 열어 본 카드 비율이 설정값 이하일 경우 열어 본 카드 선택
+                                            위치를 아는 카드를 선택할 확률
                                         </div>
                                         <div className="InputRangeWrap">
                                             <InputRange 
-                                                value={difficultyDetails.remains}
+                                                value={difficultyDetails.opt_pairIndices}
                                                 changeHandler={(num)=>{
                                                     if(num === "") return;
                                                     setDifficulty_update({
-                                                        remains: num,
+                                                        opt_pairIndices: num,
                                                     })
                                                 }}
                                             />  
@@ -276,11 +257,41 @@ const Settings = ()=>{
                                                 unit={"%"}
                                                 min={0}
                                                 max={100}
-                                                value={difficultyDetails.remains}
+                                                value={difficultyDetails.opt_pairIndices}
                                                 changeHandler={(num)=>{
                                                     
                                                     setDifficulty_update({
-                                                        remains: num,
+                                                        opt_pairIndices: num,
+                                                    })
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            선택한 카드의 짝을 기억할 확률
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange 
+                                                value={difficultyDetails.opt_pairSecondIndex}
+                                                changeHandler={(num)=>{
+                                                    if(num === "") return;
+                                                    setDifficulty_update({
+                                                        opt_pairSecondIndex: num,
+                                                    })
+                                                }}
+                                            />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={0}
+                                                max={100}
+                                                value={difficultyDetails.opt_pairSecondIndex}
+                                                changeHandler={(num)=>{
+                                                    
+                                                    setDifficulty_update({
+                                                        opt_pairSecondIndex: num,
                                                     })
                                                 }}
                                             />
@@ -289,15 +300,87 @@ const Settings = ()=>{
 
                                     <div className="diffConfig_item">
                                         <div>
-                                            임의선택 : 이미 열어 본 카드를 다시 선택할 확률
+                                            정답을 모를 때 열어본 적 없는 카드를 선택할 확률
                                         </div>
                                         <div className="InputRangeWrap">
-                                            <InputRange />  
+                                            <InputRange 
+                                                value={difficultyDetails.opt_unknownIndices}
+                                                changeHandler={(num)=>{
+                                                    if(num === "") return;
+                                                    setDifficulty_update({
+                                                        opt_unknownIndices: num,
+                                                    })
+                                                }}
+                                            />  
                                             <InputNumber
                                                 unit={"%"}
-                                                min={1}
-                                                max={99}
-                                                value={4}
+                                                min={0}
+                                                max={100}
+                                                value={difficultyDetails.opt_unknownIndices}
+                                                changeHandler={(num)=>{
+                                                    
+                                                    setDifficulty_update({
+                                                        opt_unknownIndices: num,
+                                                    })
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            정답을 모를 때 고의로 열어본 카드를 다시 선택할 확률
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange 
+                                                value={difficultyDetails.opt_knownIndices}
+                                                changeHandler={(num)=>{
+                                                    if(num === "") return;
+                                                    setDifficulty_update({
+                                                        opt_knownIndices: num,
+                                                    })
+                                                }}
+                                            />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={0}
+                                                max={100}
+                                                value={difficultyDetails.opt_knownIndices}
+                                                changeHandler={(num)=>{
+                                                    
+                                                    setDifficulty_update({
+                                                        opt_knownIndices: num,
+                                                    })
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="diffConfig_item">
+                                        <div>
+                                            카드 재선택 행동이 발생할 열어본 카드 비율
+                                        </div>
+                                        <div className="InputRangeWrap">
+                                            <InputRange 
+                                                value={difficultyDetails.opt_remainRatio}
+                                                changeHandler={(num)=>{
+                                                    if(num === "") return;
+                                                    setDifficulty_update({
+                                                        opt_remainRatio: num,
+                                                    })
+                                                }}
+                                            />  
+                                            <InputNumber
+                                                unit={"%"}
+                                                min={0}
+                                                max={100}
+                                                value={difficultyDetails.opt_remainRatio}
+                                                changeHandler={(num)=>{
+                                                    
+                                                    setDifficulty_update({
+                                                        opt_remainRatio: num,
+                                                    })
+                                                }}
                                             />
                                         </div>
                                     </div>
@@ -305,45 +388,29 @@ const Settings = ()=>{
 
                                     <div className="diffConfig_item">
                                         <div>
-                                            임의선택 : 열어보지 않은 카드를 선택할 확률
+                                            실수 확률
                                         </div>
                                         <div className="InputRangeWrap">
-                                            <InputRange />  
+                                            <InputRange 
+                                                value={difficultyDetails.opt_mistake}
+                                                changeHandler={(num)=>{
+                                                    if(num === "") return;
+                                                    setDifficulty_update({
+                                                        opt_mistake: num,
+                                                    })
+                                                }}
+                                            />  
                                             <InputNumber
                                                 unit={"%"}
-                                                min={1}
-                                                max={99}
-                                                value={4}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="diffConfig_item">
-                                        <div>
-                                            확정선택 : 현재 선택한 카드와 맞는 카드를 선택할 확률
-                                        </div>
-                                        <div className="InputRangeWrap">
-                                            <InputRange />  
-                                            <InputNumber
-                                                unit={"%"}
-                                                min={1}
-                                                max={99}
-                                                value={4}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="diffConfig_item">
-                                        <div>
-                                            확정선택 : 이미 열어 본 카드 중 짝이 맞는 카드를 선택할 확률
-                                        </div>
-                                        <div className="InputRangeWrap">
-                                            <InputRange />  
-                                            <InputNumber
-                                                unit={"%"}
-                                                min={1}
-                                                max={99}
-                                                value={4}
+                                                min={0}
+                                                max={100}
+                                                value={difficultyDetails.opt_mistake}
+                                                changeHandler={(num)=>{
+                                                    
+                                                    setDifficulty_update({
+                                                        opt_mistake: num,
+                                                    })
+                                                }}
                                             />
                                         </div>
                                     </div>

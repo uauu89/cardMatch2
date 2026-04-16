@@ -12,15 +12,25 @@ export type Type_GamePhase =
     | "playing";
 
 export type Type_ComState = 
-    "default" 
-    | "noEmotion" 
-    | "knowCorrect" 
-    | "tricky" 
-    | "thinking" 
+    "knowCorrect"
+    | "tricky"
+    | "thinking"
+    | "noEmotion"
+    | "default" 
     | "correct" 
     | "wrong" 
-    | "mistake" 
-    | "lucky";
+    | "confusion" 
+    | "lucky"
+    | "tease"
+    | "mistake";
+
+export type Type_ComActionState = Extract<Type_ComState,
+    "knowCorrect"
+    | "tricky"
+    | "thinking"
+    | "lucky"
+    | "noEmotion"
+>
 
 export type Type_currentPlayer = 
     "single"
