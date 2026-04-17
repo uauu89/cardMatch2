@@ -358,15 +358,14 @@ const Settings = ()=>{
 
                                     <div className="diffConfig_item">
                                         <div>
-                                            카드 재선택 행동이 발생할 열어본 카드 비율
-                                        </div>
+                                            열어 본 카드 비율이 설정값보다 낮다면 재선택 행동 발생                                        </div>
                                         <div className="InputRangeWrap">
                                             <InputRange 
-                                                value={difficultyDetails.opt_remainRatio}
+                                                value={difficultyDetails.opt_OpenedRatio}
                                                 changeHandler={(num)=>{
                                                     if(num === "") return;
                                                     setDifficulty_update({
-                                                        opt_remainRatio: num,
+                                                        opt_OpenedRatio: num,
                                                     })
                                                 }}
                                             />  
@@ -374,11 +373,11 @@ const Settings = ()=>{
                                                 unit={"%"}
                                                 min={0}
                                                 max={100}
-                                                value={difficultyDetails.opt_remainRatio}
+                                                value={difficultyDetails.opt_OpenedRatio}
                                                 changeHandler={(num)=>{
                                                     
                                                     setDifficulty_update({
-                                                        opt_remainRatio: num,
+                                                        opt_OpenedRatio: num,
                                                     })
                                                 }}
                                             />

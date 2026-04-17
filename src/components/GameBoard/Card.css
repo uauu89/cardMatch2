@@ -69,7 +69,7 @@
         transition: 0.4s;
     }
 
-    &:not(.card--opend):hover{
+    &:not(.card--opened):hover{
         transform: translate(-1px, -6px);
 
         &::after{
@@ -79,7 +79,7 @@
         }
         
     }
-    &.card--opend{
+    &.card--opened{
         .back{transform: rotateY(180deg);}
         .front{transform: rotateY(360deg);}
         

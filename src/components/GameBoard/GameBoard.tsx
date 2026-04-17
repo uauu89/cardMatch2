@@ -21,7 +21,7 @@ export default function GameBoard(){
     const timer_dealingAnimation = useRef<number | null>(null);
 
     const cards_value = useCardsStore(state => state.cards_value);
-    const cards_opend = useCardsStore(state => state.cards_opend);
+    const cards_opened = useCardsStore(state => state.cards_opened);
     const cards_owner = useCardsStore(state => state.cards_owner);
 
     const {
@@ -159,20 +159,22 @@ export default function GameBoard(){
 
     const comProcess = async () => {
         const {gameVersion} = useGameStore.getState();
-        const { cards_selected, cards_opend, cards_memory, cards_owner } = useCardsStore.getState();
+        const { cards_selected, cards_opened, cards_memory, cards_owner } = useCardsStore.getState();
         if (cards_selected.length >= 2) return;
 
-        const {comState, comIdx } = comAlgorithm(cards_selected, cards_opend, cards_memory, cards_owner);
+        const {comState, comIdx } = comAlgorithm(cards_selected, cards_opened, cards_memory, cards_owner);
         
         for (const card of comIdx) {
             if(!opt_skipComState){
                 setComState(comState);
             }
-            await syncDelay(getDelayByState(comState)); if(checkGameVersion(gameVersion)) return;
+            await syncDelay(getDelayByState(comState) + 1000); if(checkGameVersion(gameVersion)) return;
             cardClick(card);
         }
+
         const updatedSelected = useCardsStore.getState().cards_selected;
         if (updatedSelected.length < 2) {
+            console.log("카드 클릭 2개 미만, 컴퓨터알고리즘 재 실행")
             await comProcess(); 
         }
     }
@@ -217,7 +219,7 @@ export default function GameBoard(){
                         order={index}
                         cardNumber={number}
                         cardsCount={cards_value.length}
-                        opend={cards_owner[index] !== null || cards_opend[index]}
+                        opened={cards_owner[index] !== null || cards_opened[index]}
                         owner={cards_owner[index]}
                         isLastCard={index === cards_value.length - 1}
 

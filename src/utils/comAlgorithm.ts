@@ -2,18 +2,16 @@ import { useGameStore } from "@stores/useGameStore";
 import { dice } from "@utils/index";
 import type { Type_currentPlayer } from "@customTypes/game";
 
-const behaviorChance = 100;
-
 const classifyAvailableCards = (
     cards_memory : (number | null)[],
-    cards_opend: boolean[],
+    cards_opened: boolean[],
     cards_owner: (Type_currentPlayer | null)[]
 ) => {
     const knownIndices: number[] = [];
     const unknownIndices: number[] = [];
     
     cards_memory.forEach((value, index) => {
-        if(!cards_opend[index] && cards_owner[index] === null){
+        if(!cards_opened[index] && cards_owner[index] === null){
             if(value !== null){
                 knownIndices.push(index);
             }else{
@@ -85,10 +83,10 @@ const pickRandomIndexFromArray = (targetArray : number[], count: 1 | 2) => {
     return returnArray;
 }
 const pickRandomAll = (
-    cards_opend: boolean[],
+    cards_opened: boolean[],
     cards_owner: (Type_currentPlayer | null)[]
 ) => {
-    const filteredArray = cards_opend.reduce<number[]>((acc, isOpen, index) => {
+    const filteredArray = cards_opened.reduce<number[]>((acc, isOpen, index) => {
         if (!isOpen && cards_owner[index] === null) {
             acc.push(index);
         }
@@ -101,110 +99,170 @@ const pickRandomAll = (
 
 export const comAlgorithm = (
     cards_selected: number[],
-    cards_opend: boolean[],
+    cards_opened: boolean[],
     cards_memory : (number | null)[],
     cards_owner: (Type_currentPlayer | null)[]
 ) => {
     const firstCardIndex = cards_selected[0] ?? null;
     const firstCardNumber = firstCardIndex !== null ? cards_memory[firstCardIndex] : null;
-
     const pairSecondIndex = findMatchingCardIndex(firstCardIndex, firstCardNumber, cards_memory);
     const pairIndices = getPairIndices(cards_memory, cards_owner);
-    
-    const [knownIndices, unknownIndices] = classifyAvailableCards(cards_memory, cards_opend, cards_owner)
-
+    const [knownIndices, unknownIndices] = classifyAvailableCards(cards_memory, cards_opened, cards_owner)
     const {difficultyDetails} = useGameStore.getState();
-
-    const count_denominator = cards_owner.filter(owner => owner === null).length;
-    const ratio_knownIndices = (knownIndices.length / count_denominator) * 100;
+    const currentOpenedRatio = cards_memory.filter(value => value !== null).length / cards_opened.length * 100;
 
     if(cards_selected.length === 1){
-        console.log("case 1. 두 번째 선택")
-        if(pairSecondIndex !== null && difficultyDetails.opt_pairSecondIndex > dice()){
-            console.log("  case 1-1: 첫번째 선택한 카드의 짝의 위치를 알 때");
-            return {
-                comState : "lucky", 
-                comIdx : difficultyDetails.opt_mistake < dice() 
-                    ? pairSecondIndex
-                    : pickRandomAll(cards_opend, cards_owner)
-            } as const;
-        }else{
-            console.log("  case 1-2: 첫번째 선택한 카드의 짝의 위치를 모를 때");
 
-            if(knownIndices.length > 1 
-                && ratio_knownIndices < 30 
-                && count_denominator > 6 
-                && difficultyDetails.opt_knownIndices > dice()
-            ){ 
-                const returnIndices = pickRandomIndexFromArray(knownIndices, 1);
+        console.log("case 1. 두 번째 선택")
+
+        if(pairSecondIndex !== null){
+            if(difficultyDetails.opt_pairSecondIndex > dice()){
+
+                console.log("  case 1-1: 첫번째 선택한 카드의 짝의 위치를 알 때");
+
+                let returnIdx = pairSecondIndex;
+
+                
+
+                if(difficultyDetails.opt_mistake > dice()){
+
+                    console.log("  case 1-1-m: 실수 발생");
+                    returnIdx = pickRandomAll(cards_opened, cards_owner);
+                }
+                console.log("return idx : ", returnIdx)
+
+                return {
+                    comState : "lucky", 
+                    comIdx : returnIdx,
+                } as const;
+
+            }else{
+
+                console.log("  case 1-1: 첫번째 선택한 카드의 짝의 위치를 알고 있으나 확률 실패");
+
+            }
+
+        }
+
+        console.log("  case 1-2: 랜덤 선택");
+
+        if(knownIndices.length > 1 && difficultyDetails.opt_OpenedRatio > currentOpenedRatio){ 
+            if(difficultyDetails.opt_knownIndices > dice()){
+
                 console.log("    case 1-2-1: 열어본 적 있는 카드 배열에서 랜덤 선택 ");
+
+                let returnIndices = pickRandomIndexFromArray(knownIndices, 1);
+                if(difficultyDetails.opt_mistake > dice()){
+
+                    console.log("    case 1-2-1-m: 실수 발생");
+                    returnIndices = insertWrongIndex(knownIndices, cards_owner)
+                }
+                console.log("return idx : ", returnIndices)
+
                 return {
                     comState : "tricky",
-                    comIdx : difficultyDetails.opt_mistake < dice()
-                        ? returnIndices
-                        : insertWrongIndex(knownIndices, cards_owner)
+                    comIdx : returnIndices
+                        
                 } as const;
-                
+            }else{
+                console.log("    case 1-2-1: 열어본 적 있는 카드 배열에서 랜덤 선택하려 했으나 확률 실패 ");
             }
+        }else{
             if(difficultyDetails.opt_unknownIndices > dice()){
-                const returnIndices = pickRandomIndexFromArray(unknownIndices, 1);
                 console.log("    case 1-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택 ");
+
+                let returnIndices = pickRandomIndexFromArray(unknownIndices, 1);
+
+                if(difficultyDetails.opt_mistake > dice()){
+                    console.log("    case 1-2-2-m: 실수 발생 ");
+                    returnIndices = insertWrongIndex(unknownIndices, cards_owner);
+                }
+                console.log("return idx : ", returnIndices)
+
                 return {
                     comState : "thinking",
-                    comIdx : difficultyDetails.opt_mistake < dice()
-                        ? returnIndices
-                        : insertWrongIndex(unknownIndices, cards_owner)
+                    comIdx : returnIndices
                 } as const;
+            }else{
+                console.log("    case 1-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택하려 했으나 확률 실패 ");
             }
         }
-    }
-    
-    console.log("case 2. 첫번째 선택");
-    if(pairIndices !== null && difficultyDetails.opt_pairIndices > dice()){
-        console.log("  case 2-1: 짝이 맞는 카드의 위치를 알고 있을 때");
-        return {
-            comState : "knowCorrect",
-            comIdx : difficultyDetails.opt_mistake < dice() 
-            ? pairIndices
-            : insertWrongIndex(pairIndices, cards_owner)
-        } as const;
+            
+        
     }else{
-        console.log("  case 2-2: 짝이 맞는 카드의 위치를 모를 때");
-        if(knownIndices.length > 1
-            && ratio_knownIndices < 30
-            && count_denominator > 6
-            && behaviorChance > dice()
-        ){
-            const returnIndices = pickRandomIndexFromArray(knownIndices, 2);
-            console.log("    case 2-2-1: 열어본 적 있는 카드 배열에서 랜덤 선택 ");
-            return {
-                comState : "tricky",
-                comIdx : difficultyDetails.opt_mistake < dice()
-                    ? returnIndices
-                    : insertWrongIndex(knownIndices, cards_owner)
-            } as const;
-        }
+        console.log("case 2. 첫번째 선택");
 
-        if(behaviorChance > dice()){
-            const returnIndices = pickRandomIndexFromArray(unknownIndices, 2);
-            console.log("    case 2-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택 ");
+        if(pairIndices !== null ){
+            if(difficultyDetails.opt_pairIndices > dice()){
+                console.log("  case 2-1: 짝이 맞는 카드의 위치를 알고 있을 때");
 
-            return {
-                comState : "thinking",
-                comIdx : difficultyDetails.opt_mistake < dice()
-                    ? returnIndices
-                    : insertWrongIndex(unknownIndices, cards_owner)
-            } as const;
+                let returnIndices = pairIndices;
+                if(difficultyDetails.opt_mistake > dice()){
+                    console.log("  case 2-1-m: 실수 발생");
+                    returnIndices = insertWrongIndex(pairIndices, cards_owner);
+                }
+                console.log("return idx : ", returnIndices)
+                return {
+                    comState : "knowCorrect",
+                    comIdx : returnIndices
+                } as const;
+            }else{
+                console.log("  case 2-1: 짝이 맞는 카드의 위치를 알고 있지만 확률 실패");
+            }
+            
+
+            
+        }else{
+
+            console.log("  case 2-2: 짝이 맞는 카드의 위치를 모를 때");
+
+            if(knownIndices.length > 1 && difficultyDetails.opt_OpenedRatio > currentOpenedRatio){
+                
+                if(difficultyDetails.opt_knownIndices > dice()){
+                    console.log("    case 2-2-1: 열어본 적 있는 카드 배열에서 랜덤 선택 ");
+                    let returnIndices = pickRandomIndexFromArray(knownIndices, 2);
+                    if(difficultyDetails.opt_mistake > dice()){
+                        console.log("    case 2-2-1-m: 실수 발생");
+                    }
+                    console.log("return idx : ", returnIndices)
+                    
+                    return {
+                        comState : "tricky",
+                        comIdx : returnIndices
+                    } as const;
+                }else{
+                    console.log("    case 2-2-1: 열어본 적 있는 카드 배열에서 랜덤 선택하려 했으나 확률 실패");
+                }
+            }else{
+                if(difficultyDetails.opt_unknownIndices > dice()){
+                    let returnIndices = pickRandomIndexFromArray(unknownIndices, 2);
+    
+                    console.log("    case 2-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택 ");
+
+                    if(difficultyDetails.opt_mistake > dice()){
+                        returnIndices = insertWrongIndex(unknownIndices, cards_owner);
+                        console.log("    case 2-2-2-m: 실수 발생");
+                    }
+                    console.log("return idx : ", returnIndices)
+                    return {
+                        comState : "thinking",
+                        comIdx : returnIndices
+                    } as const;
+        
+                }else{
+                    console.log("    case 2-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택하려 했으나 확률 실패 ");
+                }
+
+            }
+    
         }
     }
-
-    
-
-    
 
     console.log("case 3. 완전 랜덤 선택");
+    const randomIndices = pickRandomAll(cards_opened, cards_owner)
+    console.log("return idx : ", randomIndices)
     return {
         comState : "thinking",
-        comIdx : pickRandomAll(cards_opend, cards_owner)
+        comIdx : randomIndices
     } as const;
 }

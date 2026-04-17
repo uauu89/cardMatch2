@@ -6,7 +6,7 @@ interface CardProps {
     order: number;
     cardNumber: number;
     cardsCount: number;
-    opend: boolean;
+    opened: boolean;
     owner: Type_currentPlayer | null;
     isLastCard: boolean;
     handler_animationEnd: () => void;
@@ -18,7 +18,7 @@ export default function Card({
     order,
     cardNumber,
     cardsCount,
-    opend,
+    opened,
     owner,
     isLastCard,
     handler_animationEnd,
@@ -52,13 +52,13 @@ export default function Card({
         <div
             className={[
                 "card",
-                opend && "card--opend",
+                opened && "card--opened",
                 gamePhase === "dealing" && "card--animation-rendering",
             ].filter(Boolean).join(" ")}
             style={styleAttr}
             onAnimationEnd={handleAnimationEnd}
             onClick={()=>{
-                if(gamePhase === "playing" && turnState === "active" && currentPlayer !== "com" && !opend){
+                if(gamePhase === "playing" && turnState === "active" && currentPlayer !== "com" && !opened){
                     handler_click();
                 }
             }}

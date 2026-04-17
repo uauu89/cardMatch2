@@ -23,7 +23,7 @@ interface GameProps {
         opt_pairSecondIndex: number,
         opt_unknownIndices: number,
         opt_knownIndices: number,
-        opt_remainRatio: number,
+        opt_OpenedRatio: number,
         opt_mistake: number,
     };
 
@@ -85,8 +85,8 @@ export const useGameStore = create<GameProps>()(
                         opt_pairSecondIndex: Number(options.difficultyDetails.opt_pairSecondIndex),
                         opt_unknownIndices: Number(options.difficultyDetails.opt_unknownIndices),
                         opt_knownIndices: Number(options.difficultyDetails.opt_knownIndices),
-                        opt_remainRatio: Number(options.difficultyDetails.opt_remainRatio),
-                        opt_mistake: Number(options.difficultyDetails.opt_remainRatio),
+                        opt_OpenedRatio: Number(options.difficultyDetails.opt_OpenedRatio),
+                        opt_mistake: Number(options.difficultyDetails.opt_OpenedRatio),
                     },
                 })
 

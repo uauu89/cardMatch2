@@ -15,6 +15,15 @@
    > tricky > 실수로 정답일 때 confusion 추가
    > tickiy > 오답일 때 tease 추가
 
+### 26.04.17
+
+1. 로직 로그 UI 추가
+   > + 행동 분기 별 로그를 찍기 위해 comAlgorithm의 if문 구조 변경
+2. 변수명 변경
+   > + opt_remainRatio → opt_openedRatio로 변경
+   > + opend 오타 수정
+
+ 
 
 
 #### 해야 할 것

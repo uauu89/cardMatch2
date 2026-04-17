@@ -7,7 +7,7 @@ type DifficultyConfig = {
     opt_pairSecondIndex: NumberValue;
     opt_unknownIndices: NumberValue;
     opt_knownIndices: NumberValue;
-    opt_remainRatio: NumberValue;
+    opt_OpenedRatio: NumberValue;
     opt_mistake: NumberValue;
 };
 
@@ -34,7 +34,7 @@ interface OptionProps{
         opt_pairSecondIndex: NumberValue,
         opt_unknownIndices: NumberValue,
         opt_knownIndices: NumberValue,
-        opt_remainRatio: NumberValue,
+        opt_OpenedRatio: NumberValue,
         opt_mistake: NumberValue,
     }
 
@@ -74,7 +74,7 @@ export const useOptionStore = create<OptionProps>(set => ({
         opt_pairSecondIndex: 80,
         opt_unknownIndices: 80,
         opt_knownIndices: 30,
-        opt_remainRatio: 10,
+        opt_OpenedRatio: 10,
         opt_mistake: 30,
     },
 
@@ -108,28 +108,28 @@ export const useOptionStore = create<OptionProps>(set => ({
                 opt_pairSecondIndex: 70,
                 opt_unknownIndices: 80,
                 opt_knownIndices: 0,
-                opt_remainRatio: 0,
+                opt_OpenedRatio: 0,
                 opt_mistake: 60,
             }, {
                 opt_pairIndices: 80,
                 opt_pairSecondIndex: 80,
                 opt_unknownIndices: 80,
                 opt_knownIndices: 10,
-                opt_remainRatio: 0,
+                opt_OpenedRatio: 0,
                 opt_mistake: 40,
             }, {
                 opt_pairIndices: 80,
                 opt_pairSecondIndex: 80,
                 opt_unknownIndices: 80,
                 opt_knownIndices: 30,
-                opt_remainRatio: 10,
+                opt_OpenedRatio: 10,
                 opt_mistake: 30,
             }, {
                 opt_pairIndices: 95,
                 opt_pairSecondIndex: 95,
                 opt_unknownIndices: 90,
                 opt_knownIndices: 70,
-                opt_remainRatio: 20,
+                opt_OpenedRatio: 20,
                 opt_mistake: 10,
             }   
         ]

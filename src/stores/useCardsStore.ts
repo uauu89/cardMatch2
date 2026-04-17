@@ -5,7 +5,7 @@ import type { Type_currentPlayer } from "@customTypes/game";
 interface CardsProps{
 
     cards_value: number[];
-    cards_opend: boolean[];
+    cards_opened: boolean[];
     cards_memory: (number | null)[];
     cards_owner: (Type_currentPlayer | null)[];
     cards_selected: number[];
@@ -23,7 +23,7 @@ export const useCardsStore = create<CardsProps>()(
     devtools(
         set =>({
             cards_value: [],
-            cards_opend: [],
+            cards_opened: [],
             cards_memory: [],
             cards_owner: [],
             cards_selected: [],
@@ -31,7 +31,7 @@ export const useCardsStore = create<CardsProps>()(
             clearCards: () => {
                 set({
                     cards_value: [],
-                    cards_opend: [],
+                    cards_opened: [],
                     cards_memory: [],
                     cards_owner: [],
                     cards_selected: [],
@@ -49,7 +49,7 @@ export const useCardsStore = create<CardsProps>()(
 
                 set({
                     cards_value: doubleArray,
-                    cards_opend: new Array(doubleArray.length).fill(false),
+                    cards_opened: new Array(doubleArray.length).fill(false),
                     cards_memory: new Array(doubleArray.length).fill(null),
                     cards_owner: new Array(doubleArray.length).fill(null),
                 })
@@ -58,15 +58,15 @@ export const useCardsStore = create<CardsProps>()(
             openCards : (index) => {
                 set(state => {
                     const selectedCardNumber = state.cards_value[index];
-                    const copy_opend = [...state.cards_opend];
-                    copy_opend[index] = true;
+                    const copy_opened = [...state.cards_opened];
+                    copy_opened[index] = true;
 
                     const copy_memory = [...state.cards_memory];
                     if(copy_memory[index] === null) copy_memory[index] = selectedCardNumber;
 
                     const copy_selected = [...state.cards_selected, index];
                     return {
-                        cards_opend: copy_opend,
+                        cards_opened: copy_opened,
                         cards_memory: copy_memory,
                         cards_selected: copy_selected,
                     }
@@ -86,7 +86,7 @@ export const useCardsStore = create<CardsProps>()(
 
             resetOpenedCards: ()=>{
                 set(state => ({
-                    cards_opend: new Array(state.cards_value.length).fill(false),
+                    cards_opened: new Array(state.cards_value.length).fill(false),
                     cards_selected: [],
                 }))
             }
