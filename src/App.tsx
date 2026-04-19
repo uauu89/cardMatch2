@@ -3,6 +3,7 @@ import { useGameStore } from '@stores/useGameStore';
 import GameHUD from '@components/GameHUD/GameHUD';
 import GameBoard from '@components/GameBoard/GameBoard';
 import Settings from '@components/Settings/Settings';
+import ComLog from '@components/ComLog/ComLog';
 import GameOver from '@components/GameOver/GameOver';
 
 import "@css/fonts.css";
@@ -19,6 +20,7 @@ function App() {
             <GameHUD />
             <GameBoard />
             <Settings />
+            <ComLog />
             {gameOver && <GameOver />}
         </>
     )

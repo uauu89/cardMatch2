@@ -17,7 +17,6 @@
 }
 
 @keyframes dash {
-
   0% {
     stroke-dasharray: 1,150;
     stroke-dashoffset: 0;

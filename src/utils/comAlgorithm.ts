@@ -116,9 +116,10 @@ export const comAlgorithm = (
         console.log("case 1. 두 번째 선택")
 
         if(pairSecondIndex !== null){
+            console.log("첫번째 선택한 카드의 위치를 알고 있음")
             if(difficultyDetails.opt_pairSecondIndex > dice()){
 
-                console.log("  case 1-1: 첫번째 선택한 카드의 짝의 위치를 알 때");
+                console.log("  case 1-1: 행동확률 충족, (90%)");
 
                 let returnIdx = pairSecondIndex;
 

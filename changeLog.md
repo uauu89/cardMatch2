@@ -23,6 +23,14 @@
    > + opt_remainRatio → opt_openedRatio로 변경
    > + opend 오타 수정
 
+### 26.04.19
+
+1. 로직 로그 UI 추가
+   > ComLog.tsx 컴포넌트 생성
+
+2. 기타
+   > Infinity.tsx svg 생성
+
  
 
 
