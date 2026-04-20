@@ -9,7 +9,7 @@ import { useOptionStore } from "@stores/useOptionStore";
 import { useScoreStore } from "@stores/useScoreStore";
 
 import { checkGameVersion, getDelayByState, syncDelay } from "@utils/index";
-import { comAlgorithm } from "@utils/comAlgorithm";
+import { comAlgorithm } from "@utils/comAlgorithm_v2";
 
 import type { Type_ComState, Type_currentPlayer } from "@customTypes/game";
 
@@ -79,16 +79,17 @@ export default function GameBoard(){
     const checkMatch = async (cards_selected: number[]) => {
         const {gameVersion} = useGameStore.getState();
         await syncDelay(500); if(checkGameVersion(gameVersion)) return;
+
         const [card1, card2] = cards_selected;
         if(cards_value[card1] === cards_value[card2]){
             caseCorrect(currentPlayer);
         }else{
             caseWrong(currentPlayer);
         }
-        if(currentPlayer === "com") {
-            await syncDelay(500);
-        }
+
+        if(currentPlayer === "com") await syncDelay(500);
         resetOpenedCards();
+        
         await syncDelay(500); if(checkGameVersion(gameVersion)) return;
         setTurnState("active");
     }
@@ -130,30 +131,20 @@ export default function GameBoard(){
 
     const comStateCaseCorrect = (comState: Type_ComState) => {
         switch(comState){
-            case "noEmotion" : 
-                return "noEmotion";
-            case "knowCorrect" : 
-                return "correct";
-            case "thinking" : 
-                return "lucky";
-            case "tricky" : 
-                return "confusion";
-            default :
-                return "default";
+            case "noEmotion" :  return "noEmotion";
+            case "knowCorrect" : return "correct";
+            case "thinking" : return "lucky";
+            case "tricky" : return "confusion";
+            default : return "default";
         }
     }
     const comStateCaseWrong = (comState: Type_ComState) => {
         switch(comState){
-            case "knowCorrect" : 
-                return "mistake";
-            case "thinking" : 
-                return "wrong";
-            case "noEmotion" : 
-                return "noEmotion";
-            case "tricky" : 
-                return "tease";
-            default :
-                return "default";
+            case "knowCorrect" : return "mistake";
+            case "thinking" : return "wrong";
+            case "noEmotion" : return "noEmotion";
+            case "tricky" : return "tease";
+            default : return "default";
         }
     }
 
@@ -174,7 +165,7 @@ export default function GameBoard(){
 
         const updatedSelected = useCardsStore.getState().cards_selected;
         if (updatedSelected.length < 2) {
-            console.log("카드 클릭 2개 미만, 컴퓨터알고리즘 재 실행")
+            // console.log("카드 클릭 2개 미만, 컴퓨터알고리즘 재 실행")
             await comProcess(); 
         }
     }

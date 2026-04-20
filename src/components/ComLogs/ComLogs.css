@@ -1,0 +1,53 @@
+.ComLogs{
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9;
+
+    width: 500px;
+    background-color: var(--color_gray1);
+    border-bottom-right-radius: 10px;
+
+    box-shadow: 3px 5px 4px rgba(0, 0, 0, 0.25);
+
+    padding: 30px;
+    
+    font-size: 14px;
+
+    height: 98vh;
+    overflow: auto;
+
+    --paddingLeftUnit : 0.4em;
+
+    ul{
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+    }
+}
+
+.mainLog{
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.subLog1{
+    padding-left: calc(var(--paddingLeftUnit) * 1);
+}
+.subLog2{
+    padding-left: calc(var(--paddingLeftUnit) * 2);
+}
+.subLog3{
+    padding-left: calc(var(--paddingLeftUnit) * 3);
+}
+.subLog4{
+    padding-left: calc(var(--paddingLeftUnit) * 4);
+}
+
+.returnLog{
+    font-weight: 700;
+    padding: 8px;
+    background-color: rgba(225, 255, 0, 0.2);
+}
