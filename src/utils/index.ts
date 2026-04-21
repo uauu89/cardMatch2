@@ -28,7 +28,7 @@ export function getDelayByState(comState: Type_ComActionState){
         "thinking" : {second : 600, stdev: 600}, 
         "lucky" : {second : 300, stdev: 100}, 
     }
-    if(comState === "noEmotion") return 400;
+    if(comState === "noEmotion") return 100;
     const {second, stdev} = parmMap[comState];
 
     return simpleGaussian(second, stdev);

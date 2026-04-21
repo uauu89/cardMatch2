@@ -159,7 +159,7 @@ export default function GameBoard(){
             if(!opt_skipComState){
                 setComState(comState);
             }
-            await syncDelay(getDelayByState(comState) + 1000); if(checkGameVersion(gameVersion)) return;
+            await syncDelay(getDelayByState(comState)); if(checkGameVersion(gameVersion)) return;
             cardClick(card);
         }
 

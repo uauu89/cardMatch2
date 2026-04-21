@@ -10,19 +10,26 @@ import "@css/fonts.css";
 import "@css/variant.css";
 import "@css/common.css";
 import "@css/utility.css";
+import { useUIStore } from './stores/useUIStore';
 
 function App() {
     const gamePhase = useGameStore(state=>state.gamePhase);
     const gameOver = ["welcome", "gameOver"].includes(gamePhase);
 
+    const modal_comLogs = useUIStore(state => state.modal_comLogs);
+
     return (
-        <>
+        <div className={`gameContainer ${modal_comLogs && "openLog"}`}>
             <GameHUD />
-            <GameBoard />
-            <Settings />
+            {/* <div className='gridContentsB'> */}
             <ComLogs />
-            {/* {gameOver && <GameOver />} */}
-        </>
+            {/* </div> */}
+            <div className='gridContentsBox scroll'>
+                <GameBoard />
+            </div>
+            <Settings />
+            {gameOver && <GameOver />}
+        </div>
     )
 }
 

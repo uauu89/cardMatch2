@@ -38,7 +38,9 @@
    > 로직 단계마다 로직 state 업데이트 구문 작성
    > UI 레이아웃 변경 위해 기획 중
    
-
+### 26.04.21
+1. 컴퓨터 알고리즘 수정
+   > insertWrongIndex()의 targetArray를 knownIndices, unknownIndices 배열 전체로 받던 거를 returnIndices로 받도록 수정
 
 
 

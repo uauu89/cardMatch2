@@ -28,13 +28,15 @@ const GameButton = ({inputGameMode} : GameButtonProps)=>{
     const shuffleCards = useCardsStore(state=>state.shuffleCards);
     const clearCards = useCardsStore(state=>state.clearCards);
     const clearScore = useScoreStore(state => state.clearScore);
-    const close_modalSettings = useUIStore(state => state.close_modalSettings);
+    // const close_modalSettings = useUIStore(state => state.close_modalSettings);
+    const {close_modalSettings, reset_bgGameOver} = useUIStore.getState();
 
 
     const process_gameStart = async () => {
         close_modalSettings();
+        reset_bgGameOver();
+
         await syncDelay(10);
-        // setGamePhase("gameOver");
 
         clearCards();
         clearScore();

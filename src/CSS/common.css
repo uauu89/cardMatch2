@@ -18,18 +18,22 @@ input{
     font-size: inherit;
     line-height: inherit;
 }
+svg{
+    vertical-align: top;
+}
 
 
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 2px;
 }
 ::-webkit-scrollbar-thumb {
     background: #242;
-    border: 2px solid var(--color_main);
+    /* border: 2px solid var(--color_main); */
     border-radius:5px;
 }
 ::-webkit-scrollbar-track {
-	background: var(--color_main); 
+	/* background: var(--color_main);  */
+    border-bottom-right-radius: 10px;
 }
 
 
@@ -43,4 +47,42 @@ body::after{
     top: 0;
     right: 0;
     z-index: 90;
+}
+
+
+.gameContainer{
+    display: grid;
+    
+    grid-template-columns: 0px auto;
+    grid-template-rows: min-content auto;
+
+    grid-template-areas: "HUD HUD" "Log Board";
+    padding-right: 10px;
+    height: 100vh;
+    overflow: hidden;
+    &.openLog{
+        grid-template-columns: 300px auto;
+    }
+}
+
+.gridContentsBox{
+    /* padding: 16px 32px; */
+    padding: 16px 5%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+    .scroll{
+        &::-webkit-scrollbar {
+            display: none;
+            /* width: 10px; */
+        }
+        /* ::-webkit-scrollbar-thumb {
+            background: #242;
+            border: 2px solid var(--color_main);
+            border-radius:5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color_main); 
+        } */
 }

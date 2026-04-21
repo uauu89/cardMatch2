@@ -5,9 +5,10 @@ interface LogProps{
     logEntries : {
         id: number;
         class: string;
+        caseID: string;
         log: string;
     }[],
-    updateLogEntries: (classify: string, log: string) => void;
+    updateLogEntries: (classify: string, caseID: string, log: string) => void;
     clearLogEntries: () => void;
 }
 
@@ -18,9 +19,9 @@ export const useLogStore = create<LogProps>()(
         set => ({
             logEntries: [],
 
-            updateLogEntries: (classify, log) => {
+            updateLogEntries: (classify, caseID, log) => {
                 set(state => {
-                    const copy_entries = [...state.logEntries, {id: logID++, class: classify, log: log}].slice(-100);
+                    const copy_entries = [...state.logEntries, {id: logID++, class: classify, caseID: caseID, log: log}].slice(-100);
                     return {logEntries: copy_entries}
                 })
             },

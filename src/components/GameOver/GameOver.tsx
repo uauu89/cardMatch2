@@ -1,8 +1,11 @@
 import { useShallow } from "zustand/shallow";
 import { useGameStore } from "@stores/useGameStore";
 import { useScoreStore } from "@stores/useScoreStore";
+import { useUIStore } from "@/stores/useUIStore";
 import GameButton from "@components/ui/GameButton";
 import "./GameOver.css"
+import img_icon_eyeOpend from "@img/icon/icon_eye--opend.png"
+import img_icon_eyeClosed from "@img/icon/icon_eye--closed.png"
 
 const getResultMessage = (gameMode: "single" | "vs", playerScore: number, comScore: number) => {
     if(gameMode === "single"){
@@ -43,44 +46,62 @@ const GameOver = ()=>{
         comScore: state.comScore,
     })));
 
-    if(gamePhase === "welcome") {
-        return (
-            <div className="GameOver__bg">
-                <div className="GameOver__window">
-                    <div className="GameOver_welcomePrompt">
-                        <p>환영합니다</p>
-                        새 게임 버튼으로 게임을 시작할 수 있습니다.
-                    </div>
-                    <div className="GameButtonWrap">
-                        <GameButton inputGameMode="single"/>
-                        <GameButton inputGameMode="vs"/>
-                    </div>
-                </div>
-            </div>
-        )
+    const bg_gameOver = useUIStore(state => state.bg_gameOver);
+    const {toggle_bgGameOver} = useUIStore.getState();
+    
+    let imgUrl = bg_gameOver ? img_icon_eyeOpend : img_icon_eyeClosed;
 
-    }
+    // if(gamePhase === "welcome") {
+    //     return (
+    //         <div className="GameOver__bg">
+    //             <div className="GameOver__window">
+    //                 <div className="GameOver_welcomePrompt">
+    //                     <p>환영합니다</p>
+    //                     새 게임 버튼으로 게임을 시작할 수 있습니다.
+    //                 </div>
+    //                 <div className="GameButtonWrap">
+    //                     <GameButton inputGameMode="single"/>
+    //                     <GameButton inputGameMode="vs"/>
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     )
+    // }
   
     const {result, score} = getResultMessage(gameMode, playerScore, comScore);
 
     return (
-        <div className="GameOver__bg">
-            <div className="GameOver__window">
-                <h2 className="GameOver__result">{result}</h2>
-                <p>{score}</p>
-                
-                <div className="GameOver_restartPrompt">
-                    <p>게임이 끝났습니다.</p>
-                    <p>새 게임 버튼으로 새로운 게임을 시작할 수 있습니다.</p>
+        <div className="GameOver">
+            {bg_gameOver &&
+                <div className="GameOver__bg">
+                    <div className="GameOver__window">
+                        {gamePhase === "welcome" 
+                            ? <div className="GameOver_welcomePrompt">
+                                    <p>환영합니다</p>
+                                    새 게임 버튼으로 게임을 시작할 수 있습니다.
+                                </div>
+                            
+                            : <>
+                                <h2 className="GameOver__result">{result}</h2>
+                                <p>{score}</p>
+                                
+                                <div className="GameOver_restartPrompt">
+                                    <p>게임이 끝났습니다.</p>
+                                    <p>새 게임 버튼으로 새로운 게임을 시작할 수 있습니다.</p>
+                                </div>
+                            </>
+                        }
+
+                        <div className="GameButtonWrap">
+                            <GameButton inputGameMode="single"/>
+                            <GameButton inputGameMode="vs"/>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="GameButtonWrap">
-                    <GameButton inputGameMode="single"/>
-                    <GameButton inputGameMode="vs"/>
-                </div>
-            </div>
-
-
+            }
+            <button type="button" className="GameOverToggleButton" onClick={toggle_bgGameOver}>
+                <img src={imgUrl} alt="" />
+            </button>
         </div>
 
     )
