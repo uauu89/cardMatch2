@@ -41,6 +41,12 @@
 ### 26.04.21
 1. 컴퓨터 알고리즘 수정
    > insertWrongIndex()의 targetArray를 knownIndices, unknownIndices 배열 전체로 받던 거를 returnIndices로 받도록 수정
+   > 비공개 배열에서 선택 케이스의 조건에 length 조건 추가 ( 배열에 값이 없는데 로직 분기에 진입해서 undefined 리턴되는 것으로 예상 )
+2. 페이지 레이아웃 변경
+   > 로그 UI를 게임보드와 좌, 우에 각각 배치되도록 변경 (display: grid)
+   > 페이지 레이아웃을 grid로 변경하면서 GameHUD도 fixed → static으로 변경
+3. 로직 로그 UI
+   > 1차 작업 완료, CSS 지속적 개선 예정
 
 
 
