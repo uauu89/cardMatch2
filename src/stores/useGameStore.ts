@@ -63,7 +63,12 @@ export const useGameStore = create<GameProps>()(
             opt_cardPreview: true,
             opt_continueTurn: false,
             difficultyDetails: {
-                remains: 10,
+                opt_pairIndices: 80,
+                opt_pairSecondIndex: 80,
+                opt_unknownIndices: 80,
+                opt_knownIndices: 30,
+                opt_OpenedRatio: 10,
+                opt_mistake: 30,
             },
             
             setGameMode: (mode) => set({gameMode: mode}),
@@ -86,7 +91,7 @@ export const useGameStore = create<GameProps>()(
                         opt_unknownIndices: Number(options.difficultyDetails.opt_unknownIndices),
                         opt_knownIndices: Number(options.difficultyDetails.opt_knownIndices),
                         opt_OpenedRatio: Number(options.difficultyDetails.opt_OpenedRatio),
-                        opt_mistake: Number(options.difficultyDetails.opt_OpenedRatio),
+                        opt_mistake: Number(options.difficultyDetails.opt_mistake),
                     },
                 })
 

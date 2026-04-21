@@ -57,6 +57,7 @@ const insertWrongIndex = (
     targetIndices: number[],
     cards_owner: (Type_currentPlayer | null)[]
 ) => {
+    console.log("---insertwrong, 1. targetIndices : ", targetIndices);
     const copyIndices = [...targetIndices];
     const filteredArray = cards_owner.reduce<number[]>((acc, current, index) => {
         if(current === null && !targetIndices.includes(index)){
@@ -64,6 +65,7 @@ const insertWrongIndex = (
         }
         return acc;
     }, [])
+    console.log("---insertwrong, 2. filteredArray : ", filteredArray);
     
     const randomRange = Math.floor(Math.random() * targetIndices.length) + 1;
 
@@ -71,6 +73,7 @@ const insertWrongIndex = (
         const randomOrder = Math.floor(Math.random() * filteredArray.length);
         copyIndices[i] = filteredArray.splice(randomOrder, 1)[0];
     }
+    console.log("---insertwrong, 3. returnArray : ", copyIndices);
     return copyIndices;
 }
 
@@ -109,9 +112,9 @@ export const comAlgorithm = (
     const pairSecondIndex = findMatchingCardIndex(firstCardIndex, firstCardNumber, cards_memory);
     const pairIndices = getPairIndices(cards_memory, cards_owner);
     const [knownIndices, unknownIndices] = classifyAvailableCards(cards_memory, cards_opened, cards_owner)
-    const {difficultyDetails} = useGameStore.getState();
     const currentOpenedRatio = cards_memory.filter(value => value !== null).length / cards_opened.length * 100;
-
+    
+    const {difficultyDetails} = useGameStore.getState();
     const {updateLogEntries} = useLogStore.getState();
 
     if(cards_selected.length === 1){
@@ -165,7 +168,7 @@ export const comAlgorithm = (
                 if(mistakeChance < difficultyDetails.opt_mistake){
                     // console.log("    case 1-2-1-m: 실수 발생");
                     updateLogEntries("subLog4", `실수 발생 | dice(${mistakeChance}) < ${difficultyDetails.opt_mistake})`);
-                    returnIndices = insertWrongIndex(knownIndices, cards_owner)
+                    returnIndices = insertWrongIndex([...returnIndices], cards_owner)
                 }
                 console.log("return idx : ", returnIndices)
                 updateLogEntries("returnLog", `로직 결과 - 선택할 카드의 위치 : ${returnIndices[0]}, ${returnIndices[1]}`);
@@ -189,7 +192,7 @@ export const comAlgorithm = (
             if(mistakeChance < difficultyDetails.opt_mistake){
                 // console.log("    case 1-2-2-m: 실수 발생 ");
                 updateLogEntries("subLog4", `실수 발생 | dice(${mistakeChance}) < ${difficultyDetails.opt_mistake})`);
-                returnIndices = insertWrongIndex(unknownIndices, cards_owner);
+                returnIndices = insertWrongIndex([...returnIndices], cards_owner);
             }
             // console.log("return idx : ", returnIndices)
 
@@ -222,7 +225,7 @@ export const comAlgorithm = (
                 if(mistakeChance < difficultyDetails.opt_mistake){
                     // console.log("  case 2-1-1-m: 실수 발생");
                     updateLogEntries("subLog4", `실수 발생 | dice(${mistakeChance}) < ${difficultyDetails.opt_mistake})`);
-                    returnIndices = insertWrongIndex(pairIndices, cards_owner);
+                    returnIndices = insertWrongIndex([...returnIndices], cards_owner);
                 }
                 // console.log("return idx : ", returnIndices)
                 updateLogEntries("returnLog", `로직 결과 - 선택할 카드의 위치 : ${returnIndices[0]}, ${returnIndices[1]}`);
@@ -249,6 +252,7 @@ export const comAlgorithm = (
                 let returnIndices = pickRandomIndexFromArray(knownIndices, 2);
 
                 const mistakeChance = dice();
+                updateLogEntries("subLog3", `실수확률 | difficultyDetails.opt_mistake : ${difficultyDetails.opt_mistake}, mistakeChance: ${mistakeChance}`);
                 if(mistakeChance < difficultyDetails.opt_mistake){
                     // console.log("    case 2-2-1-m: 실수 발생");
                     updateLogEntries("subLog4", `실수 발생 | dice(${mistakeChance}) < ${difficultyDetails.opt_mistake})`);
@@ -272,12 +276,13 @@ export const comAlgorithm = (
 
             let returnIndices = pickRandomIndexFromArray(unknownIndices, 2);
 
-            console.log("    case 2-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택 ");
+            // console.log("    case 2-2-2: 열어본 적 없는 카드 배열에서 랜덤 선택 ");
             const mistakeChance = dice();
+            updateLogEntries("subLog3", `실수확률 | difficultyDetails.opt_mistake : ${difficultyDetails.opt_mistake}, mistakeChance: ${mistakeChance}`);
             if(mistakeChance < difficultyDetails.opt_mistake){
                 // console.log("    case 2-2-2-m: 실수 발생");
                 updateLogEntries("subLog4", `실수 발생 | dice(${mistakeChance}) < ${difficultyDetails.opt_mistake})`);
-                returnIndices = insertWrongIndex(unknownIndices, cards_owner);
+                returnIndices = insertWrongIndex([...returnIndices], cards_owner);
             }
             // console.log("return idx : ", returnIndices)
             updateLogEntries("returnLog", `로직 결과 - 선택할 카드의 위치 : ${returnIndices[0]}, ${returnIndices[1]}`);
