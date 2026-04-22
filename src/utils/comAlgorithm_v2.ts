@@ -65,6 +65,8 @@ const insertWrongIndex = (
         }
         return acc;
     }, [])
+
+    if(filteredArray.length === 0) return targetIndices;
     
     const randomRange = Math.floor(Math.random() * targetIndices.length) + 1;
 

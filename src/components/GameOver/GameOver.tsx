@@ -46,33 +46,16 @@ const GameOver = ()=>{
         comScore: state.comScore,
     })));
 
-    const bg_gameOver = useUIStore(state => state.bg_gameOver);
+    const bgGameOver_isVisible = useUIStore(state => state.bgGameOver_isVisible);
     const {toggle_bgGameOver} = useUIStore.getState();
     
-    let imgUrl = bg_gameOver ? img_icon_eyeOpend : img_icon_eyeClosed;
-
-    // if(gamePhase === "welcome") {
-    //     return (
-    //         <div className="GameOver__bg">
-    //             <div className="GameOver__window">
-    //                 <div className="GameOver_welcomePrompt">
-    //                     <p>환영합니다</p>
-    //                     새 게임 버튼으로 게임을 시작할 수 있습니다.
-    //                 </div>
-    //                 <div className="GameButtonWrap">
-    //                     <GameButton inputGameMode="single"/>
-    //                     <GameButton inputGameMode="vs"/>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     )
-    // }
+    let imgUrl = bgGameOver_isVisible ? img_icon_eyeOpend : img_icon_eyeClosed;
   
     const {result, score} = getResultMessage(gameMode, playerScore, comScore);
 
     return (
         <div className="GameOver">
-            {bg_gameOver &&
+            {bgGameOver_isVisible &&
                 <div className="GameOver__bg">
                     <div className="GameOver__window">
                         {gamePhase === "welcome" 

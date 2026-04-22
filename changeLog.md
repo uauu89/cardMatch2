@@ -47,7 +47,20 @@
    > 페이지 레이아웃을 grid로 변경하면서 GameHUD도 fixed → static으로 변경
 3. 로직 로그 UI
    > 1차 작업 완료, CSS 지속적 개선 예정
+4. UI 수정
+   > GameOver.tsx 수정
+   > + 조건에 따라 컴포넌트 전체를 return하는 방식에서 일부분만 변경되도록 변경 
+   > + 로그 UI 추가하면서 게임 종료 후 로그 확인할 수 있도록 딤드 숨기는 기능 추가
 
+### 26.04.22
+1. 컴퓨터 알고리즘 수정
+   > insertWrongIndex()에서 filteredArray의 값이 없을 경우 원본배열을 return하는 코드 추가
+      (카드 두 장이 남았을 때 실수가 발생하면 undefined 발생)
+2. UI 수정
+   > Spinner.tsx 수정 
+   > + 기존 로딩 애니메이션만 출력 → 타이머 애니메이션 추가하면서 속성을 props로 컨트롤 가능하도록 변경
+3. 변수명 변경
+   > useUIStore의 state를 boolean 결과에 맞게 이름 변경
 
 
 #### 해야 할 것

@@ -38,8 +38,16 @@ const StatusDisplay = () => {
                     ? <ComStatus />
                     : turnState === "active"
                         ? timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
-                        : turnState === "transition" && <Spinner />
+                        : turnState === "transition" && <Spinner id={"transitionLoading"} type={"loading"} strokeColor={[]} r={20} strokeWidth={3}/>
                 : ""
+                // <Spinner
+                //     id={"test"}
+                //     type={"timer"}
+                //     // strokeColor={[]}
+                //     timerDuration={1}
+                //     r={22}
+                //     strokeWidth={4}
+                // />
             }
             
             

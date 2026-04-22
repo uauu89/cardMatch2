@@ -21,7 +21,7 @@ export const useLogStore = create<LogProps>()(
 
             updateLogEntries: (classify, caseID, log) => {
                 set(state => {
-                    const copy_entries = [...state.logEntries, {id: logID++, class: classify, caseID: caseID, log: log}].slice(-100);
+                    const copy_entries = [...state.logEntries, {id: logID++, class: classify, caseID: caseID, log: log}].slice(-200);
                     return {logEntries: copy_entries}
                 })
             },

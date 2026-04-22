@@ -4,6 +4,7 @@ import { useGameStore } from "@stores/useGameStore";
 import { checkGameVersion, syncDelay } from "@utils/index";
 
 import "./Timer.css"
+import Spinner from "@/assets/svg/Spinner";
 
 
 interface TimerProps{
@@ -49,7 +50,18 @@ const Timer = ({duration, handleTimeOut}: TimerProps) => {
 
     return(
         <div className="Timer">
-            {timeRemaining}
+            <Spinner
+                id={"timer"}
+                type={"timer"}
+                // strokeColor={"#f678ac"}
+                timerDuration={duration}
+                r={22}
+                strokeWidth={4}
+            />
+            <div className="TimerNumber">
+                {timeRemaining}
+            </div>
+            
         </div>
     )
 }

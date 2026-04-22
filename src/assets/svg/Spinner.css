@@ -1,35 +1,53 @@
-.spinner {
-  /* width: 50px; */
-  /* height: 50px; */
-  animation: rotate 2s linear infinite;
+.spinner--loading {
+  animation: loadingRotate 2s linear infinite;
 }
 
-.path {
-  /* stroke: #4285f4; */
+.path--loading {
   stroke-linecap: round;
-  animation: dash 1.5s ease-in-out infinite;
+  animation: loadingDash 1.8s ease-in-out infinite;
 }
 
-@keyframes rotate {
+.path--timer{
+  animation: timerDash var(--timerDuration) linear infinite;
+}
+
+@keyframes loadingRotate {
   100% {
-    transform: rotate(360deg);
+    transform: rotate(720deg);
   }
 }
 
-@keyframes dash {
+@keyframes loadingDash {
   0% {
-    stroke-dasharray: 1,150;
+    stroke-dasharray: 0.02, 1;
     stroke-dashoffset: 0;
   }
-
   50% {
-    stroke-dasharray: 90,150;
-    stroke-dashoffset: -35;
+    stroke-dasharray: 0.8, 1;
+    stroke-dashoffset: -0.31;
   }
-
   100% {
-    stroke-dasharray: 90,150;
-    stroke-dashoffset: -124;
+    stroke-dasharray: 0.9, 1;
+    stroke-dashoffset: -1;
   }
+}
 
+
+
+
+@keyframes timerDash{
+  0%{
+    stroke-dasharray: 0, 1;
+    stroke-dashoffset: var(--strokeDashOffset);
+    stroke: var(--strokeColor);
+  }
+  60%{
+    stroke: var(--strokeColor);
+  }
+  
+  100% {
+    stroke-dasharray: 1, 0;
+    stroke-dashoffset: var(--strokeDashOffset);
+    stroke: rgb(202, 25, 25);
+  }
 }

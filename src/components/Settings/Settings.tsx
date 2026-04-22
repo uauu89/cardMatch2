@@ -19,7 +19,7 @@ const Settings = ()=>{
 
     const [switch_difficultyConfig, setSwitch_difficultyConfig]  = useState<boolean>(false);
 
-    const modal_settings = useUIStore(state => state.modal_settings);
+    const modalSettings_isOpen = useUIStore(state => state.modalSettings_isOpen);
     const toggle_modalSettings = useUIStore(state => state.toggle_modalSettings);
 
     const opt_cardNum = useOptionStore(state => state.opt_cardNum);
@@ -57,10 +57,10 @@ const Settings = ()=>{
 
             <button
                 type="button"
-                className={`SettingButton ${modal_settings && "modalOpen"}`}
+                className={`SettingButton ${modalSettings_isOpen && "modalOpen"}`}
                 onClick={()=>toggle_modalSettings()}
             >
-                {modal_settings ? 
+                {modalSettings_isOpen ? 
                     <IconXmark size={24} color="#FFF" ></IconXmark> : 
                     <span className="icon_rotate"><IconGear size={28} color="#FFF"/></span>
                 }
@@ -68,7 +68,7 @@ const Settings = ()=>{
             </button>
 
 
-            <section className={`settings ${modal_settings && "active"}`}>
+            <section className={`settings ${modalSettings_isOpen && "active"}`}>
 
                 <h2>옵션</h2>
 

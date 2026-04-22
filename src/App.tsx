@@ -16,14 +16,12 @@ function App() {
     const gamePhase = useGameStore(state=>state.gamePhase);
     const gameOver = ["welcome", "gameOver"].includes(gamePhase);
 
-    const modal_comLogs = useUIStore(state => state.modal_comLogs);
+    const comLogs_isOpen = useUIStore(state => state.comLogs_isOpen);
 
     return (
-        <div className={`gameContainer ${modal_comLogs && "openLog"}`}>
+        <div className={`gameContainer ${comLogs_isOpen && "openLog"}`}>
             <GameHUD />
-            {/* <div className='gridContentsB'> */}
             <ComLogs />
-            {/* </div> */}
             <div className='gridContentsBox scroll'>
                 <GameBoard />
             </div>
