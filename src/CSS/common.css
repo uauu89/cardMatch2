@@ -70,6 +70,7 @@ body::after{
     padding: 16px 5%;
     overflow-x: hidden;
     overflow-y: auto;
+    grid-area: Board;
 }
 
     .scroll{
@@ -85,4 +86,19 @@ body::after{
         ::-webkit-scrollbar-track {
             background: var(--color_main); 
         } */
+}
+
+@media (max-width: 450px) {
+    .gameContainer{
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content auto 0px;
+        grid-template-areas: "HUD" "Board" "Log";
+        padding-right: 10px;
+        height: 100vh;
+        overflow: hidden;
+        &.openLog{
+            grid-template-columns: 1fr;
+            grid-template-rows: min-content auto 200px;
+        }
+    }
 }

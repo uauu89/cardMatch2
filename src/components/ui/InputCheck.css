@@ -1,9 +1,10 @@
 .InputCheck{
     /* position: relative; */
-    display: flex;
+    display: inline-flex;
     align-items: center;
     column-gap: 8px;
     cursor: pointer;
+    word-break: keep-all;
 
     input[type=checkbox]{
         position: absolute;
@@ -22,6 +23,7 @@
         border: 2px solid var(--color_main);
         border-radius: 5px;
         position: relative;
+        flex-shrink: 0;
     }
 
     input[type=checkbox]:checked + .iconBox{

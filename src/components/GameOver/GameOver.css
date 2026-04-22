@@ -41,8 +41,6 @@
     font-weight: 700;
 }
 
-
-
 .GameOver__result{
     font-size: 48px;
     font-weight: 700;
@@ -54,6 +52,7 @@
     display: flex;
     justify-content: center;
     column-gap: 24px;
+    row-gap: 16px;
     margin-top: 24px;
 }
 
@@ -65,4 +64,15 @@
     font-weight: 400;
     margin-top: 20px;
     font-size: 14px;
+}
+
+@media (max-width: 450px){
+
+    .GameOverToggleButton{
+        bottom: 170px;
+    }
+    .GameButtonWrap{
+        flex-direction: column;
+    }
+
 }

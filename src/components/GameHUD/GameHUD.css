@@ -30,3 +30,14 @@
         display: none;
     }    
 }
+
+@media (max-width: 450px) {
+    .GameHUD{
+        /* padding: 16px 32px; */
+        padding-left: 32px;
+        padding-right: 48px;
+        /* grid-template-columns: repeat(2, 1fr); */
+        grid-template-columns: auto min-content;
+
+    }    
+}

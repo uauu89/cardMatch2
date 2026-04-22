@@ -26,9 +26,9 @@
 }
 
 
-@media (max-width: 500px){
+@media (max-width: 450px){
     .gameBoard{
         padding: 40px 10px;
-        margin: 150px auto 0;
+        /* margin: 150px auto 0; */
     }
 }

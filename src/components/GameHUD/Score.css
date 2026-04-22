@@ -10,6 +10,7 @@
     :where(.score__row){
         display: flex;
         column-gap: 150px;
+        row-gap: 4px;
     }
     
     :where(.scoreDisplay__score){
@@ -32,6 +33,17 @@
         .score__row{
             column-gap: unset;
             justify-content: space-between;
+        }
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .Score{
+        padding: 0;
+        .score__row{
+            flex-direction: column;
         }
     }
 }
