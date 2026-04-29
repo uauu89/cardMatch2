@@ -1,3 +1,4 @@
+import IconCheckMark from "@icons/IconCheckMark";
 import "./InputCheck.css";
 
 interface CheckProps {
@@ -11,7 +12,9 @@ const InputCheck = ({children, checked, checkHandler} : CheckProps)=>{
     return(
         <label className="InputCheck">
             <input type="checkbox" checked={checked} onChange={checkHandler}/>
-            <span className="iconBox"></span>
+            <span className="iconBox">
+                <IconCheckMark />
+            </span>
             {children}
         </label>
 

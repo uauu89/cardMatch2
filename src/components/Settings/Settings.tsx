@@ -61,8 +61,8 @@ const Settings = ()=>{
                 onClick={()=>toggle_modalSettings()}
             >
                 {modalSettings_isOpen ? 
-                    <IconXmark size={24} color="#FFF" ></IconXmark> : 
-                    <span className="icon_rotate"><IconGear size={28} color="#FFF"/></span>
+                    <IconXmark color="#FFF" ></IconXmark> : 
+                    <span className="icon_rotate"><IconGear color="#FFF"/></span>
                 }
                 
             </button>
@@ -79,11 +79,14 @@ const Settings = ()=>{
                         <div className="settings_item grid">
                             <div className="settings_itemLabel">카드범위</div>
 
-                            <InputNumber
-                                min={2}
-                                value={opt_cardNum}
-                                changeHandler={setOpt_cardNum}
-                            />
+                            <div className="btnFlexWrap">
+                                <InputNumber
+                                    min={2}
+                                    value={opt_cardNum}
+                                    changeHandler={setOpt_cardNum}
+                                />
+                            </div>
+
                         </div>
 
                         <div className="settings_item grid">
@@ -426,7 +429,7 @@ const Settings = ()=>{
                 </div>
 
 
-                <div className="settingDone_container">
+                <div className="settings_footer">
                     <div>※ 카드 크기를 제외한 변경된 옵션은 다음 게임부터 적용됩니다.</div>
 
                     <div className="GameButton__container">

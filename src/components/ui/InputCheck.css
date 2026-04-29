@@ -1,10 +1,12 @@
 .InputCheck{
-    /* position: relative; */
+    position: relative;
     display: inline-flex;
     align-items: center;
     column-gap: 8px;
     cursor: pointer;
     word-break: keep-all;
+    vertical-align: top;
+    
 
     input[type=checkbox]{
         position: absolute;
@@ -16,43 +18,21 @@
     }
 
     .iconBox{
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
         width: 22px;
         height: 22px;
         background-color: #FFF;
         border: 2px solid var(--color_main);
         border-radius: 5px;
-        position: relative;
         flex-shrink: 0;
+        color: transparent;
     }
 
     input[type=checkbox]:checked + .iconBox{
         background-color: var(--color_main);
-        &::before{
-            position: absolute;
-            left: 5px;
-            bottom: 3px;
-            display: block;
-            content: "";
-            width: 4px;
-            height: 10px;
-            background-color: #fff;
-            border-radius: 2px;
-            transform-origin: 2px 8px;
-            transform: rotate(-40deg);
-        }
-        &::after{
-            position: absolute;
-            left: 5px;
-            bottom: 3px;
-            display: block;
-            content: "";
-            width: 4px;
-            height: 16px;
-            background-color: #fff;
-            border-radius: 2px;
-            transform-origin: 2px 14px;
-            transform: rotate(40deg);
-        }
+        color: #FFF;
     }
 }

@@ -2,7 +2,8 @@
 .inputNumber{
         /* display: flex; */
     display: inline-flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: flex-end;
     align-items: center;
     box-sizing: border-box;
     border: 2px solid var(--color_main);

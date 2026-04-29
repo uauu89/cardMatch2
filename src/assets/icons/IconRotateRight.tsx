@@ -1,9 +1,9 @@
 type IconProps = React.SVGProps<SVGSVGElement> & {
-  size?: number;
+  size?: number | string;
   color?: string;
 };
 
-const IconRoateRight = ({size, color = "currentColor", ...props}: IconProps)=>{
+const IconRotateRight = ({size = "1em", color = "currentColor", ...props}: IconProps)=>{
     return(
         <svg
             width={size}
@@ -20,4 +20,4 @@ const IconRoateRight = ({size, color = "currentColor", ...props}: IconProps)=>{
     )
 }
 
-export default IconRoateRight;
+export default IconRotateRight;

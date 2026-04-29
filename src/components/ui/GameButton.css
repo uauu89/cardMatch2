@@ -1,16 +1,19 @@
 .GameButton{
 
-    --color_main: #53b167;
+    /* --color_main: #53b167; */
     
+    font-size: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    column-gap: 8px;
-    font-size: 20px;
+    /* font-size: 20px; */
+    column-gap: 0.4em;
+
     border: 2px solid var(--color_main);
     color: var(--color_font_green);
     border-radius: 4px;
-    padding: 8px 16px;
+    /* padding: 8px 16px; */
+    padding: 0.4em 0.8em;
     background-color: #FFF;
     cursor: pointer;
     font-weight: 700;
@@ -25,9 +28,10 @@
             content: "";
             display: inline-block;
             width: 2px;
-            height: 16px;
+            /* height: 16px; */
+            height: 0.8em;
             background-color: var(--color_main);
-            margin-right: 4px;
+            margin-right: 0.2em;
         }
     }
 
@@ -38,5 +42,11 @@
         .btn__gameMode::before{
             background-color: #FFF;
         }
+    }
+}
+
+@media (max-width: 450px){
+    .GameButton{
+        font-size: 16px;
     }
 }

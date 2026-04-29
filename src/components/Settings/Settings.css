@@ -13,10 +13,11 @@
     border-bottom-left-radius: 30px;
     cursor: pointer;
     margin-right: 10px;
+    font-size: 28px;
     
 
     .icon_rotate{
-        transition: 1.2s;
+        transition: transform 1.2s;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -162,6 +163,7 @@
     column-gap: 8px;
     color: inherit;
     padding: 0;
+    font-family: "Pretendard";
 
     .diffTabButton_icon{
         transition: 0.4s;
@@ -201,7 +203,7 @@
 }
 
 
-.settingDone_container{
+.settings_footer{
     display: flex;
     flex-direction: column;
     /* justify-content: flex-end; */
@@ -221,6 +223,13 @@
 }
 
 @media (max-width: 450px){
+    .SettingButton{
+        width: 40px;
+        height: 40px;
+        border-bottom-left-radius: 20px;
+        font-size: 20px;
+
+    }
     .settings{
         position: fixed;
         /* padding: 30px 0px; */
@@ -230,8 +239,15 @@
             padding-left: 0;
         }
 
+        .settingContent_container{
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        .settings_item{
+            padding-left: 8px;
+        }
 
-        .settingDone_container{
+        .settings_footer{
             align-items: revert;
         }
         .GameButton__container{
@@ -242,6 +258,12 @@
             .GameButton{
                 width: 100%;
             }
+        }
+        .btnFlexWrap{
+            /* column-gap: 2px; */
+            flex-direction: column;
+            align-items: stretch;
+            row-gap: 8px;
         }
     }
 

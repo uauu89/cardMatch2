@@ -14,9 +14,9 @@ const Infinity = () => {
                 pathLength="100"
                 fill="none" 
                 stroke="url(#spinnerGradient)" 
-                stroke-width="12" 
-                stroke-linecap="round"
-                stroke-dasharray="90 10" 
+                strokeWidth="12" 
+                strokeLinecap="round"
+                strokeDasharray="90 10" 
             >
             <animate 
                 attributeName="stroke-dashoffset" 

@@ -8,7 +8,7 @@ import { useUIStore } from "@stores/useUIStore";
 import { syncDelay } from "@utils/index";
 
 import "./GameButton.css"
-import IconRoateRight from "@icons/IconRoateRight";
+import IconRotateRight from "@icons/IconRotateRight";
 
 
 interface GameButtonProps {
@@ -58,7 +58,7 @@ const GameButton = ({inputGameMode} : GameButtonProps)=>{
             className="GameButton"
             onClick={process_gameStart}
         >
-            <IconRoateRight size={20} />
+            <IconRotateRight />
             <span className="btn__name">새 게임</span>
             <span className="btn__gameMode">
                 {inputGameMode==="single"? "혼자" : "대전"}
