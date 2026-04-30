@@ -71,6 +71,8 @@ body::after{
     overflow-x: hidden;
     overflow-y: auto;
     grid-area: Board;
+    container-name: gameBoardContainer;
+    container-type: inline-size;
 }
 
     .scroll{

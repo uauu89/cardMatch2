@@ -5,6 +5,7 @@ import ComStatus from "./ComStatus";
 
 import "./StatusDisplay.css"
 import Spinner from "@svg/Spinner";
+import Infinity from "@svg/Infinity";
 
 const StatusDisplay = () => {
     const gamePhase = useGameStore(state => state.gamePhase);
@@ -34,20 +35,14 @@ const StatusDisplay = () => {
         <div className="StatusDisplay">
             {
                 gamePhase === "playing" 
-                ? currentPlayer === "com"
-                    ? <ComStatus />
-                    : turnState === "active"
-                        ? timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
-                        : turnState === "transition" && <Spinner id={"transitionLoading"} type={"loading"} strokeColor={[]} r={20} strokeWidth={3}/>
-                : ""
-                // <Spinner
-                //     id={"test"}
-                //     type={"timer"}
-                //     // strokeColor={[]}
-                //     timerDuration={1}
-                //     r={22}
-                //     strokeWidth={4}
-                // />
+                    ? currentPlayer === "com"
+                        ? <ComStatus />
+                        : turnState === "active"
+                            ? opt_timerNoLimit
+                                ? <Infinity />
+                                : timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
+                            : turnState === "transition" && <Spinner id={"transitionLoading"} type={"loading"} strokeColor={[]} r={20} strokeWidth={3}/>
+                    : "" // 게임결과 상태
             }
             
             

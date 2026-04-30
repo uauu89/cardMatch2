@@ -2,11 +2,24 @@
 
 const Infinity = () => {
     return(
-        <svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+        // <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="22 10 156 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="spinnerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#4F46E5" />
-                    <stop offset="100%" stop-color="#EC4899" />
+                    {/* <stop offset="0%" stop-color="#4F46E5" />
+                    <stop offset="100%" stop-color="#EC4899" /> */}
+
+                    <stop offset="0%" stop-color="#2D5A27" />
+                    <stop offset="40%" stop-color="#5DB06D" />
+                    <stop offset="60%" stop-color="#5DB06D" />
+                    <stop offset="100%" stop-color="#A8E063" />
+
+                    {/* <stop offset="0%" stop-color="#11998E" />
+                    <stop offset="100%" stop-color="#38EF7D" /> */}
+
+                    {/* <stop offset="0%" stop-color="#134E5E" />
+                    <stop offset="50%" stop-color="#F9D423" />
+                    <stop offset="100%" stop-color="#71B280" /> */}
                 </linearGradient>
             </defs>
             <path 

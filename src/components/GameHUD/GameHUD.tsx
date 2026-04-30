@@ -6,6 +6,8 @@ import GameButton from "@components/ui/GameButton";
 import "./GameHUD.css";
 
 const GameHUD = ()=>{
+
+    
     return (
         <div className="GameHUD">
             <Score />

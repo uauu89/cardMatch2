@@ -71,6 +71,19 @@
    > + InputCheck 컴포넌트의 체크박스 크기를 font-size에 대응하도록 변경하면서 체크마크를 svg로 변경
    > 인터랙티브 애니메이션 수정, 개선 (진행중)
 
+### 26.04.30
+1. CSS 수정
+   > 반응형 작업 (진행중)
+2. 함수 개선
+   > 카드크기 → 화면 크기에 따라 자동 변경 함수 변경
+   > + 기존 : window.innerWidth 기준, window.resize로 트리거
+   > + 변경 : gameBoard 크기 기준, ResizeObserver로 트리거, 값이 변경되었을 때만 setOpt_cardSize로 업데이트 하도록 기능 추가
+3. 컴포넌트 코드 정리   
+   > 커스텀 훅 작성 → useGameBoardLogic.ts 생성하여 함수 이동
+4. UI 수정
+   > StatusDisplay.tsx에 타이머 무제한 상태 추가 (Infinity.ts)
+
+
 #### 해야 할 것
 1. CSS 작성
    > + CSS 완성

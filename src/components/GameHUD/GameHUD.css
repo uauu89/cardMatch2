@@ -2,6 +2,7 @@
     align-items: center;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: "Score StatusDisplay GameButton";
 
     padding: 16px 5%;
 
@@ -22,10 +23,16 @@
     align-items: center;
     column-gap: 24px;
     justify-content: flex-end;
+    
+}
+
+.GameHUD .GameButton__container{
+    grid-area: GameButton;
+    align-self: flex-end;
 }
 
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
     .GameHUD .GameButton__container{
         display: none;
         /* flex-direction: column;
