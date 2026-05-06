@@ -1,23 +1,45 @@
-import { useCallback, useEffect, useState } from "react";
 import { useGameStore } from "@stores/useGameStore";
-import Timer from "./Timer"
 import ComStatus from "./ComStatus";
 
 import "./StatusDisplay.css"
 import Spinner from "@svg/Spinner";
-import Infinity from "@svg/Infinity";
+import { useScoreStore } from "@/stores/useScoreStore";
+import UserStatus from "./UserStatus";
 
 const StatusDisplay = () => {
+    const gameMode = useGameStore(state => state.gameMode);
     const gamePhase = useGameStore(state => state.gamePhase);
     const turnState = useGameStore(state => state.turnState);
     const currentPlayer = useGameStore(state => state.currentPlayer);
 
-    const opt_timerDuration = useGameStore(state => state.opt_timerDuration);
-    const opt_timerNoLimit = useGameStore(state => state.opt_timerNoLimit);
+    const playerScore = useScoreStore(state => state.playerScore);
+    const comScore = useScoreStore(state => state.comScore);
 
-    const [timerOn, setTimerOn] = useState(false);
-    const handleTimeOut = useCallback(() => setTimerOn(false), []);
+
+
+    let printText;
+
+    if(gamePhase === "welcome"){
+        printText = "welcome";
+    }else if(gamePhase === "gameOver"){
+        if(gameMode === "single"){
+            printText = "game end";
+        }else{
+            printText = playerScore === comScore 
+                            ? "draw"
+                            : playerScore > comScore
+                                ? "win"
+                                : "lose"
+        }
+    }else if(gamePhase === "dealing"){
+        printText = "shuffle";
+    }
+
+
+    // const [timerOn, setTimerOn] = useState(false);
+    // const handleTimeOut = useCallback(() => setTimerOn(false), []);
     
+    /* 
     useEffect(()=>{
         if(
             gamePhase === "playing"
@@ -30,6 +52,7 @@ const StatusDisplay = () => {
             setTimerOn(false);
         }
     }, [gamePhase, turnState, currentPlayer]);
+    */
     
     return (
         <div className="StatusDisplay">
@@ -38,11 +61,9 @@ const StatusDisplay = () => {
                     ? currentPlayer === "com"
                         ? <ComStatus />
                         : turnState === "active"
-                            ? opt_timerNoLimit
-                                ? <Infinity />
-                                : timerOn && <Timer duration={opt_timerDuration} handleTimeOut={handleTimeOut}/>
+                            ? <UserStatus />
                             : turnState === "transition" && <Spinner id={"transitionLoading"} type={"loading"} strokeColor={[]} r={20} strokeWidth={3}/>
-                    : "" // 게임결과 상태
+                    : printText
             }
             
             

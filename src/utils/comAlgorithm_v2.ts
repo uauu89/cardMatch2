@@ -77,8 +77,8 @@ const insertWrongIndex = (
     return copyIndices;
 }
 
+
 const pickRandomIndexFromArray = (targetArray : number[], count: 1 | 2) => {
-    console.log("---------- targetArray : ", targetArray);
     const copyTargetArray = [...targetArray];
     const returnArray = [];
     for(let i = 0; i < count; i++){
@@ -87,6 +87,8 @@ const pickRandomIndexFromArray = (targetArray : number[], count: 1 | 2) => {
     }
     return returnArray;
 }
+
+
 const pickRandomAll = (
     cards_opened: boolean[],
     cards_owner: (Type_currentPlayer | null)[]
@@ -97,6 +99,8 @@ const pickRandomAll = (
         }
         return acc;
     }, []);
+
+    if(filteredArray.length === 0) return false;
 
     const com_index = Math.floor(Math.random() * filteredArray.length) ;
     return [filteredArray[com_index]];
@@ -133,7 +137,8 @@ export const comAlgorithm = (
                 const mistakeChance = dice();
                 if(mistakeChance < difficultyDetails.opt_mistake){
                     updateLogEntries("subLog3 mistake", "Case A-1", `실수 발생 | dice: ${mistakeChance}, standard: ${difficultyDetails.opt_mistake}`);
-                    returnIdx = pickRandomAll(cards_opened, cards_owner);
+                    const randomIdx = pickRandomAll(cards_opened, cards_owner);
+                    if(randomIdx) returnIdx = randomIdx;
                 }
                 updateLogEntries("returnLog", "Case A-1", `return | v: ${cards_value[returnIdx[0]]}, i: ${returnIdx}`);
                 return {comState : "lucky", comIdx : returnIdx} as const;
@@ -249,8 +254,12 @@ export const comAlgorithm = (
         
     }
     updateLogEntries("mainLog", "Case C-1", `완전 랜덤 선택`);
-    const randomIndices = pickRandomAll(cards_opened, cards_owner)
+    const randomIndices = pickRandomAll(cards_opened, cards_owner);
+
+    if(!randomIndices) return;
+    
     updateLogEntries("returnLog", "Case C-1", `return | v: ${cards_value[randomIndices[0]]}, i: ${randomIndices[0]}`);
     return {comState : "thinking", comIdx : randomIndices} as const;
+    
 }
 ``

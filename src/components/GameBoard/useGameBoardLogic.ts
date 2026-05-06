@@ -4,7 +4,7 @@ import { useGameStore } from "@/stores/useGameStore";
 import { useCardsStore } from "@/stores/useCardsStore";
 import { useScoreStore } from "@/stores/useScoreStore";
 
-import { comAlgorithm } from "@utils/comAlgorithm_v2";
+import { comAlgorithm } from "@utils/comAlgorithm";
 import { checkGameVersion, getDelayByState, syncDelay } from "@/utils";
 import type { Type_ComState, Type_currentPlayer } from "@/types/game";
 import { useOptionStore } from "@/stores/useOptionStore";

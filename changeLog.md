@@ -83,6 +83,15 @@
 4. UI 수정
    > StatusDisplay.tsx에 타이머 무제한 상태 추가 (Infinity.ts)
 
+### 26.05.06
+1. 함수 개선
+   > pickRandomAll() 개선 중
+   > + 내부 filteredArray에 값이 없을 경우 undefined 반환하던 문제 개선 위해 return false 추가하였으나 타입 문제 발생하여 추가 개선 필요 (comAlgorithm 마지막 단계에서 false 케이스 대응해야 하는 문제, undefined로 반환하면 useGameBoardLogic.ts에서 타입문제 발생)
+2. 컴포넌트 변경
+   > StatusDisplay.tsx 변경
+   > + UserStatus.tsx 신규 생성하여 타이머 관련 디스플레이 분리
+   > + Timer.tsx에서 timerOn state 삭제
+   > + comStatus, timer 외의 상태 텍스트로 임시 작성하여 각 상황에 따라 적절한 메시지 출력되는지 테스트
 
 #### 해야 할 것
 1. CSS 작성

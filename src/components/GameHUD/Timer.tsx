@@ -9,10 +9,9 @@ import Spinner from "@/assets/svg/Spinner";
 
 interface TimerProps{
     duration: number;
-    handleTimeOut: () => void;
 }
 
-const Timer = ({duration, handleTimeOut}: TimerProps) => {
+const Timer = ({duration}: TimerProps) => {
     
     const [timeRemaining, setTimeRemaining] = useState(duration);
     const endTurn_timeOut = useGameStore(state => state.endTurn_timeOut);
@@ -42,7 +41,6 @@ const Timer = ({duration, handleTimeOut}: TimerProps) => {
 
     useEffect(()=>{
         if(timeRemaining === 0) {
-            handleTimeOut();
             endTurn_timeOut();
             skipTurn();
         }
