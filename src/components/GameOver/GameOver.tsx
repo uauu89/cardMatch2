@@ -60,7 +60,7 @@ const GameOver = ()=>{
                     <div className="GameOver__window">
                         {gamePhase === "welcome" 
                             ? <div className="GameOver_welcomePrompt">
-                                    <p>환영합니다</p>
+                                    <p>환영합니다.</p>
                                     새 게임 버튼으로 게임을 시작할 수 있습니다.
                                 </div>
                             

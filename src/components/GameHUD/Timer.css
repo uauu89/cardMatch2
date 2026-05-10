@@ -1,5 +1,6 @@
 .Timer{
-    font-size: 48px;
+    /* font-size: 48px; */
+    font-size: 3rem;
     color: #242;
     font-weight: 700;
     font-variant-numeric: tabular-nums;

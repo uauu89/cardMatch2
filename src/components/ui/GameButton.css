@@ -1,7 +1,4 @@
 .GameButton{
-
-    /* --color_main: #53b167; */
-    
     font-size: 1.25rem;
     display: flex;
     align-items: center;
@@ -12,7 +9,6 @@
     border: 2px solid var(--color_main);
     color: var(--color_font_green);
     border-radius: 4px;
-    /* padding: 8px 16px; */
     padding: 0.4em 0.8em;
     background-color: #FFF;
     cursor: pointer;
@@ -28,17 +24,18 @@
             content: "";
             display: inline-block;
             width: 2px;
-            /* height: 16px; */
             height: 0.8em;
             background-color: var(--color_main);
             margin-right: 0.2em;
         }
     }
 
-    &:hover{
+    
+}
+@media (hover: hover){
+    .GameButton:hover{
         background-color: var(--color_main);
         color: #FFF;
-
         .btn__gameMode::before{
             background-color: #FFF;
         }
@@ -47,6 +44,8 @@
 
 @media (max-width: 450px){
     .GameButton{
-        font-size: 16px;
+        /* font-size: 16px; */
+        font-size: 1rem;
+        padding: 0.6em 0.8em;
     }
 }

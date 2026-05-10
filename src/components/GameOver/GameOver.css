@@ -37,12 +37,14 @@
     padding: 20px 5%;
     text-align: center;
     color: #242;
-    font-size: 18px;
+    /* font-size: 18px; */
+    font-size: 1.125rem;
     font-weight: 700;
 }
 
 .GameOver__result{
-    font-size: 48px;
+    /* font-size: 48px; */
+    font-size: 3rem;
     font-weight: 700;
     margin-bottom: 5px;
     margin-top: 0;
@@ -52,8 +54,8 @@
     display: flex;
     justify-content: center;
     column-gap: 24px;
-    row-gap: 16px;
-    margin-top: 24px;
+    row-gap: 8px;
+    /* margin-top: 24px; */
 }
 
 .GameOver_welcomePrompt{
@@ -63,6 +65,7 @@
 .GameOver_restartPrompt{
     font-weight: 400;
     margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 14px;
 }
 

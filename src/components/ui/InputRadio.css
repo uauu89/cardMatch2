@@ -25,18 +25,21 @@
         margin: 0;
     }
 
-    
-    &:not(:has(:checked)){
-        &:hover{
-            box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-        }
-        &:active{
-            box-shadow: inset 2px 2px 4px 0 rgba(0, 0, 0, 0.2);
-        }
-    }
-
     &:has(:checked){
         color: #FFF;
         background-color: var(--color_main);
+    }
+}
+
+@media (hover: hover) {
+    .InputRadio{
+        &:not(:has(:checked)){
+            &:hover{
+                box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
+            }
+            &:active{
+                box-shadow: inset 2px 2px 4px 0 rgba(0, 0, 0, 0.2);
+            }
+        }
     }
 }

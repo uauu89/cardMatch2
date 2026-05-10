@@ -1,11 +1,12 @@
 .GameHUD{
     align-items: center;
     display: grid;
+    position: relative
+    ;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas: "Score StatusDisplay GameButton";
 
     padding: 16px 5%;
-
     /* position: fixed; */
     top: 0;
     left: 0;
@@ -26,30 +27,74 @@
     
 }
 
-.GameHUD .GameButton__container{
+.HudGameButton{
     grid-area: GameButton;
     align-self: flex-end;
+
+    .GameButtonWrap{
+        justify-content: flex-end;
+    }
+}
+.btnHudGameButton{
+    display: none;
 }
 
 
 @media (max-width: 1024px) {
-    .GameHUD .GameButton__container{
+    .HudGameButton{
+        grid-area: unset;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background-color: #F4F4F4;
+        padding: 16px 24px;
         display: none;
-        /* flex-direction: column;
-        row-gap: 8px;
-        .GameButton{
-            font-size: 1rem;
-        } */
-    }    
+        /* border: 1px solid #ccc; */
+        border-color: #ccc;
+        border-style: solid;
+        border-width: 1px 0;
+        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+        
+        &.opend{
+            display: block;
+        }
+    }
+    /* .GameButton__container{
+        display: none;
+    } */
+    
+    .btnHudGameButton{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 0%;
+        right: 0;
+        background-color: var(--color_main);
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+        border-top-left-radius: 20px;
+        
+        svg{
+            transition: 0.5s;
+        }
+
+        &.active svg{
+            transform: scaleY(-1);
+        }
+    }
 }
 
 @media (max-width: 450px) {
     .GameHUD{
-        /* padding: 16px 32px; */
-        padding-left: 32px;
-        padding-right: 48px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 24px;
+        padding-right: 60px;
         grid-template-columns: repeat(2, 1fr);
-        /* grid-template-columns: auto min-content; */
-
     }    
 }

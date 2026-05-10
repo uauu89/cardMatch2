@@ -2,11 +2,11 @@
     grid-area: Score;
     display: flex;
     flex-direction: column;
-    /* height: 140px; */
     justify-content: space-evenly;
-    /* margin-left: 5%; */
     padding: 20px 0;
     row-gap: 16px;
+
+    font-size: 1em;
 
     :where(.score__row){
         display: flex;
@@ -17,13 +17,12 @@
     :where(.scoreDisplay__score){
         color: #242;
         font-weight: 700;
-        font-size: 16px;
-    
+        font-size: 1em;
     }
     :where(.scoreDisplay__combo){
         color: #999;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 0.875em;
     }
 }
 
@@ -43,6 +42,7 @@
 
     .Score{
         padding: 0;
+        font-size: 0.75rem;
         .score__row{
             flex-direction: column;
         }

@@ -1,5 +1,5 @@
 type IconProps = React.SVGProps<SVGSVGElement> & {
-  size?: number;
+  size?: number | string;
   color?: string;
 };
 
@@ -8,11 +8,14 @@ const IconCaretDown = ({size, color = "currentColor", ...props}: IconProps)=>{
         <svg
             width={size}
             height={size}
-            viewBox="0 0 60 60"
+            viewBox="0 0 28 28"
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
         >
-            <path d="M50.3431 15H9.65685C6.09324 15 4.30857 19.3086 6.82843 21.8284L27.1716 42.1716C28.7337 43.7337 31.2663 43.7337 32.8284 42.1716L53.1716 21.8284C55.6914 19.3086 53.9068 15 50.3431 15Z" fill={color}/>
+            <path 
+                d="M24.0249 8H3.97511C2.219 8 1.33953 10.1282 2.58129 11.3729L12.6062 21.4213C13.376 22.1929 14.624 22.1929 15.3938 21.4213L25.4187 11.3729C26.6605 10.1282 25.781 8 24.0249 8Z"
+                fill={color}
+            />
         </svg>
     )
 }

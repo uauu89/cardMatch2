@@ -37,13 +37,17 @@
         background-color: #fff;
         border: 2px solid #408E51;
         border-radius: 4px;
-        
-        
     }
-    &:hover::-webkit-slider-thumb{
-        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
-    }
-    &:hover::-moz-range-thumb{
-        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
+
+}
+
+@media (hover: hover){
+    .InputRange{
+        &:hover::-webkit-slider-thumb{
+            box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
+        }
+        &:hover::-moz-range-thumb{
+            box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.4);
+        }
     }
 }

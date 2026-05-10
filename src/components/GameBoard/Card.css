@@ -48,7 +48,8 @@
                 position: relative;
                 z-index: 1;
                 color: #47634d;
-                font-size: 40px;
+                /* font-size: 40px; */
+                font-size: 2.5rem;
                 font-weight: bold;
             }
         }
@@ -69,7 +70,7 @@
         transition: 0.4s;
     }
 
-    &:not(.card--opened):hover{
+    /* &:not(.card--opened):hover{
         transform: translate(-1px, -6px);
 
         &::after{
@@ -78,7 +79,7 @@
             transform: translate(2px, 4px);
         }
         
-    }
+    } */
     &.card--opened{
         .back{transform: rotateY(180deg);}
         .front{transform: rotateY(360deg);}
@@ -92,6 +93,18 @@
     }
 }
 
+@media (hover: hover){
+    .card:not(.card--opened):hover{
+        transform: translate(-1px, -6px);
+
+        &::after{
+            opacity: 1;
+            box-shadow: 1px 3px 8px 1px rgba(0, 0, 0, 0.2);
+            transform: translate(2px, 4px);
+        }
+        
+    }
+}
 
 /* 카드 디자인 */
 .card__deco--diamond{

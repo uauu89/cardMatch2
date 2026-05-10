@@ -23,18 +23,17 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
-    "baseUrl": ".", 
+    
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@stores/*": ["src/stores/*"],
-      "@utils/*": ["src/utils/*"],
-      "@customTypes/*": ["src/types/*"],
-      "@css/*": ["src/CSS/*"],
-      "@img/*": ["src/assets/img/*"],
-      "@svg/*": ["src/assets/svg/*"],
-      "@icons/*": ["src/assets/icons/*"],
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@customTypes/*": ["./src/types/*"],
+      "@css/*": ["./src/CSS/*"],
+      "@img/*": ["./src/assets/img/*"],
+      "@svg/*": ["./src/assets/svg/*"],
+      "@icons/*": ["./src/assets/icons/*"],
     }
   },
   "include": ["src"]
